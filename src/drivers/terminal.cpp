@@ -1,5 +1,4 @@
-#include <include/Terminal.h>
-#include <include/system.h>
+#include "include/terminal.h"
 
 Terminal::Terminal() {
 }
@@ -21,13 +20,6 @@ uint16_t Terminal::make_vgaentry(char c, uint8_t color) {
 	uint16_t c16 = c;
 	uint16_t color16 = color;
 	return c16 | color16 << 8;
-}
-
-size_t Terminal::strlen(const char* str) {
-	size_t ret = 0;
-	while ( str[ret] != 0 )
-		ret++;
-	return ret;
 }
 
 void Terminal::setColor(uint8_t color) {
@@ -68,6 +60,7 @@ void Terminal::setCursorPos(size_t col, size_t row) {
 	terminal_column = col;
 	terminal_row = row;
 }
+
 void Terminal::fill() {
 	for ( size_t y = 0; y < terminal_height; y++ )
 	{
@@ -77,4 +70,17 @@ void Terminal::fill() {
 			terminal_buffer[index] = make_vgaentry(' ', terminal_color);
 		}
 	}
+}
+
+void Terminal::fatalError(const char* type) {
+	this -> setColor(this -> make_color(this -> COLOR_DARK_GREY, this -> COLOR_LIGHT_GREY));
+	this -> fill();
+	this -> setCursorPos((80/2)-strlen("OS Zin has crashed to unrecoverable grounds")/2,(24/2)-2);
+	this -> print("OS Zin has crashed to unrecoverable grounds");
+	this -> setCursorPos((80/2)-strlen(type)/2-3,(24/2)-1);
+	this -> setColor(this -> make_color(this -> COLOR_RED, this -> COLOR_LIGHT_GREY));
+	this -> print("Error: ");
+	this -> print(type);
+	this -> setCursorPos((80/2)-strlen("Please reboot and fix the above error.")/2,23);
+	this -> print("Please reboot and fix the above error.");
 }
