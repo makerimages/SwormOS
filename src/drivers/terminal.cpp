@@ -71,9 +71,11 @@ void Terminal::print(bool data) {
 	const char* str;
 	if(data) {
 		str = "True";
+		setColor(make_color(COLOR_GREEN,COLOR_BLACK));
 	}
 	else {
 		str = "False";
+		setColor(make_color(COLOR_RED,COLOR_BLACK));
 	}
 	if (terminal_row+1 >= terminal_height )
 	{
@@ -90,6 +92,7 @@ void Terminal::print(bool data) {
 			terminal_putchar(str[i]);
 		}
 	}
+	terminal_color = make_color(COLOR_LIGHT_GREY, COLOR_BLACK);
 
 }
 
