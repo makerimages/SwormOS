@@ -30,6 +30,8 @@ class Terminal {
 		uint8_t make_color(enum vga_color fg, enum vga_color bg);
 		void setColor(uint8_t color);
 		void print(const char* data);
+		void print(bool data);
+
 		void setCursorPos(size_t col, size_t row);
 		void fill();
 		void fatalError(const char* type);

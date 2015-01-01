@@ -22,6 +22,7 @@ stack_top:
 _start:
 	
 	movl $stack_top, %esp
+    push %ebx
 
 	
 	call kernel_main

@@ -13,7 +13,7 @@ void Terminal::Init() {
 }
 
 uint8_t Terminal::make_color(enum vga_color fg, enum vga_color bg) {
-		return fg | bg << 4;
+	return fg | bg << 4;
 }
 
 uint16_t Terminal::make_vgaentry(char c, uint8_t color) {
@@ -23,7 +23,7 @@ uint16_t Terminal::make_vgaentry(char c, uint8_t color) {
 }
 
 void Terminal::setColor(uint8_t color) {
-		terminal_color = color;
+	terminal_color = color;
 }
 
 
@@ -36,25 +36,63 @@ void Terminal::terminal_putchar(char c) {
 	if(c == '\n') {
 		terminal_column = 0;
 		terminal_row = terminal_row+1;
+		
 	} else {
 		terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
 		if ( ++terminal_column == terminal_width )
 		{
 			terminal_column = 0;
-			if ( ++terminal_row == terminal_height )
-			{
-				terminal_row = 0;
-			}
+			
 		}
+		
 	}
 }
 
 void Terminal::print(const char* data) {
-	size_t datalen = strlen(data);
-	for ( size_t i = 0; i < datalen; i++ ) {
-		terminal_putchar(data[i]);
+	if (terminal_row+1 >= terminal_height )
+	{
+		terminal_row = 0;
+		terminal_column = 0;
+		size_t datalen = strlen(data);
+		for ( size_t i = 0; i < datalen; i++ ) {
+			terminal_putchar(data[i]);
+		}
+
+	} else {
+		size_t datalen = strlen(data);
+		for ( size_t i = 0; i < datalen; i++ ) {
+			terminal_putchar(data[i]);
+		}
 	}
+
 }
+
+void Terminal::print(bool data) {
+	const char* str;
+	if(data) {
+		str = "True";
+	}
+	else {
+		str = "False";
+	}
+	if (terminal_row+1 >= terminal_height )
+	{
+		terminal_row = 0;
+		terminal_column = 0;
+		size_t datalen = strlen(str);
+		for ( size_t i = 0; i < datalen; i++ ) {
+			terminal_putchar(str[i]);
+		}
+
+	} else {
+		size_t datalen = strlen(str);
+		for ( size_t i = 0; i < datalen; i++ ) {
+			terminal_putchar(str[i]);
+		}
+	}
+
+}
+
 
 void Terminal::setCursorPos(size_t col, size_t row) {
 	terminal_column = col;
