@@ -25,6 +25,16 @@ extern inline void outw(uint16_t port, uint16_t val) {
 	asm volatile ( "outw %0, %1" : : "a"(val), "Nd"(port) );
 }
 
+extern inline void cpuGetMSR(uint32_t msr, uint32_t *lo, uint32_t *hi)
+{
+   asm volatile("rdmsr" : "=a"(*lo), "=d"(*hi) : "c"(msr));
+}
+ 
+extern inline void cpuSetMSR(uint32_t msr, uint32_t lo, uint32_t hi)
+{
+   asm volatile("wrmsr" : : "a"(lo), "d"(hi), "c"(msr));
+}
+
 extern inline void io_wait(void)
 {
     /* Port 0x80 is used for 'checkpoints' during POST. */

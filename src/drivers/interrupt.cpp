@@ -8,19 +8,35 @@ void Interrupt::init(Terminal* term) {
 	terminal -> print("Interrupts enabled: ");
 	terminal -> print(are_interrupts_enabled());
 	terminal -> print(".\n");
+
 	terminal -> print("APIC present: ");
 	terminal -> print(cpuHasAPIC());
 	terminal -> print(".\n");
-	terminal -> print("Starting PIC shutdown in favor of APIC\n");
-	terminal -> print("Masking all lines on the PIC... ");
-	for(int i = 0 ; i <= 15; i++) {
-		IRQ_set_mask(i);
-	}
-	terminal -> setColor(terminal -> make_color(terminal -> COLOR_GREEN, terminal -> COLOR_BLACK));
-	terminal -> print("OK");
-	terminal -> setColor(terminal -> make_color(terminal -> COLOR_LIGHT_GREY, terminal -> COLOR_BLACK));
-	terminal -> print(".\n");
+	if(!cpuHasAPIC()) {
+		terminal -> fatalError("No APIC present");
+	} else {
+		terminal -> print("Starting PIC shutdown in favor of APIC... ");
+		disable_pic();
+		terminal -> setColor(terminal -> make_color(terminal -> COLOR_GREEN, terminal -> COLOR_BLACK));
+		terminal -> print("Done");
+		terminal -> setColor(terminal -> make_color(terminal -> COLOR_LIGHT_GREY, terminal -> COLOR_BLACK));
+		terminal -> print(".\n");
 
+		terminal -> print("Starting APIC... ");
+
+		cpuSetAPICBase(cpuGetAPICBase());
+		outb(0xF0, inb(0xF0) | 0x100);
+		__asm__ ("sti");
+
+		terminal -> setColor(terminal -> make_color(terminal -> COLOR_GREEN, terminal -> COLOR_BLACK));
+		terminal -> print("OK");
+		terminal -> setColor(terminal -> make_color(terminal -> COLOR_LIGHT_GREY, terminal -> COLOR_BLACK));
+		terminal -> print(".\n");
+
+		terminal -> print("Interrupts enabled: ");
+		terminal -> print(are_interrupts_enabled());
+		terminal -> print(".\n");
+	}
 }
 
 bool Interrupt::cpuHasAPIC() {
@@ -29,16 +45,51 @@ bool Interrupt::cpuHasAPIC() {
 	return edx & 0x200;
 }
 
-void Interrupt::IRQ_set_mask(unsigned char IRQline) {
-	uint16_t port;
-	uint8_t value;
+void Interrupt::disable_pic()
+{
+	/* Set ICW1 */
+	outb(0x20, 0x11);
+	outb(0xa0, 0x11);
 
-	if(IRQline < 8) {
-		port = PIC1_DATA;
-	} else {
-		port = PIC2_DATA;
-		IRQline -= 8;
-	}
-	value = inb(port) | (1 << IRQline);
-	outb(port, value);        
+    /* Set ICW2 (IRQ base offsets) */
+	outb(0x21, 0xe0);
+	outb(0xa1, 0xe8);
+
+    /* Set ICW3 */
+	outb(0x21, 4);
+	outb(0xa1, 2);
+
+    /* Set ICW4 */
+	outb(0x21, 1);
+	outb(0xa1, 1);
+
+    /* Set OCW1 (interrupt masks) */
+	outb(0x21, 0xff);
+	outb(0xa1, 0xff);
+}
+
+/* Set the physical address for local APIC registers */
+void Interrupt::cpuSetAPICBase(uintptr_t apic)
+{
+	uint32_t edx = 0;
+	uint32_t eax = (apic & 0xfffff100) | IA32_APIC_BASE_MSR_ENABLE;
+
+#ifdef __PHYSICAL_MEMORY_EXTENSION__
+	edx = (apic >> 32) & 0x0f;
+#endif
+
+	cpuSetMSR(IA32_APIC_BASE_MSR, eax, edx);
+
+}
+
+uintptr_t Interrupt::cpuGetAPICBase()
+{
+	uint32_t eax, edx;
+	cpuGetMSR(IA32_APIC_BASE_MSR, &eax, &edx);
+
+#ifdef __PHYSICAL_MEMORY_EXTENSION__
+	return (eax & 0xfffff100) | ((edx & 0x0f) << 32);
+#else
+	return (eax & 0xfffff100);
+#endif
 }
