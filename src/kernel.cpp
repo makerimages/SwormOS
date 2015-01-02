@@ -41,4 +41,5 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	terminal.print("KB\n");
 
 	interrupt.init(&terminal);
+	
 }

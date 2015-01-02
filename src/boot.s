@@ -20,10 +20,39 @@ stack_top:
 .global _start
 .type _start, @function
 _start:
-	
-	movl $stack_top, %esp
-    push %ebx
 
+	movl $stack_top, %esp
+	push %ebx
+	# Load the Global Descriptor Table pointer register.
+
+	subl $6, %esp
+
+	movw gdt_size_minus_one, %cx
+	
+	movw %cx, 0(%esp)
+
+	movl $gdt, %ecx
+
+	movl %ecx, 2(%esp)
+
+	lgdt 0(%esp)
+
+	addl $6, %esp
+
+	push $0x08
+	
+	push $1f
+
+	retf
+1:	
+	movw $0x10, %cx
+	movw %cx, %ds
+	movw %cx, %es
+	movw %cx, %fs
+
+	movw %cx, %gs
+	
+	movw %cx, %ss
 	
 	call kernel_main
 
@@ -31,6 +60,4 @@ _start:
 	hlt
 .Lhang:
 	jmp .Lhang
-
-
 .size _start, . - _start
