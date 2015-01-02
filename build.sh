@@ -2,11 +2,11 @@ rm -rf dist
 mkdir -p dist
 mkdir dist/drivers
 i686-elf-as src/boot.s -o dist/boot.o
-i686-elf-g++ -c src/kernel.cpp -o dist/kernel.o -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
-i686-elf-g++ -c src/drivers/interrupt.cpp -o dist/drivers/interrupt.o  -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
-i686-elf-g++ -c src/drivers/system.cpp -o dist/drivers/system.o  -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
-i686-elf-g++ -c src/drivers/terminal.cpp -o dist/drivers/terminal.o  -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
-i686-elf-gcc -T src/linker.ld -o dist/OSZin.bin -ffreestanding -O2 -nostdlib dist/boot.o dist/kernel.o dist/drivers/terminal.o dist/drivers/system.o dist/drivers/interrupt.o -lgcc
+i686-elf-g++ -c src/Kernel.cpp -o dist/Kernel.o -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
+i686-elf-g++ -c src/drivers/Interrupts.cpp -o dist/drivers/Interrupts.o  -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
+i686-elf-g++ -c src/drivers/System.cpp -o dist/drivers/System.o  -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
+i686-elf-g++ -c src/drivers/Terminal.cpp -o dist/drivers/Terminal.o  -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
+i686-elf-gcc -T src/linker.ld -o dist/OSZin.bin -ffreestanding -O2 -nostdlib dist/boot.o dist/Kernel.o dist/drivers/Terminal.o dist/drivers/System.o dist/drivers/Interrupts.o -lgcc
 cd dist
 mkdir -p isodir
 mkdir -p isodir/boot

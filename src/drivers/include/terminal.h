@@ -1,7 +1,7 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
-#include "system.h"
+#include "System.h"
 
 class Terminal {
 	public:
@@ -27,8 +27,8 @@ class Terminal {
 
 		Terminal(); 
 		void Init();
-		uint8_t make_color(enum vga_color fg, enum vga_color bg);
-		void setColor(uint8_t color);
+		uint8_t makeColor(enum vga_color fg, enum vga_color bg);
+		void setColor(uint8_t colors);
 		void print(const char* data);
 		void print(bool data);
 
@@ -36,16 +36,16 @@ class Terminal {
 		void fill();
 		void fatalError(const char* type);
 	protected: 
-		size_t terminal_row;
-		size_t terminal_column;
-		uint8_t terminal_color;
-		uint16_t* terminal_buffer;
-		static const size_t terminal_width = 80;
-		static const size_t terminal_height = 25;
+		size_t row;
+		size_t column;
+		uint8_t color;
+		uint16_t* buffer;
+		static const size_t width = 80;
+		static const size_t height = 25;
 		
-		uint16_t make_vgaentry(char c, uint8_t color);
-		void terminal_putentryat(char c, uint8_t color, size_t x, size_t y);
-		void terminal_putchar(char c);
+		uint16_t vgaentry(char c, uint8_t color);
+		void putentryat(char c, uint8_t color, size_t x, size_t y);
+		void putchar(char c);
 };
 
 #endif
