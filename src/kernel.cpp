@@ -2,7 +2,7 @@
 #include "drivers/include/Interrupts.h"
 #include "drivers/include/System.h"
 #include "drivers/include/Multiboot.h"
-
+#include "drivers/include/InterruptDescriptorTable.h"
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
 #endif
@@ -40,6 +40,8 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	terminal.print(uitoa(mbt->mem_upper + mbt->mem_lower,buffer,10));
 	terminal.print("KB\n");
 
+	initIDT();
 	interrupt.init(&terminal);
+
 	
 }
