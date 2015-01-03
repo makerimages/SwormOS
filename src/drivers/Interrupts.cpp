@@ -27,7 +27,7 @@ void Interrupts::init(Terminal* term) {
 		terminal->print("Starting APIC... ");
 
 		cpuSetAPICBase(cpuGetAPICBase());
-		writeRegister(0xF0,readRegister(0xF0) | 0x100);
+		writeRegister(0xF0,readRegister(0xF0));
 		__asm__ ("sti");
 
 		terminal->setColor(terminal->makeColor(terminal->COLOR_GREEN, terminal->COLOR_BLACK));
@@ -51,6 +51,7 @@ unsigned char Interrupts::readRegister(unsigned char reg)
     outb(0x70, reg);
     return inb(0x71);
 }
+
 bool Interrupts::cpuHasAPIC() {
 	uint32_t eax, edx;
 	cpuid(1, &eax, &edx);

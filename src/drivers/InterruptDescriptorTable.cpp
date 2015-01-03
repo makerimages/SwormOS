@@ -113,7 +113,7 @@ void isr0(){};
 void isr1(){    
 	Terminal terminal;
 	terminal.Init();
-	terminal.print("OS Zin v 0.0.1.\n");
+	terminal.fatalError("Success");
 };
 void isr2(){};
 void isr3(){};
@@ -149,7 +149,7 @@ void isr31(){};
 void irq0(){};
 void irq1(){Terminal terminal;
 	terminal.Init();
-	terminal.print("OS Zin v 0.0.1.\n");};
+	terminal.fatalError("Success");}
 void irq2(){};
 void irq3(){};
 void irq4(){};
