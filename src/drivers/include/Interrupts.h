@@ -8,9 +8,9 @@
 #include "Terminal.h"
 #include "System.h"
 
-class Interrupt {
+class Interrupts {
 	public:
-		Interrupt();
+		Interrupts();
 		void init(Terminal * term);
 	protected:
 		bool cpuHasAPIC();
@@ -24,6 +24,8 @@ class Interrupt {
 
 		void disablePic();
 		void cpuSetAPICBase(uintptr_t apic);
+		void writeRegister(unsigned char reg, unsigned char value);
+		unsigned char readRegister(unsigned char reg);
 		uintptr_t cpuGetAPICBase();
 		Terminal* terminal;
 };

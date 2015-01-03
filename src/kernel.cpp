@@ -14,7 +14,7 @@
 /* Hardware text mode color constants. */
 
 Terminal terminal;
-Interrupt interrupt;
+Interrupts interrupts;
 
 
 char buffer[33];
@@ -41,7 +41,7 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	terminal.print("KB\n");
 
 	initIDT();
-	interrupt.init(&terminal);
+	interrupts.init(&terminal);
 
 	
 }

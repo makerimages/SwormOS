@@ -1,9 +1,9 @@
 #include "include/Interrupts.h"
 
-Interrupt::Interrupt() {
+Interrupts::Interrupts() {
 }
 
-void Interrupt::init(Terminal* term) {
+void Interrupts::init(Terminal* term) {
 	terminal = term;
 	terminal->print("Interrupts enabled: ");
 	terminal->print(interruptsEnabled());
@@ -27,7 +27,7 @@ void Interrupt::init(Terminal* term) {
 		terminal->print("Starting APIC... ");
 
 		cpuSetAPICBase(cpuGetAPICBase());
-		outb(0xF0, inb(0xF0));
+		writeRegister(0xF0,readRegister(0xF0) | 0x100);
 		__asm__ ("sti");
 
 		terminal->setColor(terminal->makeColor(terminal->COLOR_GREEN, terminal->COLOR_BLACK));
@@ -40,14 +40,24 @@ void Interrupt::init(Terminal* term) {
 		terminal->print(".\n");
 	}
 }
+void Interrupts::writeRegister(unsigned char reg, unsigned char value)
+{
+    outb(0x70, reg);
+    outb(0x71, value);
+}
 
-bool Interrupt::cpuHasAPIC() {
+unsigned char Interrupts::readRegister(unsigned char reg)
+{
+    outb(0x70, reg);
+    return inb(0x71);
+}
+bool Interrupts::cpuHasAPIC() {
 	uint32_t eax, edx;
 	cpuid(1, &eax, &edx);
 	return edx & 0x200;
 }
 
-void Interrupt::disablePic()
+void Interrupts::disablePic()
 {
 	outb(0x20, 0x11);
 	outb(0xa0, 0x11);
@@ -66,7 +76,7 @@ void Interrupt::disablePic()
 }
 
 /* Set the physical address for local APIC registers */
-void Interrupt::cpuSetAPICBase(uintptr_t apic)
+void Interrupts::cpuSetAPICBase(uintptr_t apic)
 {
 	uint32_t edx = 0;
 	uint32_t eax = (apic & 0xfffff100) | IA32_APIC_BASE_MSR_ENABLE;
@@ -78,7 +88,7 @@ void Interrupt::cpuSetAPICBase(uintptr_t apic)
 	cpuSetMSR(IA32_APIC_BASE_MSR, eax, edx);
 }
 
-uintptr_t Interrupt::cpuGetAPICBase()
+uintptr_t Interrupts::cpuGetAPICBase()
 {
 	uint32_t eax, edx;
 	cpuGetMSR(IA32_APIC_BASE_MSR, &eax, &edx);

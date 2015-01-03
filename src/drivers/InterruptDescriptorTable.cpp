@@ -14,15 +14,7 @@
 #define IDT_FLAG_TYPE_BITS 4
 
 
-#define KBRD_INTRFC 0x64
- 
-/* keyboard interface bits */
-#define KBRD_BIT_KDATA 0 /* keyboard data is in buffer (output buffer is empty) (bit 0) */
-#define KBRD_BIT_UDATA 1 /* user data is in buffer (command buffer is empty) (bit 1) */
- 
-#define KBRD_IO 0x60 /* keyboard IO port */
-#define KBRD_RESET 0xFE /* reset CPU command */
- 
+
 #define bit(n) (1<<(n)) /* Set bit n to 1 */
  
 /* Check if bit n in flags is set */
@@ -154,11 +146,10 @@ void isr29(){};
 void isr30(){};
 void isr31(){};
 
-void irq0(){Terminal terminal;
+void irq0(){};
+void irq1(){Terminal terminal;
 	terminal.Init();
-	terminal.print("OS Zin v 0.0.1.\n");
-};
-void irq1(){};
+	terminal.print("OS Zin v 0.0.1.\n");};
 void irq2(){};
 void irq3(){};
 void irq4(){};
