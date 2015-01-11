@@ -16,7 +16,7 @@
 
 
 #define bit(n) (1<<(n)) /* Set bit n to 1 */
- 
+
 /* Check if bit n in flags is set */
 #define check_flag(flags, n) ((flags) & bit(n))
 struct idtEntry {
@@ -55,7 +55,7 @@ void idtFormatNormalEntry(struct idtEntry* entry, void (*handler)(void), uint8_t
 
 void initIDT() {
 	memset(&idt,0, sizeof(idt));
-	
+
 	idtFormatNormalEntry(&idt[0], isr0, IDT_TYPE_INTERRUPT, 0x0);
 	idtFormatNormalEntry(&idt[1], isr1, IDT_TYPE_INTERRUPT, 0x0);
 	idtFormatNormalEntry(&idt[2], isr2, IDT_TYPE_INTERRUPT, 0x0);
@@ -110,11 +110,7 @@ void initIDT() {
 }
 
 void isr0(){};
-void isr1(){    
-	Terminal terminal;
-	terminal.Init();
-	terminal.fatalError("Success");
-};
+void isr1(){};
 void isr2(){};
 void isr3(){};
 void isr4(){};
@@ -147,9 +143,9 @@ void isr30(){};
 void isr31(){};
 
 void irq0(){};
-void irq1(){Terminal terminal;
-	terminal.Init();
-	terminal.fatalError("Success");}
+void irq1(){	Terminal terminal;
+    terminal.Init();
+    terminal.fatalError("Success");};
 void irq2(){};
 void irq3(){};
 void irq4(){};

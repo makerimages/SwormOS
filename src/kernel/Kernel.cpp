@@ -1,8 +1,9 @@
-#include "drivers/include/Terminal.h"
-#include "drivers/include/Interrupts.h"
-#include "drivers/include/System.h"
-#include "drivers/include/Multiboot.h"
-#include "drivers/include/InterruptDescriptorTable.h"
+#include "../drivers/include/Terminal.h"
+#include "../drivers/include/Interrupts.h"
+#include "../drivers/include/System.h"
+#include "../drivers/include/Multiboot.h"
+#include "../drivers/include/InterruptDescriptorTable.h"
+
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
 #endif
@@ -35,7 +36,7 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	while(mmap <(multiboot_memory_map_t*)  mbt->mmap_addr + mbt->mmap_length) {
 		mmap = (multiboot_memory_map_t*) ( (unsigned int)mmap + mmap->size + sizeof(unsigned int) );
 	}
-	
+
 	terminal.print("Memory size: ");
 	terminal.print(uitoa(mbt->mem_upper + mbt->mem_lower,buffer,10));
 	terminal.print("KB\n");
@@ -43,5 +44,5 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	initIDT();
 	interrupts.init(&terminal);
 
-	
+
 }

@@ -1,10 +1,6 @@
 #ifndef INTERRUPT_H
 #define INTERRUPT_H
 
-#define IA32_APIC_BASE_MSR 0x1B
-#define IA32_APIC_BASE_MSR_BSP 0x100 // Processor is a BSP
-#define IA32_APIC_BASE_MSR_ENABLE 0x800
-
 #include "Terminal.h"
 #include "System.h"
 
@@ -21,12 +17,6 @@ class Interrupts {
 				: "=g"(flags) );
 			return flags & (1 << 9);
 		}
-
-		void disablePic();
-		void cpuSetAPICBase(uintptr_t apic);
-		void writeRegister(unsigned char reg, unsigned char value);
-		unsigned char readRegister(unsigned char reg);
-		uintptr_t cpuGetAPICBase();
 		Terminal* terminal;
 };
 
