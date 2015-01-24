@@ -4,14 +4,6 @@
 #include "../drivers/include/Multiboot.h"
 #include "../drivers/include/InterruptDescriptorTable.h"
 
-#if defined(__linux__)
-#error "You are not using a cross-compiler, you will most certainly run into trouble"
-#endif
-
-#if !defined(__i386__)
-#error "This OS needs to be compiled with a ix86-elf compiler"
-#endif
-
 /* Hardware text mode color constants. */
 
 Terminal terminal;
@@ -34,7 +26,7 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 
 	multiboot_memory_map_t* mmap = (multiboot_memory_map_t*) mbt->mmap_addr;
 	while(mmap <(multiboot_memory_map_t*)  mbt->mmap_addr + mbt->mmap_length) {
-		mmap = (multiboot_memory_map_t*) ( (unsigned int)mmap + mmap->size + sizeof(unsigned int) );
+		mmap = (multiboot_memory_map_t*) ( (uintptr_t) mmap + mmap->size + sizeof(unsigned int) );
 	}
 
 	terminal.print("Memory size: ");
