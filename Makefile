@@ -53,10 +53,10 @@ Interrupts: src/drivers/Interrupts.cpp ${H_FILES}
 IDT: src/drivers/InterruptDescriptorTable.cpp ${H_FILES}
 	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
 
-boot:  src/boot.s
+boot:  src/kernel/boot.s
 	$(AA) $< -o obj/$@.o
 
-ientry: src/interrupt-entry.s
+ientry: src/kernel/interrupt-entry.s
 	$(AA) $< -o obj/$@.o
 
 OBJ_FILES := $(wildcard obj/*.o)
@@ -68,5 +68,5 @@ executable: obj/boot.o
 	cp obj/OSZin.bin isodir/boot/OSZin.bin
 	mkdir -p isodir/boot/grub
 	cp src/grub.cfg isodir/boot/grub/grub.cfg
-
+	grub-mkrescue -o OSZin.iso isodir
 

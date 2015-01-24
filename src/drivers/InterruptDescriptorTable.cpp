@@ -110,7 +110,9 @@ void initIDT() {
 }
 
 void isr0(){};
-void isr1(){};
+void isr1(){ Terminal term;
+term.Init();
+term.fatalError("LALA");};
 void isr2(){};
 void isr3(){};
 void isr4(){};
