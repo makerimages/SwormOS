@@ -144,7 +144,9 @@ void isr29(){};
 void isr30(){};
 void isr31(){};
 
-void irq0(){};
+void irq0(){	Terminal terminal;
+    terminal.Init();
+    terminal.fatalError("Success");};
 void irq1(){	Terminal terminal;
     terminal.Init();
     terminal.fatalError("Success");};

@@ -35,7 +35,7 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	initIDT();
 	pic_initialize();
 	__asm__("sti");
-	terminal.setColor(terminal.makeColor(terminal.COLOR_GREEN,terminal.COLOR_BLACK));
-	terminal.print("Interrupts initialized");
+//	terminal.setColor(terminal.makeColor(terminal.COLOR_GREEN,terminal.COLOR_BLACK));
+//	terminal.print("Interrupts initialized");
 
 }

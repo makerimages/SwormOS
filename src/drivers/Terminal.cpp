@@ -114,14 +114,18 @@ void Terminal::fill() {
 }
 
 void Terminal::fatalError(const char* type) {
+	Init();
 	setColor(makeColor(this -> COLOR_DARK_GREY, this -> COLOR_LIGHT_GREY));
 	fill();
-	setCursorPos((80/2)-strlen("OS Zin has crashed to unrecoverable grounds")/2,(24/2)-2);
-	print("OS Zin has crashed to unrecoverable grounds");
+	setCursorPos((80/2)-strlen("\n\n\nOS Zin has crashed to unrecoverable grounds")/2,(24/2)-2);
+	print("OS Zin has crashed to unrecoverable grounds\n");
 	setCursorPos((80/2)-strlen(type)/2-3,(24/2)-1);
 	setColor(this -> makeColor(this -> COLOR_RED, this -> COLOR_LIGHT_GREY));
 	print("Error: ");
 	print(type);
+	print(".\n");
 	setCursorPos((80/2)-strlen("Please reboot and fix the above error.")/2,23);
-	print("Please reboot and fix the above error.");
+	print("Please reboot and fix the above error.\n");
+	__asm__("hlt");
+
 }
