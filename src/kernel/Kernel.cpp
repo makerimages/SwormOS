@@ -1,5 +1,5 @@
 #include "../drivers/include/Terminal.h"
-#include "../drivers/include/Interrupts.h"
+#include "../drivers/include/PIC.h"
 #include "../drivers/include/System.h"
 #include "../drivers/include/Multiboot.h"
 #include "../drivers/include/InterruptDescriptorTable.h"
@@ -7,7 +7,6 @@
 /* Hardware text mode color constants. */
 
 Terminal terminal;
-Interrupts interrupts;
 
 
 char buffer[33];
@@ -34,7 +33,9 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	terminal.print("KB\n");
 
 	initIDT();
-	interrupts.init(&terminal);
-
+	pic_initialize();
+	__asm__("sti");
+	terminal.setColor(terminal.makeColor(terminal.COLOR_GREEN,terminal.COLOR_BLACK));
+	terminal.print("Interrupts initialized");
 
 }

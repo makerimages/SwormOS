@@ -22,13 +22,13 @@ LDFLAGS = -ffreestanding -O2 -nostdlib -lgcc
 
 .PHONY: all Kernel Terminal
 
-all: clean System Interrupts Interrupt GDT IDT PIC Terminal Kernel boot ientry executable
+all: clean System Interrupt GDT IDT PIC Terminal Kernel boot ientry executable
 
 clean:
 	rm -rf obj
 	mkdir obj
 	rm -rf isodir
-	rm OSZin.iso
+	rm -f OSZin.iso
 
 Kernel: src/kernel/Kernel.cpp ${H_FILES}
 	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
@@ -46,9 +46,6 @@ GDT: src/drivers/gdt.cpp ${H_FILES}
 	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
 
 Interrupt: src/drivers/Interrupt.cpp ${H_FILES}
-	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
-
-Interrupts: src/drivers/Interrupts.cpp ${H_FILES}
 	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
 
 IDT: src/drivers/InterruptDescriptorTable.cpp ${H_FILES}
