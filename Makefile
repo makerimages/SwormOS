@@ -28,6 +28,7 @@ clean:
 	rm -rf obj
 	mkdir obj
 	rm -rf isodir
+	rm OSZin.iso
 
 Kernel: src/kernel/Kernel.cpp ${H_FILES}
 	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
