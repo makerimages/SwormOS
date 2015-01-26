@@ -1,7 +1,11 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
-#include "System.h"
+#include "../libc/String.h"
+#include "../libc/IOAccess.h"
+
+#include <stddef.h>
+#include <stdint.h>
 
 class Terminal {
 	public:

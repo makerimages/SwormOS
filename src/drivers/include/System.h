@@ -9,21 +9,6 @@ extern inline void cpuid(int code, uint32_t *a, uint32_t *d) {
 }
 
 
-extern inline void outb(uint16_t port, uint8_t val) {
-	asm volatile ( "outb %0, %1" : : "a"(val), "Nd"(port) );
-}
-
-extern inline uint8_t inb(uint16_t port) {
-    uint8_t ret;
-    asm volatile ( "inb %1, %0" : "=a"(ret) : "Nd"(port) );
-    /* TODO: Is it wrong to use 'N' for the port? It's not a 8-bit constant. */
-    /* TODO: Should %1 be %w1? */
-    return ret;
-}
-
-extern inline void outw(uint16_t port, uint16_t val) {
-	asm volatile ( "outw %0, %1" : : "a"(val), "Nd"(port) );
-}
 
 extern inline void cpuGetMSR(uint32_t msr, uint32_t *lo, uint32_t *hi)
 {

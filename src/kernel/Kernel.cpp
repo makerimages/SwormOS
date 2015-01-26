@@ -1,5 +1,5 @@
 #include "../drivers/include/PIC.h"
-#include "../drivers/include/System.h"
+#include "../../include/libc/String.h"
 #include "../drivers/include/Multiboot.h"
 #include "../drivers/include/InterruptDescriptorTable.h"
 #include "../../include/kernel/KernelGlobals.h"

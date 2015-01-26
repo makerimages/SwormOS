@@ -1,9 +1,7 @@
 #include <stdint.h>
 #include <stddef.h>
-#include "../../include/kernel/KernelGlobals.h"
 
 #include "include/InterruptDescriptorTable.h"
-#include "include/System.h"
 
 #define IDT_TYPE_INTERRUPT 0xE
 #define IDT_TYPE_TRAP 0xF

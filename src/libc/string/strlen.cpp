@@ -1,4 +1,4 @@
-#include "include/System.h"
+#include "../../../include/libc/String.h"
 
 size_t strlen(const char* str) {
 	size_t ret = 0;
@@ -6,4 +6,3 @@ size_t strlen(const char* str) {
 		ret++;
 	return ret;
 }
-

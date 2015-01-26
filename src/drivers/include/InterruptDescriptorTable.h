@@ -1,5 +1,8 @@
 #ifndef INTERRUPT_DESCRIPTOR_TABLE_H
 #define INTERRUPT_DESCRIPTOR_TABLE_H
+#include "../../../include/kernel/KernelGlobals.h"
+#include "../../../include/libc/IOAccess.h"
+
 void isr0();
 void isr1();
 void isr2();

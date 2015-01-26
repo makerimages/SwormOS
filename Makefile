@@ -22,7 +22,7 @@ LDFLAGS = -ffreestanding -O2 -nostdlib -lgcc
 
 .PHONY: all Kernel Terminal
 
-all: clean System Interrupt GDT IDT PIC Terminal Kernel boot ientry executable
+all: clean Libc Interrupt GDT IDT PIC Terminal Kernel boot ientry executable
 
 clean:
 	rm -rf obj
@@ -31,9 +31,6 @@ clean:
 	rm -f OSZin.iso
 
 Kernel: src/kernel/Kernel.cpp ${H_FILES}
-	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
-
-System: src/drivers/System.cpp ${H_FILES}
 	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
 
 Terminal: src/drivers/Terminal.cpp ${H_FILES}
@@ -68,3 +65,10 @@ executable: obj/boot.o
 	cp src/grub.cfg isodir/boot/grub/grub.cfg
 	grub-mkrescue -o OSZin.iso isodir
 
+Libc: strlen uitoa
+
+strlen: src/libc/string/strlen.cpp
+	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
+
+uitoa: src/libc/string/uitoa.cpp
+	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
