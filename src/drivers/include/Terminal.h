@@ -32,7 +32,7 @@ class Terminal {
 		void print(const char* data);
 		void print(bool data);
 
-		void setCursorPos(size_t col, size_t row);
+		void setCursorPos(size_t col, size_t rw);
 		void fill();
 		void fatalError(const char* type);
 	protected: 

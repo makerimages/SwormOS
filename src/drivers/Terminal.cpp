@@ -49,7 +49,7 @@ void Terminal::putchar(char c) {
 }
 
 void Terminal::print(const char* data) {
-	if (row+1 >= height )
+	if (++row >= height )
 	{
 		row = 0;
 		column = 0;
@@ -77,7 +77,7 @@ void Terminal::print(bool data) {
 		str = "False";
 		setColor(makeColor(COLOR_RED,COLOR_BLACK));
 	}
-	if (row+1 >= height )
+	if (++row >= height )
 	{
 		row = 0;
 		column = 0;
@@ -97,9 +97,9 @@ void Terminal::print(bool data) {
 }
 
 
-void Terminal::setCursorPos(size_t col, size_t row) {
+void Terminal::setCursorPos(size_t col, size_t rw) {
 	column = col;
-	row = row;
+	row = rw;
 }
 
 void Terminal::fill() {
@@ -114,18 +114,20 @@ void Terminal::fill() {
 }
 
 void Terminal::fatalError(const char* type) {
-	Init();
-	setColor(makeColor(this -> COLOR_DARK_GREY, this -> COLOR_LIGHT_GREY));
-	fill();
-	setCursorPos((80/2)-strlen("\n\n\nOS Zin has crashed to unrecoverable grounds")/2,(24/2)-2);
-	print("OS Zin has crashed to unrecoverable grounds\n");
-	setCursorPos((80/2)-strlen(type)/2-3,(24/2)-1);
-	setColor(this -> makeColor(this -> COLOR_RED, this -> COLOR_LIGHT_GREY));
-	print("Error: ");
-	print(type);
-	print(".\n");
-	setCursorPos((80/2)-strlen("Please reboot and fix the above error.")/2,23);
-	print("Please reboot and fix the above error.\n");
+
+	this -> setColor(makeColor(this -> COLOR_DARK_GREY, this -> COLOR_LIGHT_GREY));
+	this -> fill();
+	this -> setCursorPos((width/2)-strlen("OS Zin has crashed to unrecoverable grounds")/2,(height/2)-2);
+	this -> print("OS Zin has crashed to unrecoverable grounds");
+	this -> setColor(this -> makeColor(this -> COLOR_RED, this -> COLOR_LIGHT_GREY));
+	this -> setCursorPos((width/2)-strlen(type)/2-3,(height/2)-1);
+	this -> print("Error: ");
+	this -> setCursorPos((width/2)-strlen(type)/2+4,(height/2)-1);
+	this -> print(type);
+	this -> setCursorPos(width/2-strlen("System halted to protect your PC")/2,height-3);
+	this -> print("System halted to protect your PC");
+	this -> setCursorPos((width/2)-strlen("Please reboot and fix the above error")/2,height-2);
+	this -> print("Please reboot and fix the above error");
 	__asm__("hlt");
 
 }

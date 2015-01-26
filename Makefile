@@ -1,7 +1,7 @@
 TARGET := i686-elf
 BUILDDIR := build-$(TARGET)
 
-H_FILES := $(wildcard src/**/**/*.h)
+H_FILES := $(wildcard src/**/**/*.h) $(wildcard include/**/**/*.h)
 
 CPP_FILES := $(wildcard src/**/*.cpp)
 

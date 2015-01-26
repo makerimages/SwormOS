@@ -1,6 +1,5 @@
 #ifndef INTERRUPT_DESCRIPTOR_TABLE_H
 #define INTERRUPT_DESCRIPTOR_TABLE_H
-#include "Terminal.h"
 void isr0();
 void isr1();
 void isr2();

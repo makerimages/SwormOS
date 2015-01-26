@@ -1,13 +1,11 @@
-#include "../drivers/include/Terminal.h"
 #include "../drivers/include/PIC.h"
 #include "../drivers/include/System.h"
 #include "../drivers/include/Multiboot.h"
 #include "../drivers/include/InterruptDescriptorTable.h"
-
+#include "../../include/kernel/KernelGlobals.h"
 /* Hardware text mode color constants. */
 
 Terminal terminal;
-
 
 char buffer[33];
 #if defined(__cplusplus)
@@ -35,7 +33,7 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	initIDT();
 	pic_initialize();
 	__asm__("sti");
-//	terminal.setColor(terminal.makeColor(terminal.COLOR_GREEN,terminal.COLOR_BLACK));
-//	terminal.print("Interrupts initialized");
+	terminal.setColor(terminal.makeColor(terminal.COLOR_GREEN,terminal.COLOR_BLACK));
+	terminal.print("Interrupts initialized");
 
 }

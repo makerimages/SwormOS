@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stddef.h>
+#include "../../include/kernel/KernelGlobals.h"
 
 #include "include/InterruptDescriptorTable.h"
 #include "include/System.h"
@@ -110,9 +111,7 @@ void initIDT() {
 }
 
 void isr0(){};
-void isr1(){ Terminal term;
-term.Init();
-term.fatalError("LALA");};
+void isr1(){};
 void isr2(){};
 void isr3(){};
 void isr4(){};
@@ -144,12 +143,8 @@ void isr29(){};
 void isr30(){};
 void isr31(){};
 
-void irq0(){	Terminal terminal;
-    terminal.Init();
-    terminal.fatalError("Success");};
-void irq1(){	Terminal terminal;
-    terminal.Init();
-    terminal.fatalError("Success");};
+void irq0(){}; // System timer, use for testing if anything works at all
+void irq1(){};
 void irq2(){};
 void irq3(){};
 void irq4(){};
