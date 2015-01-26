@@ -49,7 +49,7 @@ void Terminal::putchar(char c) {
 }
 
 void Terminal::print(const char* data) {
-	if (++row >= height )
+	if (row+1 >= height )
 	{
 		row = 0;
 		column = 0;
@@ -77,7 +77,7 @@ void Terminal::print(bool data) {
 		str = "False";
 		setColor(makeColor(COLOR_RED,COLOR_BLACK));
 	}
-	if (++row >= height )
+	if (row+1 >= height )
 	{
 		row = 0;
 		column = 0;
