@@ -39,13 +39,13 @@ Terminal: src/drivers/Terminal.cpp ${H_FILES}
 PIC: src/drivers/PIC.cpp ${H_FILES}
 	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
 
-GDT: src/drivers/gdt.cpp ${H_FILES}
+GDT: src/modules/GDT.cpp ${H_FILES}
 	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
 
 Interrupt: src/drivers/Interrupt.cpp ${H_FILES}
 	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
 
-IDT: src/drivers/InterruptDescriptorTable.cpp ${H_FILES}
+IDT: src/modules/IDT.cpp ${H_FILES}
 	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
 
 boot:  src/kernel/boot.s
