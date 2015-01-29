@@ -108,11 +108,15 @@ void initIDT() {
 
 }
 
-void isr0(){};
+void isr0(){
+	terminal.fatalError("Divide by zero or similar (DIV, IDIV).");
+}; // divide by zero
 void isr1(){};
 void isr2(){};
 void isr3(){};
-void isr4(){};
+void isr4(){
+	terminal.fatalError("Overflow.");
+}; //Overflow
 void isr5(){};
 void isr6(){};
 void isr7(){};

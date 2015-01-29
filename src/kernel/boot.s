@@ -54,6 +54,7 @@ _start:
 	
 	movw %cx, %ss
 	call kernel_main
+	
 	jmp halt
 halt:
 	hlt
