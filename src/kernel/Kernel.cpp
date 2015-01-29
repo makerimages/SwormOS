@@ -1,5 +1,7 @@
 #include "../drivers/include/PIC.h"
 #include "../../include/libc/String.h"
+#include "../../include/libc/IOAccess.h"
+
 #include "../drivers/include/Multiboot.h"
 #include "../drivers/include/InterruptDescriptorTable.h"
 #include "../../include/kernel/KernelGlobals.h"
@@ -34,6 +36,9 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	pic_initialize();
 	__asm__("sti");
 	terminal.setColor(terminal.makeColor(terminal.COLOR_GREEN,terminal.COLOR_BLACK));
-	terminal.print("Interrupts initialized");
+	terminal.print("Interrupts initialized \n");
 
+	
+		
+	
 }

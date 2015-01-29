@@ -33,6 +33,7 @@ class Terminal {
 		void Init();
 		uint8_t makeColor(enum vga_color fg, enum vga_color bg);
 		void setColor(uint8_t colors);
+		void resetColor();
 		void print(const char* data);
 		void print(bool data);
 

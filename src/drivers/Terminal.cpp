@@ -131,3 +131,7 @@ void Terminal::fatalError(const char* type) {
 	__asm__("hlt");
 
 }
+
+void Terminal::resetColor() {
+	setColor(makeColor(COLOR_LIGHT_GREY, COLOR_BLACK));
+}
