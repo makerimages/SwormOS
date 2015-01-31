@@ -109,28 +109,66 @@ void initIDT() {
 }
 
 void isr0(){
-	terminal.fatalError("Divide by zero or similar (DIV, IDIV).");
+	terminal.fatalError("Division error.");
 }; // divide by zero
-void isr1(){};
+void isr1(){
+	terminal.fatalError("Reached a breakpoint.");
+};
 void isr2(){};
-void isr3(){};
+void isr3(){
+	terminal.fatalError("Reached a breakpoint (INT 3).");
+};
 void isr4(){
 	terminal.fatalError("Overflow.");
 }; //Overflow
-void isr5(){};
-void isr6(){};
-void isr7(){};
-void isr8(){};
-void isr9(){};
-void isr10(){};
-void isr11(){};
-void isr12(){};
-void isr13(){};
-void isr14(){};
+void isr5(){
+	terminal.fatalError("Bound range exceeded.");
+};
+void isr6(){
+	terminal.fatalError("Invalid opcode.");
+};
+void isr7(){
+	terminal.fatalError("No math coprocessor.");
+};
+void isr8(){
+	terminal.fatalError("I double faulted.");
+};
+void isr9(){
+	terminal.fatalError("Coprocessor segment overrun.");
+
+};
+void isr10(){
+	terminal.fatalError("Invalid TSS");
+};
+void isr11(){
+	terminal.fatalError("Segment not present.");
+
+};
+void isr12(){
+	terminal.fatalError("Stack segment fault.");
+
+};
+void isr13(){
+	terminal.fatalError("General protection.");
+
+};
+void isr14(){
+	terminal.fatalError("Page fault.");
+
+};
 void isr15(){};
-void isr16(){};
-void isr17(){};
-void isr18(){};
+void isr16(){
+	terminal.fatalError("Math fault.");
+
+};
+void isr17(){
+		terminal.fatalError("Alignment check.");
+
+};
+void isr18(){
+		terminal.fatalError("Machine check.");
+
+};
 void isr19(){};
 void isr20(){};
 void isr21(){};

@@ -38,7 +38,5 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	terminal.setColor(terminal.makeColor(terminal.COLOR_GREEN,terminal.COLOR_BLACK));
 	terminal.print("Interrupts initialized \n");
 
-__asm__  (" mov %AX, -32768\n\t"
-	      "mov %BX, -76\n\t" 
-	      "idiv %BX ");
+
 }
