@@ -2,7 +2,7 @@
 #define _PIC_H
 
 #include <stdint.h>
-#include "libc/IOAccess.h"
+#include "libc/IOAccess.hpp"
 
 uint16_t pic_read_irr();
 uint16_t pic_read_isr();

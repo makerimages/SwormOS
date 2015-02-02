@@ -1,7 +1,7 @@
 TARGET := i686-elf
 BUILDDIR := build-$(TARGET)
 
-H_FILES := $(wildcard src/**/**/*.h) $(wildcard include/**/**/*.h)
+H_FILES := $(wildcard include/**/**/*.hpp)
 
 CPP_FILES := $(wildcard src/**/*.cpp)
 
@@ -36,13 +36,13 @@ Kernel: src/kernel/Kernel.cpp ${H_FILES}
 Terminal: src/drivers/Terminal.cpp ${H_FILES}
 	$(GCC) ${CFLAGS} $< -o obj/$@.o
 
-PIC: src/drivers/PIC.cpp ${H_FILES}
+PIC: src/modules/PIC.cpp ${H_FILES}
 	$(GCC) ${CFLAGS} $< -o obj/$@.o
 
 GDT: src/modules/GDT.cpp ${H_FILES}
 	$(GCC) ${CFLAGS} $< -o obj/$@.o
 
-Interrupt: src/drivers/Interrupt.cpp ${H_FILES}
+Interrupt: src/modules/Interrupt.cpp ${H_FILES}
 	$(GCC) ${CFLAGS} $< -o obj/$@.o
 
 IDT: src/modules/IDT.cpp ${H_FILES}

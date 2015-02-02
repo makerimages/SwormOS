@@ -1,8 +1,8 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
-#include "libc/String.h"
-#include "libc/IOAccess.h"
+#include "libc/String.hpp"
+#include "libc/IOAccess.hpp"
 
 #include <stddef.h>
 #include <stdint.h>

@@ -1,6 +1,6 @@
 #ifndef KERNEL_GLOBALS_H
 #define KERNEL_GLOBALS_H
-#include "drivers/Terminal.h"
+#include "drivers/Terminal.hpp"
 
 	extern Terminal terminal;
 

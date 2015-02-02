@@ -1,7 +1,7 @@
 #ifndef INTERRUPT_DESCRIPTOR_TABLE_H
 #define INTERRUPT_DESCRIPTOR_TABLE_H
-#include "kernel/KernelGlobals.h"
-#include "libc/IOAccess.h"
+#include "kernel/KernelGlobals.hpp"
+#include "libc/IOAccess.hpp"
 
 void isr0();
 void isr1();

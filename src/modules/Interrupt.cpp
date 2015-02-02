@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "modules/PIC.h"
+#include "modules/PIC.hpp"
 
 struct interrupt_context
 {

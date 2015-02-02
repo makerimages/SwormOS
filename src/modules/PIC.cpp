@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#include "modules/PIC.h"
+#include "modules/PIC.hpp"
 
 
 const uint16_t PIC_MASTER = 0x20;

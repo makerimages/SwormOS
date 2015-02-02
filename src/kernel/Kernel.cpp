@@ -1,10 +1,10 @@
-#include "modules/PIC.h"
-#include "libc/String.h"
-#include "libc/IOAccess.h"
+#include "modules/PIC.hpp"
+#include "libc/String.hpp"
+#include "libc/IOAccess.hpp"
 
-#include "modules/Multiboot.h"
-#include "modules/IDT.h"
-#include "kernel/KernelGlobals.h"
+#include "modules/Multiboot.hpp"
+#include "modules/IDT.hpp"
+#include "kernel/KernelGlobals.hpp"
 /* Hardware text mode color constants. */
 
 Terminal terminal;

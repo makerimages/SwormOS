@@ -1,4 +1,4 @@
-#include "libc/String.h"
+#include "libc/String.hpp"
 
 char * uitoa(unsigned int value, char * str, int base ) {
     char * rc;
