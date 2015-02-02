@@ -14,7 +14,7 @@ The GCC cross compiler built as per the tutorial linked above.
 
 ## TO-DO
 
-- [ ] Exception handling
+- [x] Exception handling
 - [ ] Keyboard driver
 - [ ] File system (VFS too)
 - [ ] Commands
