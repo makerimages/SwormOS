@@ -1,10 +1,10 @@
-#include "../drivers/include/PIC.h"
-#include "../../include/libc/String.h"
-#include "../../include/libc/IOAccess.h"
+#include "modules/PIC.h"
+#include "libc/String.h"
+#include "libc/IOAccess.h"
 
-#include "../drivers/include/Multiboot.h"
-#include "../drivers/include/InterruptDescriptorTable.h"
-#include "../../include/kernel/KernelGlobals.h"
+#include "modules/Multiboot.h"
+#include "modules/IDT.h"
+#include "kernel/KernelGlobals.h"
 /* Hardware text mode color constants. */
 
 Terminal terminal;
@@ -23,9 +23,9 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	terminal.print(uitoa(magic,buffer,16));
 	terminal.print(".\n");
 
-	multiboot_memory_map_t* mmap = (multiboot_memory_map_t*) mbt->mmap_addr;
-	while(mmap <(multiboot_memory_map_t*)  mbt->mmap_addr + mbt->mmap_length) {
-		mmap = (multiboot_memory_map_t*) ( (uintptr_t) mmap + mmap->size + sizeof(unsigned int) );
+	multiboot_memory_map_t* mmap = reinterpret_cast <multiboot_memory_map_t*> (mbt->mmap_addr);
+	while(mmap < reinterpret_cast<multiboot_memory_map_t*>(mbt->mmap_addr + mbt->mmap_length)) {
+		mmap = reinterpret_cast <multiboot_memory_map_t*> (reinterpret_cast<uintptr_t> (mmap) + mmap->size + sizeof(unsigned int) );
 	}
 
 	terminal.print("Memory size: ");

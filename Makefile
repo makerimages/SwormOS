@@ -7,7 +7,7 @@ CPP_FILES := $(wildcard src/**/*.cpp)
 
 # C Compiler
 GCC = i686-elf-g++
-CFLAGS = -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c
+CFLAGS = -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c -I include -T src/linker.ld
 
 # Assembler
 AA = i686-elf-as
@@ -31,22 +31,22 @@ clean:
 	rm -f OSZin.iso
 
 Kernel: src/kernel/Kernel.cpp ${H_FILES}
-	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
+	$(GCC) ${CFLAGS} $< -o obj/$@.o
 
 Terminal: src/drivers/Terminal.cpp ${H_FILES}
-	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
+	$(GCC) ${CFLAGS} $< -o obj/$@.o
 
 PIC: src/drivers/PIC.cpp ${H_FILES}
-	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
+	$(GCC) ${CFLAGS} $< -o obj/$@.o
 
 GDT: src/modules/GDT.cpp ${H_FILES}
-	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
+	$(GCC) ${CFLAGS} $< -o obj/$@.o
 
 Interrupt: src/drivers/Interrupt.cpp ${H_FILES}
-	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
+	$(GCC) ${CFLAGS} $< -o obj/$@.o
 
 IDT: src/modules/IDT.cpp ${H_FILES}
-	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
+	$(GCC) ${CFLAGS} $< -o obj/$@.o
 
 boot:  src/kernel/boot.s
 	$(AA) $< -o obj/$@.o

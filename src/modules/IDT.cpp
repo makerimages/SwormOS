@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "../drivers/include/InterruptDescriptorTable.h"
+#include "modules/IDT.h"
 
 #define IDT_TYPE_INTERRUPT 0xE
 #define IDT_TYPE_TRAP 0xF
