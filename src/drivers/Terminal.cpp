@@ -28,42 +28,46 @@ void Terminal::setColor(uint8_t colors) {
 
 
 void Terminal::putentryat(char c, uint8_t color, size_t x, size_t y) {
-	const size_t index = y * width + x;
+	const size_t index = (y * width) + x;
 	buffer[index] = vgaentry(c, color);
 }
 
 void Terminal::putchar(char c) {
-	if(c == '\n') {
+	if (c == '\n') {
 		column = 0;
-		row = row+1;
-		
-	} else {
-		putentryat(c, color, column, row);
-		if ( ++column == width )
-		{
+		row++;
+	} else if (c == '\r')
+	column = 0;
+	else if (c == '\b') {
+		column--;
+		if (column < 0)
 			column = 0;
-			
+	} else if (c == '\t')
+			column = (column+tabSize) & ~tabSize;
+	else {
+		putentryat(c,color,column,row);
+		column++;
+	}
+	if (column > width - 1) {
+		row++;
+		column -= width;
+	}
+	if (row > height - 1) {
+		memmove(buffer, buffer+width, height-1*width*2);
+		for (int i = 0; i < width; i++) {
+			buffer[(height-1)*width+i] = vgaentry(' ',color);
+
 		}
-		
+		row--;
 	}
 }
 
 void Terminal::print(const char* data) {
-	if (row+1 >= height )
-	{
-		row = 0;
-		column = 0;
 		size_t datalen = strlen(data);
 		for ( size_t i = 0; i < datalen; i++ ) {
 			putchar(data[i]);
 		}
-
-	} else {
-		size_t datalen = strlen(data);
-		for ( size_t i = 0; i < datalen; i++ ) {
-			putchar(data[i]);
-		}
-	}
+	
 
 }
 

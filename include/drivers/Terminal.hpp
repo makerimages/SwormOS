@@ -43,6 +43,7 @@ class Terminal {
 	protected: 
 		size_t row;
 		size_t column;
+		int tabSize = 2;
 		uint8_t color;
 		uint16_t* buffer;
 		static const size_t width = 80;

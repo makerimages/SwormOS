@@ -65,10 +65,13 @@ executable: obj/boot.o
 	cp src/grub.cfg isodir/boot/grub/grub.cfg
 	grub-mkrescue -o OSZin.iso isodir
 
-Libc: strlen uitoa
+Libc: strlen uitoa memmove
 
 strlen: src/libc/string/strlen.cpp
 	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
 
 uitoa: src/libc/string/uitoa.cpp
+	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
+
+memmove: src/libc/string/memmove.cpp
 	$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
