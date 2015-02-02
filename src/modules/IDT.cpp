@@ -184,7 +184,9 @@ void isr30(){};
 void isr31(){};
 
 void irq0(){}; // System timer, use for testing if anything works at all
-void irq1(){};
+void irq1(){
+	terminal.print("Ouch!");
+};
 void irq2(){};
 void irq3(){};
 void irq4(){};

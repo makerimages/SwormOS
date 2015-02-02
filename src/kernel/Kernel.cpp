@@ -1,9 +1,9 @@
-#include "modules/PIC.hpp"
 #include "libc/String.hpp"
 #include "libc/IOAccess.hpp"
-
 #include "modules/Multiboot.hpp"
 #include "modules/IDT.hpp"
+
+#include "modules/PIC.hpp"
 #include "kernel/KernelGlobals.hpp"
 /* Hardware text mode color constants. */
 
@@ -38,6 +38,14 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	terminal.setColor(terminal.makeColor(terminal.COLOR_GREEN,terminal.COLOR_BLACK));
 	terminal.print("Interrupts initialized \n");
 	terminal.resetColor();
+	outb(0x64,0xA8);
+	outb(0x64,0xAE);
+	outb(0x64,0x60);
+	outb(0x64,0x47);
+	outb(0x60,0xF0);
+	outb(0x60,0x01);
+	outb(0x60,0xF4);
+	outb(0x60,0xED);
+	outb(0x60,0x03);
 	
-
 }
