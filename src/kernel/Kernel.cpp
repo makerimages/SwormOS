@@ -5,14 +5,14 @@
 
 #include "modules/PIC.hpp"
 #include "kernel/KernelGlobals.hpp"
-/* Hardware text mode color constants. */
+#include "drivers/Keyboard.hpp"
+
 
 Terminal terminal;
+Keyboard keyboard;
 
 char buffer[33];
-#if defined(__cplusplus)
 extern "C" /* Use C linkage for kernel_main. */
-#endif
 void kernel_main(multiboot_info* mbt, unsigned int magic)
 
 {
@@ -38,14 +38,5 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	terminal.setColor(terminal.makeColor(terminal.COLOR_GREEN,terminal.COLOR_BLACK));
 	terminal.print("Interrupts initialized \n");
 	terminal.resetColor();
-	outb(0x64,0xA8);
-	outb(0x64,0xAE);
-	outb(0x64,0x60);
-	outb(0x64,0x47);
-	outb(0x60,0xF0);
-	outb(0x60,0x01);
-	outb(0x60,0xF4);
-	outb(0x60,0xED);
-	outb(0x60,0x03);
-	
+	keyboard.init();
 }

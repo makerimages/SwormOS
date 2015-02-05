@@ -8,11 +8,12 @@
 		asm volatile ( "outb %0, %1" : : "a"(val), "Nd"(port) );
 	}
 
-	extern inline uint8_t inb(uint16_t port) {
-    	uint8_t ret;
-    	asm volatile ( "inb %1, %0" : "=a"(ret) : "Nd"(port) );
+	extern inline unsigned char inb(unsigned short int port) {
+    	unsigned char v;
+    	asm volatile ( "inb %w1, %0" : "=a"(v) : "dN"(port) );
    	 	
-    	return ret;
+    	return v;
+
 	}
 
 	extern inline void outw(uint16_t port, uint16_t val) {

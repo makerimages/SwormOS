@@ -1,0 +1,69 @@
+
+obj/Keyboard.o:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <_ZN8KeyboardC1Ev>:
+   0:	f3 c3                	repz ret 
+   2:	8d b4 26 00 00 00 00 	lea    0x0(%esi,%eiz,1),%esi
+   9:	8d bc 27 00 00 00 00 	lea    0x0(%edi,%eiz,1),%edi
+
+00000010 <_ZN8Keyboard12writeControlEh>:
+  10:	8b 44 24 08          	mov    0x8(%esp),%eax
+  14:	e6 64                	out    %al,$0x64
+  16:	c3                   	ret    
+  17:	90                   	nop
+  18:	90                   	nop
+  19:	8d b4 26 00 00 00 00 	lea    0x0(%esi,%eiz,1),%esi
+
+00000020 <_ZN8Keyboard11readControlEv>:
+  20:	e4 64                	in     $0x64,%al
+  22:	c3                   	ret    
+  23:	90                   	nop
+  24:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+  2a:	8d bf 00 00 00 00    	lea    0x0(%edi),%edi
+
+00000030 <_ZN8Keyboard9writeDataEh>:
+  30:	8b 54 24 08          	mov    0x8(%esp),%edx
+  34:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+  3a:	8d bf 00 00 00 00    	lea    0x0(%edi),%edi
+  40:	e4 64                	in     $0x64,%al
+  42:	a8 02                	test   $0x2,%al
+  44:	75 fa                	jne    40 <_ZN8Keyboard9writeDataEh+0x10>
+  46:	89 d0                	mov    %edx,%eax
+  48:	e6 60                	out    %al,$0x60
+  4a:	c3                   	ret    
+  4b:	90                   	nop
+  4c:	8d 74 26 00          	lea    0x0(%esi,%eiz,1),%esi
+
+00000050 <_ZN8Keyboard8readDataEv>:
+  50:	e4 64                	in     $0x64,%al
+  52:	a8 01                	test   $0x1,%al
+  54:	74 fa                	je     50 <_ZN8Keyboard8readDataEv>
+  56:	e4 60                	in     $0x60,%al
+  58:	c3                   	ret    
+  59:	90                   	nop
+  5a:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+
+00000060 <_ZN8Keyboard4initEv>:
+  60:	83 ec 14             	sub    $0x14,%esp
+  63:	68 00 00 00 00       	push   $0x0
+  68:	68 00 00 00 00       	push   $0x0
+  6d:	e8 fc ff ff ff       	call   6e <_ZN8Keyboard4initEv+0xe>
+  72:	b8 ad ff ff ff       	mov    $0xffffffad,%eax
+  77:	e6 64                	out    %al,$0x64
+  79:	b8 a7 ff ff ff       	mov    $0xffffffa7,%eax
+  7e:	e6 64                	out    %al,$0x64
+  80:	b8 20 00 00 00       	mov    $0x20,%eax
+  85:	e6 64                	out    %al,$0x64
+  87:	83 c4 10             	add    $0x10,%esp
+  8a:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+  90:	e4 64                	in     $0x64,%al
+  92:	a8 01                	test   $0x1,%al
+  94:	74 fa                	je     90 <_ZN8Keyboard4initEv+0x30>
+  96:	e4 60                	in     $0x60,%al
+  98:	8b 54 24 10          	mov    0x10(%esp),%edx
+  9c:	88 02                	mov    %al,(%edx)
+  9e:	83 c4 0c             	add    $0xc,%esp
+  a1:	c3                   	ret    

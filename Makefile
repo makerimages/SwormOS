@@ -7,7 +7,7 @@ CPP_FILES := $(wildcard src/**/*.cpp)
 
 # C Compiler
 GCC = i686-elf-g++
-CFLAGS = -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c -I include -T src/linker.ld
+CFLAGS = -ffreestanding  -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c -I include -T src/linker.ld
 
 # Assembler
 AA = i686-elf-as
@@ -22,7 +22,7 @@ LDFLAGS = -ffreestanding -O2 -nostdlib -lgcc
 
 .PHONY: all Kernel Terminal
 
-all: clean Libc Interrupt GDT IDT PIC Terminal Kernel boot ientry executable
+all: clean Libc Interrupt GDT IDT PIC Terminal Keyboard Kernel boot ientry executable
 
 clean:
 	rm -rf obj
@@ -34,6 +34,9 @@ Kernel: src/kernel/Kernel.cpp ${H_FILES}
 	$(GCC) ${CFLAGS} $< -o obj/$@.o
 
 Terminal: src/drivers/Terminal.cpp ${H_FILES}
+	$(GCC) ${CFLAGS} $< -o obj/$@.o
+
+Keyboard: src/drivers/Keyboard.cpp ${H_FILES}
 	$(GCC) ${CFLAGS} $< -o obj/$@.o
 
 PIC: src/modules/PIC.cpp ${H_FILES}

@@ -33,17 +33,23 @@ void irq_handler(struct interrupt_context* int_ctx)
 	uint8_t irq = int_ctx->int_no - 32;
 
 	// Handle the potentially spurious interrupts IRQ 7 and IRQ 15.
-	if ( irq == 7 && !(pic_read_isr() & (1 << 7)) )
+	if ( irq == 7 && !(pic_read_isr() & (1 << 7)) ) {
 		return;
-		if ( irq == 15 && !(pic_read_isr() & (1 << 15)) )
-			return pic_eoi_master();
+	}
 
-			(void) int_ctx;
+	if ( irq == 15 && !(pic_read_isr() & (1 << 15)) ) {
+		return pic_eoi_master();
+
+	}
+
+	(void) int_ctx;
 
 			// Send the end of interrupt signal to the relevant PICs.
-			if ( 8 <= irq )
-				pic_eoi_slave();
-				pic_eoi_master();
+	if ( 8 <= irq ) {
+		pic_eoi_slave();
+		pic_eoi_master();	
+	}
+	
 }
 
 #if defined(__cplusplus)
