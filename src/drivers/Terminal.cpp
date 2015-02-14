@@ -131,27 +131,37 @@ void Terminal::kprintf_(const char* str, va_list va) {
 			}
 			switch(*str) {
 				case 'c':
-					print(itoa(va_arg(va,int),buf,10));
+					putchar(va_arg(va,int));
 					break;
 				case 's' :
-					print(va_arg(va,const char*));
+					kputs(va_arg(va,const char*));
 					break;
 				case 'b':
-					print(itoa(va_arg(va,int),buf,2));
+					kputs(itoa(va_arg(va,int),buf,2));
 					break;
 				case 'd':
-					print(itoa(va_arg(va,int),buf,10));
+					kputs(itoa(va_arg(va,int),buf,10));
 					break;
 				case 'x':
-					print(itoa(va_arg(va,int),buf,16));
+					kputs(itoa(va_arg(va,int),buf,16));
 					break;
 				default:
 					break;
 			} 
 		} else {
-			print(str);
+			putchar(*str);
 		}
 		str++;
+	}
+}
+
+void Terminal::kputs(const char* str) {
+	kputs_(str);
+}
+
+void Terminal::kputs_(const char* str) {
+	while(*str) {
+		putchar(*(str++));
 	}
 }
 

@@ -38,6 +38,8 @@ class Terminal {
 		void resetColor();
 		void kprintf(const char* str, ...);
 		void kprintf_(const char* str, va_list va);
+		void kputs(const char* str);
+		void kputs_(const char* str);
 		void print(const char* data);
 		void printBool(bool data);
 
