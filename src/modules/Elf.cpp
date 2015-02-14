@@ -2,7 +2,7 @@
 #include "libc/String.hpp"
 #include "kernel/KernelGlobals.hpp"
 
-elf_t kernel_elf;
+elf_t elf;
 
 void elf_init(multiboot_elf_section_header_table_t* header) {
 	elf_sectionHeader_t* sh = reinterpret_cast<elf_sectionHeader_t*>(header-> addr);
@@ -12,22 +12,22 @@ void elf_init(multiboot_elf_section_header_table_t* header) {
 	for(uint32_t i = 0; i < header->num; i++) {
 		const char* name = reinterpret_cast<const char*>(shstrtab + sh[i].name);
 		if(!strcmp(name,".strtab")) {
-			kernel_elf.strtab = reinterpret_cast<const char*> (sh[i].addr);
-			kernel_elf.strtabsz = sh[i].size;
+			elf.strtab = reinterpret_cast<const char*> (sh[i].addr);
+			elf.strtabsz = sh[i].size;
 		} else if(!strcmp(name,".symtab")) {
-			kernel_elf.symtab = reinterpret_cast<elf_symbol_t*> (sh[i].addr);
-			kernel_elf.symtabsz = sh[i].size;
+			elf.symtab = reinterpret_cast<elf_symbol_t*> (sh[i].addr);
+			elf.symtabsz = sh[i].size;
 		}
 	}
 }
 
-const char* elf_lookupSymbol(uint32_t addr, elf_t* elf) {
-	for(uint32_t i = 0; i< (elf -> symtabsz/sizeof(elf_symbol_t)); i++) {
-		if(ELF32_ST_TYPE(elf->symtab[i].info) != 0x2) {
+const char* elf_lookupSymbol(uint32_t addr) {
+	for(uint32_t i = 0; i< (elf.symtabsz/sizeof(elf_symbol_t)); i++) {
+		if(ELF32_ST_TYPE(elf.symtab[i].info) != 0x2) {
 			continue;
 		}
-		if(addr >= elf-> symtab[i].value && addr < (elf -> symtab[i].value + elf -> symtab[i].size)) {
-			return reinterpret_cast<const char*>(reinterpret_cast<uint32_t>(elf->strtab + elf->symtab[i].name));
+		if(addr >= elf.symtab[i].value && addr < (elf.symtab[i].value + elf.symtab[i].size)) {
+			return reinterpret_cast<const char*>(reinterpret_cast<uint32_t>(elf.strtab + elf.symtab[i].name));
 		} 
 
 	}
@@ -44,7 +44,7 @@ void elf_printStackTrace()  {
 	ebp = reinterpret_cast<uint32_t*> (*ebp);
 	while (ebp) {
 		eip = ebp +1;
-		terminal.kprintf(" [0x%x] %s \n",*eip,elf_lookupSymbol(*eip,&kernel_elf));
+		terminal.kprintf(" [0x%x] %s \n",*eip,elf_lookupSymbol(*eip));
 		ebp = reinterpret_cast<uint32_t*> (*ebp);
 	}
 }
