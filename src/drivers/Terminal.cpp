@@ -1,4 +1,5 @@
 #include "drivers/Terminal.hpp"
+#include "modules/Elf.hpp"
 
 Terminal::Terminal() {
 }
@@ -8,7 +9,7 @@ void Terminal::Init() {
 	color = makeColor(COLOR_LIGHT_GREY, COLOR_BLACK);
 	buffer = (uint16_t*) 0xB8000;
 	fill();
-	outw(0x3D4,0x200A);
+	resetColor();
 
 }
 
@@ -33,24 +34,34 @@ void Terminal::putentryat(char c, uint8_t color, size_t x, size_t y) {
 }
 
 void Terminal::putchar(char c) {
-	if (c == '\n') {
-		column = 0;
-		row++;
-	} else if (c == '\r')
-	column = 0;
-	else if (c == '\b') {
-		column--;
-		if (column < 0)
+	switch(c) {
+		case '\n':
 			column = 0;
-	} else if (c == '\t')
-			column = (column+tabSize) & ~tabSize;
-	else {
-		putentryat(c,color,column,row);
-		column++;
+			row++;
+		break;
+		case '\r':
+			column = 0;
+		break;
+		case '\b':
+			column--;
+			if (column < 0) {
+				column = 0;
+			}
+		break;
+		case '\t':
+				column = (column+tabSize) & ~tabSize;
+		break;
+		default:
+			putentryat(c,color,column,row);
+			column++;
+		break;
 	}
+	
+		
+	
 	if (column > width - 1) {
 		row++;
-		column -= width;
+		column = 0;
 	}
 	if (row > height - 1) {
 		memmove(buffer, buffer+width, height-1*width*2);
@@ -63,15 +74,15 @@ void Terminal::putchar(char c) {
 }
 
 void Terminal::print(const char* data) {
-		size_t datalen = strlen(data);
-		for ( size_t i = 0; i < datalen; i++ ) {
-			putchar(data[i]);
-		}
+	size_t datalen = strlen(data);
+	for ( size_t i = 0; i < datalen; i++ ) {
+		putchar(data[i]);
+	}
 	
 
 }
 
-void Terminal::print(bool data) {
+void Terminal::printBool(bool data) {
 	const char* str;
 	if(data) {
 		str = "True";
@@ -81,24 +92,9 @@ void Terminal::print(bool data) {
 		str = "False";
 		setColor(makeColor(COLOR_RED,COLOR_BLACK));
 	}
-	if (row+1 >= height )
-	{
-		row = 0;
-		column = 0;
-		size_t datalen = strlen(str);
-		for ( size_t i = 0; i < datalen; i++ ) {
-			putchar(str[i]);
-		}
-
-	} else {
-		size_t datalen = strlen(str);
-		for ( size_t i = 0; i < datalen; i++ ) {
-			putchar(str[i]);
-		}
-	}
-	color = makeColor(COLOR_LIGHT_GREY, COLOR_BLACK);
-
+	print(str);
 }
+
 
 
 void Terminal::setCursorPos(size_t col, size_t rw) {
@@ -117,6 +113,48 @@ void Terminal::fill() {
 	}
 }
 
+
+void Terminal::kprintf(const char* str, ...) {
+	va_list va;
+	va_start(va,str);
+	kprintf_(str,va);
+	va_end(va);
+}
+
+void Terminal::kprintf_(const char* str, va_list va) {
+	char buf[64] = "" ;
+	while(*str)  {
+		if(*str == '%') {
+			str++;
+			if(!str) {
+				break;
+			}
+			switch(*str) {
+				case 'c':
+					print(itoa(va_arg(va,int),buf,10));
+					break;
+				case 's' :
+					print(va_arg(va,const char*));
+					break;
+				case 'b':
+					print(itoa(va_arg(va,int),buf,2));
+					break;
+				case 'd':
+					print(itoa(va_arg(va,int),buf,10));
+					break;
+				case 'x':
+					print(itoa(va_arg(va,int),buf,16));
+					break;
+				default:
+					break;
+			} 
+		} else {
+			print(str);
+		}
+		str++;
+	}
+}
+
 void Terminal::fatalError(const char* type) {
 
 	this -> setColor(makeColor(this -> COLOR_DARK_GREY, this -> COLOR_LIGHT_GREY));
@@ -132,7 +170,12 @@ void Terminal::fatalError(const char* type) {
 	this -> print("System halted to protect your PC");
 	this -> setCursorPos((width/2)-strlen("Please reboot and fix the above error")/2,height-2);
 	this -> print("Please reboot and fix the above error");
-	__asm__("hlt");
+	this -> setCursorPos(width/2,0);
+	elf_printStackTrace();
+	while(true) {
+		__asm__ volatile ("hlt");
+
+	}
 
 }
 

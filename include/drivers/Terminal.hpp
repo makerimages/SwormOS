@@ -6,6 +6,8 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdarg.h>
+
 
 class Terminal {
 	public:
@@ -34,8 +36,10 @@ class Terminal {
 		uint8_t makeColor(enum vga_color fg, enum vga_color bg);
 		void setColor(uint8_t colors);
 		void resetColor();
+		void kprintf(const char* str, ...);
+		void kprintf_(const char* str, va_list va);
 		void print(const char* data);
-		void print(bool data);
+		void printBool(bool data);
 
 		void setCursorPos(size_t col, size_t rw);
 		void fill();

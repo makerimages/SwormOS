@@ -110,6 +110,7 @@ interrupt_handler_prepare:
 	movl %esp, %ebx
 	subl $4, %esp
 	andl $0xFFFFFFF0, %esp /* 16-byte align stack */
+	
 	movl %ebx, (%esp)
 	call interrupt_handler
 	movl %ebx, %esp
