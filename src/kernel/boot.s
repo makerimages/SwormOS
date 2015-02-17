@@ -21,11 +21,12 @@ stack_top:
 .type _start, @function
 _start:
 
-	movl %esp, 0X7FFFF
-	push %esp
-	
-	push %ebx
+	movl $stack_top, %esp
+	movl $0, %ebp
+		push %esp
+
 	push %eax
+	push %ebx
 
 	# Load the Global Descriptor Table pointer register.
 

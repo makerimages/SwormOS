@@ -63,7 +63,160 @@ Disassembly of section .text:
   92:	a8 01                	test   $0x1,%al
   94:	74 fa                	je     90 <_ZN8Keyboard4initEv+0x30>
   96:	e4 60                	in     $0x60,%al
-  98:	8b 54 24 10          	mov    0x10(%esp),%edx
-  9c:	88 02                	mov    %al,(%edx)
-  9e:	83 c4 0c             	add    $0xc,%esp
-  a1:	c3                   	ret    
+  98:	83 e0 bc             	and    $0xffffffbc,%eax
+  9b:	89 c2                	mov    %eax,%edx
+  9d:	b8 60 00 00 00       	mov    $0x60,%eax
+  a2:	e6 64                	out    %al,$0x64
+  a4:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+  aa:	8d bf 00 00 00 00    	lea    0x0(%edi),%edi
+  b0:	e4 64                	in     $0x64,%al
+  b2:	a8 02                	test   $0x2,%al
+  b4:	75 fa                	jne    b0 <_ZN8Keyboard4initEv+0x50>
+  b6:	89 d0                	mov    %edx,%eax
+  b8:	e6 60                	out    %al,$0x60
+  ba:	e4 64                	in     $0x64,%al
+  bc:	a8 01                	test   $0x1,%al
+  be:	74 08                	je     c8 <_ZN8Keyboard4initEv+0x68>
+  c0:	e4 60                	in     $0x60,%al
+  c2:	e4 64                	in     $0x64,%al
+  c4:	a8 01                	test   $0x1,%al
+  c6:	75 f8                	jne    c0 <_ZN8Keyboard4initEv+0x60>
+  c8:	b8 ae ff ff ff       	mov    $0xffffffae,%eax
+  cd:	e6 64                	out    %al,$0x64
+  cf:	b8 20 00 00 00       	mov    $0x20,%eax
+  d4:	e6 64                	out    %al,$0x64
+  d6:	8d 76 00             	lea    0x0(%esi),%esi
+  d9:	8d bc 27 00 00 00 00 	lea    0x0(%edi,%eiz,1),%edi
+  e0:	e4 64                	in     $0x64,%al
+  e2:	a8 01                	test   $0x1,%al
+  e4:	74 fa                	je     e0 <_ZN8Keyboard4initEv+0x80>
+  e6:	e4 60                	in     $0x60,%al
+  e8:	8b 54 24 10          	mov    0x10(%esp),%edx
+  ec:	84 c0                	test   %al,%al
+  ee:	88 02                	mov    %al,(%edx)
+  f0:	75 15                	jne    107 <_ZN8Keyboard4initEv+0xa7>
+  f2:	83 ec 08             	sub    $0x8,%esp
+  f5:	68 1c 00 00 00       	push   $0x1c
+  fa:	68 00 00 00 00       	push   $0x0
+  ff:	e8 fc ff ff ff       	call   100 <_ZN8Keyboard4initEv+0xa0>
+ 104:	83 c4 10             	add    $0x10,%esp
+ 107:	b8 a8 ff ff ff       	mov    $0xffffffa8,%eax
+ 10c:	e6 64                	out    %al,$0x64
+ 10e:	83 c4 0c             	add    $0xc,%esp
+ 111:	c3                   	ret    
+
+Disassembly of section .rodata.str1.1:
+
+00000000 <.rodata.str1.1>:
+   0:	53                   	push   %ebx
+   1:	74 61                	je     64 <_ZN8Keyboard4initEv+0x4>
+   3:	72 74                	jb     79 <_ZN8Keyboard4initEv+0x19>
+   5:	69 6e 67 20 6b 65 79 	imul   $0x79656b20,0x67(%esi),%ebp
+   c:	62 6f 61             	bound  %ebp,0x61(%edi)
+   f:	72 64                	jb     75 <_ZN8Keyboard4initEv+0x15>
+  11:	20 62 72             	and    %ah,0x72(%edx)
+  14:	69 6e 67 75 70 2e 0a 	imul   $0xa2e7075,0x67(%esi),%ebp
+  1b:	00 50 6f             	add    %dl,0x6f(%eax)
+  1e:	72 74                	jb     94 <_ZN8Keyboard4initEv+0x34>
+  20:	20 31                	and    %dh,(%ecx)
+  22:	20 65 78             	and    %ah,0x78(%ebp)
+  25:	69 73 74 73 2e 0a 00 	imul   $0xa2e73,0x74(%ebx),%esi
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	00 47 43             	add    %al,0x43(%edi)
+   3:	43                   	inc    %ebx
+   4:	3a 20                	cmp    (%eax),%ah
+   6:	28 47 4e             	sub    %al,0x4e(%edi)
+   9:	55                   	push   %ebp
+   a:	29 20                	sub    %esp,(%eax)
+   c:	34 2e                	xor    $0x2e,%al
+   e:	39 2e                	cmp    %ebp,(%esi)
+  10:	32 00                	xor    (%eax),%al
+
+Disassembly of section .eh_frame:
+
+00000000 <.eh_frame>:
+   0:	14 00                	adc    $0x0,%al
+   2:	00 00                	add    %al,(%eax)
+   4:	00 00                	add    %al,(%eax)
+   6:	00 00                	add    %al,(%eax)
+   8:	01 7a 52             	add    %edi,0x52(%edx)
+   b:	00 01                	add    %al,(%ecx)
+   d:	7c 08                	jl     17 <.eh_frame+0x17>
+   f:	01 1b                	add    %ebx,(%ebx)
+  11:	0c 04                	or     $0x4,%al
+  13:	04 88                	add    $0x88,%al
+  15:	01 00                	add    %eax,(%eax)
+  17:	00 10                	add    %dl,(%eax)
+  19:	00 00                	add    %al,(%eax)
+  1b:	00 1c 00             	add    %bl,(%eax,%eax,1)
+  1e:	00 00                	add    %al,(%eax)
+  20:	00 00                	add    %al,(%eax)
+  22:	00 00                	add    %al,(%eax)
+  24:	02 00                	add    (%eax),%al
+  26:	00 00                	add    %al,(%eax)
+  28:	00 00                	add    %al,(%eax)
+  2a:	00 00                	add    %al,(%eax)
+  2c:	10 00                	adc    %al,(%eax)
+  2e:	00 00                	add    %al,(%eax)
+  30:	30 00                	xor    %al,(%eax)
+  32:	00 00                	add    %al,(%eax)
+  34:	10 00                	adc    %al,(%eax)
+  36:	00 00                	add    %al,(%eax)
+  38:	07                   	pop    %es
+  39:	00 00                	add    %al,(%eax)
+  3b:	00 00                	add    %al,(%eax)
+  3d:	00 00                	add    %al,(%eax)
+  3f:	00 10                	add    %dl,(%eax)
+  41:	00 00                	add    %al,(%eax)
+  43:	00 44 00 00          	add    %al,0x0(%eax,%eax,1)
+  47:	00 20                	add    %ah,(%eax)
+  49:	00 00                	add    %al,(%eax)
+  4b:	00 03                	add    %al,(%ebx)
+  4d:	00 00                	add    %al,(%eax)
+  4f:	00 00                	add    %al,(%eax)
+  51:	00 00                	add    %al,(%eax)
+  53:	00 10                	add    %dl,(%eax)
+  55:	00 00                	add    %al,(%eax)
+  57:	00 58 00             	add    %bl,0x0(%eax)
+  5a:	00 00                	add    %al,(%eax)
+  5c:	30 00                	xor    %al,(%eax)
+  5e:	00 00                	add    %al,(%eax)
+  60:	1b 00                	sbb    (%eax),%eax
+  62:	00 00                	add    %al,(%eax)
+  64:	00 00                	add    %al,(%eax)
+  66:	00 00                	add    %al,(%eax)
+  68:	10 00                	adc    %al,(%eax)
+  6a:	00 00                	add    %al,(%eax)
+  6c:	6c                   	insb   (%dx),%es:(%edi)
+  6d:	00 00                	add    %al,(%eax)
+  6f:	00 50 00             	add    %dl,0x0(%eax)
+  72:	00 00                	add    %al,(%eax)
+  74:	09 00                	or     %eax,(%eax)
+  76:	00 00                	add    %al,(%eax)
+  78:	00 00                	add    %al,(%eax)
+  7a:	00 00                	add    %al,(%eax)
+  7c:	2c 00                	sub    $0x0,%al
+  7e:	00 00                	add    %al,(%eax)
+  80:	80 00 00             	addb   $0x0,(%eax)
+  83:	00 60 00             	add    %ah,0x0(%eax)
+  86:	00 00                	add    %al,(%eax)
+  88:	b2 00                	mov    $0x0,%dl
+  8a:	00 00                	add    %al,(%eax)
+  8c:	00 43 0e             	add    %al,0xe(%ebx)
+  8f:	18 45 0e             	sbb    %al,0xe(%ebp)
+  92:	1c 45                	sbb    $0x45,%al
+  94:	0e                   	push   %cs
+  95:	20 5d 0e             	and    %bl,0xe(%ebp)
+  98:	10 02                	adc    %al,(%edx)
+  9a:	6b 0e 18             	imul   $0x18,(%esi),%ecx
+  9d:	45                   	inc    %ebp
+  9e:	0e                   	push   %cs
+  9f:	1c 45                	sbb    $0x45,%al
+  a1:	0e                   	push   %cs
+  a2:	20 48 0e             	and    %cl,0xe(%eax)
+  a5:	10 4a 0e             	adc    %cl,0xe(%edx)
+  a8:	04 00                	add    $0x0,%al
+	...

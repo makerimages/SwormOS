@@ -7,7 +7,7 @@ CPP_FILES := $(wildcard src/**/*.cpp)
 
 # C Compiler
 GCC = i686-elf-g++
-CFLAGS = -ffreestanding  -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c -I include -T src/linker.ld
+CFLAGS = -ffreestanding -g  -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c -I include -T src/linker.ld
 
 # Assembler
 AA = i686-elf-as
