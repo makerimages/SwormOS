@@ -36,27 +36,27 @@ void Keyboard::init() {
 	writeControl(0x20); // Ask for control byte 
 	config = readData();
 
-	//config &= ~(1<<0);
-	//config &= ~(1<<1);
-	//config &= ~(1<<6);
+	config &= ~(1<<0);
+	config &= ~(1<<1);
+	config &= ~(1<<6);
 
-	//writeControl(0x60); // Hey, be prepared for control byte!
-	//writeData(config);
+	writeControl(0x60); // Hey, be prepared for control byte!
+	writeData(config);
 
-	//while (readControl() & 0x01) {
-		//inb(0x60); // Clear buffer
-	//}
+	while (readControl() & 0x01) {
+		inb(0x60); // Clear buffer
+	}
 
-	// Try enabling port 1
-	//writeControl(0xAE);
-	//writeControl(0x20); // Gimme config
+	//Try enabling port 1
+	writeControl(0xAE);
+	writeControl(0x20); // Gimme config
 
-	//config = readData();
-	//if(!(config && (1<<4))) {
-	//	terminal.print("Port 1 exists.\n");
-	//}
+	config = readData();
+	if(!(config && (1<<4))) {
+		terminal.print("Port 1 exists.\n");
+	}
 
-	//writeControl(0xA8);
+	writeControl(0xA8);
 
 
 
