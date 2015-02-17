@@ -27,7 +27,7 @@ const char* elf_lookupSymbol(uint32_t addr) {
 			continue;
 		}
 		if(addr >= elf.symtab[i].value && addr < (elf.symtab[i].value + elf.symtab[i].size)) {
-			return reinterpret_cast<const char*>(reinterpret_cast<uint32_t>(elf.strtab + elf.symtab[i].name));
+			return reinterpret_cast<const char*>(reinterpret_cast<uint32_t>(elf.strtab) + elf.symtab[i].name);
 		} 
 
 	}
@@ -44,6 +44,7 @@ void elf_printStackTrace()  {
 	ebp = reinterpret_cast<uint32_t*> (*ebp);
 	while (ebp) {
 		eip = ebp +1;
+		terminal.print(itoa(reinterpret_cast<uintptr_t>(elf_lookupSymbol(*eip)),buffer,16));
 		terminal.kprintf(" [0x%x] %s \n",*eip,elf_lookupSymbol(*eip));
 		ebp = reinterpret_cast<uint32_t*> (*ebp);
 	}

@@ -22,28 +22,21 @@ stack_top:
 _start:
 
 	movl $stack_top, %esp
-	mov  $0, %ebp
+	movl $0, %ebp
 	push %ebx
+	
 	# Load the Global Descriptor Table pointer register.
 
 	subl $6, %esp
-
 	movw gdt_size_minus_one, %cx
-	
 	movw %cx, 0(%esp)
-
 	movl $gdt, %ecx
-
 	movl %ecx, 2(%esp)
-
 	lgdt 0(%esp)
-
 	addl $6, %esp
 
 	push $0x08
-	
 	push $1f
-
 	retf
 1:	
 	movw $0x10, %cx
