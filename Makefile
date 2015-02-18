@@ -17,7 +17,7 @@ ISO = mkisofs
 
 # Linker
 LD = i686-elf-gcc
-LDFLAGS = -ffreestanding -O2 -nostdlib -lgcc
+LDFLAGS = -ffreestanding -rdynamic -O2 -nostdlib -lgcc
 
 
 .PHONY: all Kernel Terminal

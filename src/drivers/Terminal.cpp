@@ -143,7 +143,7 @@ void Terminal::kprintf_(const char* str, va_list va) {
 					kputs(itoa(va_arg(va,int),buf,10));
 					break;
 				case 'x':
-					kputs(itoa(va_arg(va,int),buf,16));
+					kputs(uitoa(va_arg(va,uint32_t),buf,16));
 					break;
 				default:
 					break;

@@ -20,14 +20,12 @@ stack_top:
 .global _start
 .type _start, @function
 _start:
-
+	cli
 	movl $stack_top, %esp
-	movl $0, %ebp
-		push %esp
-
 	push %eax
 	push %ebx
-
+	push %esp
+	movl $0, %ebp
 	# Load the Global Descriptor Table pointer register.
 
 	subl $6, %esp
