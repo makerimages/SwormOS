@@ -21,11 +21,7 @@ stack_top:
 .type _start, @function
 _start:
 	cli
-	movl $stack_top, %esp
-	push %eax
-	push %ebx
-	push %esp
-	movl $0, %ebp
+	
 	# Load the Global Descriptor Table pointer register.
 
 	subl $6, %esp
@@ -48,12 +44,20 @@ _start:
 	movw %cx, %gs
 	
 	movw %cx, %ss
-
+	movl $stack_top, %esp
+	push %eax
+	push %ebx
+	push %esp
+	movl $0, %ebp
 	call kernel_main
 	
 	jmp .Lhang
 halt:
 	hlt
+.global get_ebp
+get_ebp:
+	movl %ebp, %eax
+	ret
 .Lhang:
 	jmp .Lhang
 .size _start, . - _start

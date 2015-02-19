@@ -35,16 +35,20 @@ const char* elf_lookupSymbol(uint32_t addr) {
 
 }
 
+extern "C" uint32_t get_ebp(void);
+
 void elf_printStackTrace()  {
 	uint32_t *ebp, *eip;
 	char buffer[65];
 
-	__asm__ volatile ("mov %%ebp, %0":"=r"(ebp));
+	ebp = reinterpret_cast<uint32_t*>(get_ebp());
+	terminal.kprintf("EBP: %d",*ebp);
 	eip = ebp+1;
 	ebp = reinterpret_cast<uint32_t*> (*ebp);
+	terminal.kprintf("EBP: %d",*ebp);
 	while (ebp) {
+		terminal.kprintf("EBP: %d",*ebp);
 		eip = ebp +1;
-		terminal.print(uitoa(*eip,buffer,16));
 		terminal.kprintf(" [0x%x] %s \n",*eip,elf_lookupSymbol(*eip));
 		ebp = reinterpret_cast<uint32_t*> (*ebp);
 	}

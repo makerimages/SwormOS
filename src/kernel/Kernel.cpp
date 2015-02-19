@@ -39,5 +39,6 @@ void kernel_main(multiboot_info* mbt, unsigned int magic)
 	terminal.setColor(terminal.makeColor(terminal.COLOR_GREEN,terminal.COLOR_BLACK));
 	terminal.print("Interrupts initialized\n");
 	terminal.resetColor();
-	keyboard.init();
+	elf_printStackTrace();
+	//keyboard.init();
 }
