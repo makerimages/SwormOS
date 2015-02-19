@@ -42,12 +42,12 @@ void elf_printStackTrace()  {
 	char buffer[65];
 
 	ebp = reinterpret_cast<uint32_t*>(get_ebp());
-	terminal.kprintf("EBP: %d",*ebp);
+	terminal.kprintf("EBP: %x ",*ebp);
 	eip = ebp+1;
 	ebp = reinterpret_cast<uint32_t*> (*ebp);
-	terminal.kprintf("EBP: %d",*ebp);
+	terminal.kprintf("EBP: %x ",*ebp);
 	while (ebp) {
-		terminal.kprintf("EBP: %d",*ebp);
+		terminal.kprintf("EBP: %x ",*ebp);
 		eip = ebp +1;
 		terminal.kprintf(" [0x%x] %s \n",*eip,elf_lookupSymbol(*eip));
 		ebp = reinterpret_cast<uint32_t*> (*ebp);
