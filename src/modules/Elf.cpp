@@ -35,7 +35,7 @@ const char* elf_lookupSymbol(uint32_t addr) {
 
 }
 
-extern "C" uint32_t get_ebp(void);
+
 
 void elf_printStackTrace()  {
 	uint32_t *ebp, *eip;
