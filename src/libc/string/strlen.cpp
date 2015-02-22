@@ -1,8 +1,8 @@
 #include "libc/String.hpp"
 
-size_t strlen(const char* str) {
-	size_t ret = 0;
-	while ( str[ret] != 0 )
-		ret++;
-	return ret;
+size_t strlen(const char* string) {
+	size_t result = 0;
+	while ( string[result] )
+		result++;
+	return result;
 }
