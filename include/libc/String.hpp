@@ -9,6 +9,7 @@
 		void* memcpy(void* __restrict, const void* __restrict, size_t);
 		void* memmove(void*, const void*, size_t);
 		void* memset(void*, int, size_t);
+		size_t strcmp(const char* str1, const char* str2);
 		size_t strlen(const char*);
 		char * itoa( int value, char * str, int base );
 		char * uitoa(unsigned int value, char * str, int base );

@@ -1,5 +1,5 @@
-# A super simple BOCHSRC.TXT file which boots TTYLINUX .ISO in Bochs 2.4.5+
 
+memory: guest=1024, host=2048
 log: bochsout.log
 display_library: sdl
 

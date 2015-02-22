@@ -3,7 +3,7 @@ CPP_FILES := $(wildcard src/**/*.cpp)
 
 # C Compiler
 GCC = i686-elf-g++
-CFLAGS = -ffreestanding -g  -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c -I include -T src/linker.ld
+CFLAGS = -ffreestanding -g  -O2 -Wall -Wextra -fno-omit-frame-pointer -fno-exceptions -fno-rtti -c -I include -T src/linker.ld
 
 # Assembler
 AA = i686-elf-as
@@ -16,7 +16,7 @@ LDFLAGS = -ffreestanding -rdynamic -O2 -nostdlib -lgcc
 
 .PHONY: clean all Boot TextMode Main Libgcc
 
-all: Boot Main TextMode Libc executable 
+all: Boot Main TextMode  Libc executable 
 
 clean:
 	@rm -rf obj
@@ -33,7 +33,7 @@ Main: src/OSZin/kernel/Main.cpp
 TextMode: src/OSZin/modules/TextMode.cpp
 	@$(GCC) ${CFLAGS} $< -o obj/$@.o
 
-Libc: uitoa itoa memmove strlen
+Libc: uitoa itoa memmove strlen strcmp
 
 strlen: src/libc/string/strlen.cpp
 	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
@@ -47,6 +47,8 @@ uitoa: src/libc/string/uitoa.cpp
 memmove: src/libc/string/memmove.cpp
 	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
 
+strcmp: src/libc/string/strcmp.cpp
+	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
 
 
 OBJ_FILES := $(wildcard obj/*.o)

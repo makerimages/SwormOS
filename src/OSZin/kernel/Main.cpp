@@ -1,10 +1,12 @@
 #include "OSZin/kernel/Multiboot.h"
-#include "OSZin/modules/TextMode.hpp"
+#include "OSZin/kernel/KernelGlobals.hpp"
 
+//Initialize Kernel Globals
 TextMode tm;
-uint32_t totalMem = 0;
-uint32_t usableMem = 0;
+uint32_t totalMem;
+uint32_t usableMem;
 uintptr_t initial_esp;
+
 #define RAM 1
 
 extern "C" //Use C linkage
@@ -19,7 +21,7 @@ void kernelMain(multiboot_info* mbt ,unsigned int magic, uintptr_t esp) {
 	tm.resetColor();
 	tm.kputsf("\tStarted with ESP:0x%x.\n",&initial_esp);
 	tm.kputsf("\tMagic number is: 0x%x. Not 0x2badb002 ? I don't know how you got here. \n",magic);
-	tm.kputsf("\tMultiboot info points to:0x%x\n",&mbt);
+	tm.kputsf("\tMultiboot info points to: 0x%x\n",&mbt);
 	if(mbt->flags & (1 << 6) ){
 		tm.setColor(tm.green,tm.black);
 		tm.kputs("\tUsing passed memory map.\n");
@@ -46,4 +48,9 @@ void kernelMain(multiboot_info* mbt ,unsigned int magic, uintptr_t esp) {
 	tm.setColor(tm.lightBlue,tm.black);
 	tm.kputs("System details ended.\n");
 	tm.resetColor();
+
+	uint32_t *ebp, *eip;
+ 
+ 	__asm__ volatile ("mov %%ebp, %0":"=r"(ebp));
+ 	tm.kputsf("EBP: 0x%x",&ebp);
 }
