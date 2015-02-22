@@ -4,7 +4,7 @@
 
 elf_t elf;
 
-void elf_init(multiboot_elf_section_header_table_t* header) {
+void elfInit(multiboot_elf_section_header_table_t* header) {
 	elf_sectionHeader_t* sh = reinterpret_cast<elf_sectionHeader_t*>(header-> addr);
 
 	uint32_t shstrtab = sh[header->shndx].addr;
@@ -21,7 +21,7 @@ void elf_init(multiboot_elf_section_header_table_t* header) {
 	}
 }
 
-const char* elf_lookupSymbol(uint32_t addr) {
+const char* elfLookupSymbol(uint32_t addr) {
 	for(uint32_t i = 0; i< (elf.symtabsz/sizeof(elf_symbol_t)); i++) {
 		if(ELF32_ST_TYPE(elf.symtab[i].info) != 0x2) {
 			continue;
@@ -37,17 +37,17 @@ const char* elf_lookupSymbol(uint32_t addr) {
 
 
 
-void elf_printStackTrace()  {
+void elfPrintStackTrace()  {
 	tm.kputs("Stacktrace follows:\n");
 	uint32_t *ebp, *eip;
-	char buffer[65];
 
 	__asm__ volatile ("mov %%ebp, %0":"=r"(ebp));
 	eip = ebp+1;
 	ebp = reinterpret_cast<uint32_t*> (*ebp);
 	while (ebp) {
 		eip = ebp +1;
-		tm.kputsf("\t[0x%x] %s \n",*eip,elf_lookupSymbol(*eip));
+		tm.setCursorPos((tm.width/2)-strlen("Stacktrace follows:\n")/2,tm.row);
+		tm.kputsf("[0x%x] %s \n",*eip,elfLookupSymbol(*eip));
 		ebp = reinterpret_cast<uint32_t*> (*ebp);
 	}
 }

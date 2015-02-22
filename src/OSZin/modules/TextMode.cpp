@@ -1,5 +1,5 @@
 #include "OSZin/modules/TextMode.hpp"
-
+#include "OSZin/modules/Elf.hpp"
 TextMode::TextMode() {} //Constructor is needed but cant' do anything :/
 
 void TextMode::init() { //Initialize our Text Mode
@@ -131,15 +131,17 @@ void TextMode::kputsImpl(const char* str) {
 }
 
 void TextMode::panic(const char* msg) {
-	this->setColor(this->darkGrey,this->blue);
+	this->setColor(this->darkGrey,this->lightGrey);
 	this->fill();
-	this -> setCursorPos((width/2)-strlen("OS Zin has crashed to unrecoverable grounds")/2,(height/2)-2);
+	this -> setCursorPos((width/2)-strlen("OS Zin has crashed to unrecoverable grounds")/2,(height/2)-6);
 	this -> kputs("OS Zin has crashed to unrecoverable grounds");
-	this -> setColor(this->red, this->blue);
-	this -> setCursorPos((width/2)-strlen(msg)/2-3,(height/2)-1);
+	this -> setColor(this->red, this->lightGrey);
+	this -> setCursorPos((width/2)-strlen(msg)/2-3,(height/2)-5);
 	this -> kputs("Error: ");
-	this -> setCursorPos((width/2)-strlen(msg)/2+4,(height/2)-1);
+	this -> setCursorPos((width/2)-strlen(msg)/2+4,(height/2)-5);
 	this -> kputs(msg);
+	this -> setCursorPos((width/2)-strlen("Stacktrace follows:")/2,row+2);
+	elfPrintStackTrace();
 	this -> setCursorPos(width/2-strlen("System halted to protect your PC")/2,height-3);
 	this -> kputs("System halted to protect your PC");
 	this -> setCursorPos((width/2)-strlen("Please reboot and fix the above error")/2,height-2);

@@ -1,6 +1,8 @@
 #include "OSZin/kernel/Multiboot.h"
 #include "OSZin/kernel/KernelGlobals.hpp"
 #include "OSZin/modules/Elf.hpp"
+#include "OSZin/modules/IDT.hpp"
+#include "OSZin/modules/PIC.hpp"
 
 //Initialize Kernel Globals
 TextMode tm;
@@ -9,10 +11,10 @@ uint32_t usableMem;
 uintptr_t initial_esp;
 
 extern "C" //Use C linkage
-void kernelMain(multiboot_info* mbt ,unsigned int magic, uintptr_t esp) {
-	initial_esp = esp;
+void kernelMain(multiboot_info* mbt ,unsigned int magic) {
+	elfInit(&mbt -> u.elf_sec);
+
 	tm.init();
-		elf_init(&mbt ->u.elf_sec);
 
 	tm.kputs("Booting OSZin version 0.0.1\n");
 	tm.kputs("Copyright (C) Makerimages 2014-2015. Licenced under the MIT licence.\n");
@@ -20,7 +22,6 @@ void kernelMain(multiboot_info* mbt ,unsigned int magic, uintptr_t esp) {
 	tm.setColor(tm.lightBlue,tm.black);
 	tm.kputs("System details follow:\n");
 	tm.resetColor();
-	tm.kputsf("\tStarted with ESP:0x%x.\n",&initial_esp);
 	tm.kputsf("\tMagic number is: 0x%x.",magic);
 	tm.setColor(tm.lightBlue,tm.black);
 	tm.kputsf(" Not 0x2badb002 ? I don't know how you got here. \n");
@@ -52,6 +53,9 @@ void kernelMain(multiboot_info* mbt ,unsigned int magic, uintptr_t esp) {
 	tm.setColor(tm.lightBlue,tm.black);
 	tm.kputs("System details ended.\n");
 	tm.resetColor();
-	elf_printStackTrace();
-
+	tm.kputs("Enabling interrupts.\n");
+	idt_initialize();
+	pic_initialize();
+	__asm__("sti");
+	tm.kputs("Enabled.\n");
 }

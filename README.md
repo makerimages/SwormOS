@@ -14,7 +14,7 @@ Pull request.
 A UNIX system. Grub2 and xorriso. [And the compiler.](http://wiki.osdev.org/GCC_Cross-Compiler).
 
 ## TO-DO
-- [ ] Interrupts
+- [X] Interrupts
 - [ ] Exception handling
 - [ ] Keyboard driver
 - [ ] File system (VFS too)

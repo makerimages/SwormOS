@@ -38,16 +38,17 @@ class TextMode {
 		void setCursorPos(size_t c, size_t r);
 		void fill();
 		void panic(const char* msg);
+		size_t column, row;
+		static const size_t width = 80;
 	private:
 		uint16_t vgaEntry(char c, uint8_t color);
 		void putEntryAt(char c, uint8_t color, size_t x, size_t y);
 		void putChar(char c);
 		void kputsfImpl(const char* str, va_list va); //Named Impl because this is where the actal fnctionality is implemented in
 		void kputsImpl(const char* str);
-		size_t column, row;
 		uint8_t color;
 		uint16_t* buffer;
-		static const size_t width = 80;
+		
 		static const size_t height = 25;
 		static const int tabSize = 2;
 

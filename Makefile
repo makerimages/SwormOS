@@ -16,7 +16,7 @@ LDFLAGS = -ffreestanding -rdynamic -O2 -nostdlib -lgcc
 
 .PHONY: clean all Boot TextMode  Main Libgcc
 
-all: Boot Main Elf TextMode  Libc executable 
+all: IEntry Boot Main Elf Interrupt GDT PIC IDT TextMode  Libc executable 
 
 clean:
 	@rm -rf obj
@@ -27,16 +27,31 @@ clean:
 Boot: src/OSZin/asm/boot.s
 	@$(AA) $< -o obj/$@.o
 
+IEntry: src/OSZin/asm/interrupt-entry.s
+	@$(AA) $< -o obj/$@.o
+
 Main: src/OSZin/kernel/Main.cpp
 	@$(GCC) ${CFLAGS} $< -o obj/$@.o
 
 Elf: src/OSZin/modules/Elf.cpp
 	@$(GCC) ${CFLAGS} $< -o obj/$@.o
 
+Interrupt: src/OSZin/modules/Interrupt.cpp
+	@$(GCC) ${CFLAGS} $< -o obj/$@.o
+
+IDT: src/OSZin/modules/IDT.cpp
+	@$(GCC) ${CFLAGS} $< -o obj/$@.o
+
+GDT: src/OSZin/modules/GDT.cpp
+	@$(GCC) ${CFLAGS} $< -o obj/$@.o
+
+PIC: src/OSZin/modules/PIC.cpp
+	@$(GCC) ${CFLAGS} $< -o obj/$@.o
+
 TextMode: src/OSZin/modules/TextMode.cpp
 	@$(GCC) ${CFLAGS} $< -o obj/$@.o
 
-Libc: uitoa itoa memmove strlen strcmp
+Libc: uitoa itoa memmove memset strlen strcmp
 
 strlen: src/libc/string/strlen.cpp
 	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
@@ -49,6 +64,10 @@ uitoa: src/libc/string/uitoa.cpp
 
 memmove: src/libc/string/memmove.cpp
 	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
+
+memset: src/libc/string/memset.cpp
+	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
+
 
 strcmp: src/libc/string/strcmp.cpp
 	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o

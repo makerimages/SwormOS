@@ -35,9 +35,9 @@ typedef struct {
 	uint32_t strtabsz;
 } elf_t;
 
-void elf_init(multiboot_elf_section_header_table_t* header);
-const char* elf_lookupSymbol(uint32_t addr);
+void elfInit(multiboot_elf_section_header_table_t* header);
+const char* elfLookupSymbol(uint32_t addr);
 
-void elf_printStackTrace();
+void elfPrintStackTrace();
 
 #endif
