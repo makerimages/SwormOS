@@ -1,5 +1,6 @@
 #include "OSZin/kernel/Multiboot.h"
 #include "OSZin/kernel/KernelGlobals.hpp"
+#include "OSZin/modules/Elf.hpp"
 
 //Initialize Kernel Globals
 TextMode tm;
@@ -7,12 +8,12 @@ uint32_t totalMem;
 uint32_t usableMem;
 uintptr_t initial_esp;
 
-#define RAM 1
-
 extern "C" //Use C linkage
 void kernelMain(multiboot_info* mbt ,unsigned int magic, uintptr_t esp) {
 	initial_esp = esp;
 	tm.init();
+		elf_init(&mbt ->u.elf_sec);
+
 	tm.kputs("Booting OSZin version 0.0.1\n");
 	tm.kputs("Copyright (C) Makerimages 2014-2015. Licenced under the MIT licence.\n");
 	tm.kputs("Visit www.oszin.cf for more information. Sources available on GitHub.\n");
@@ -20,7 +21,10 @@ void kernelMain(multiboot_info* mbt ,unsigned int magic, uintptr_t esp) {
 	tm.kputs("System details follow:\n");
 	tm.resetColor();
 	tm.kputsf("\tStarted with ESP:0x%x.\n",&initial_esp);
-	tm.kputsf("\tMagic number is: 0x%x. Not 0x2badb002 ? I don't know how you got here. \n",magic);
+	tm.kputsf("\tMagic number is: 0x%x.",magic);
+	tm.setColor(tm.lightBlue,tm.black);
+	tm.kputsf(" Not 0x2badb002 ? I don't know how you got here. \n");
+	tm.resetColor();
 	tm.kputsf("\tMultiboot info points to: 0x%x\n",&mbt);
 	if(mbt->flags & (1 << 6) ){
 		tm.setColor(tm.green,tm.black);
@@ -48,9 +52,6 @@ void kernelMain(multiboot_info* mbt ,unsigned int magic, uintptr_t esp) {
 	tm.setColor(tm.lightBlue,tm.black);
 	tm.kputs("System details ended.\n");
 	tm.resetColor();
+	elf_printStackTrace();
 
-	uint32_t *ebp, *eip;
- 
- 	__asm__ volatile ("mov %%ebp, %0":"=r"(ebp));
- 	tm.kputsf("EBP: 0x%x",&ebp);
 }

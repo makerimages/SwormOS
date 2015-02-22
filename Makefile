@@ -14,9 +14,9 @@ LD = i686-elf-gcc
 LDFLAGS = -ffreestanding -rdynamic -O2 -nostdlib -lgcc
 
 
-.PHONY: clean all Boot TextMode Main Libgcc
+.PHONY: clean all Boot TextMode  Main Libgcc
 
-all: Boot Main TextMode  Libc executable 
+all: Boot Main Elf TextMode  Libc executable 
 
 clean:
 	@rm -rf obj
@@ -28,6 +28,9 @@ Boot: src/OSZin/asm/boot.s
 	@$(AA) $< -o obj/$@.o
 
 Main: src/OSZin/kernel/Main.cpp
+	@$(GCC) ${CFLAGS} $< -o obj/$@.o
+
+Elf: src/OSZin/modules/Elf.cpp
 	@$(GCC) ${CFLAGS} $< -o obj/$@.o
 
 TextMode: src/OSZin/modules/TextMode.cpp

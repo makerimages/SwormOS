@@ -22,7 +22,8 @@ stack_top:
 _start:
 	
 	movl $stack_top, %esp
-		push %esp
+	mov  $0, %ebp
+	push %esp
 
 	push %eax
 	push %ebx
