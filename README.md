@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/makerimages/oszin.png?label=ready&title=Ready)](https://waffle.io/makerimages/oszin)
 # OS Zin
 OS Zin is a hobbyist OS, built mostly from scratch and in development since 30.12.2014. Restarted 20.th February 2015.
 
