@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "libc/IOAccess.hpp"
+#include "OSZin/modules/PIC.hpp"
 
 struct interrupt_context
 {
@@ -39,4 +40,5 @@ void interrupt_handler(struct interrupt_context* int_ctx)
 		isr_handler(int_ctx);
 	else if ( 32 <= int_ctx->int_no && int_ctx->int_no < 32 + 16 )
 		irq_handler(int_ctx);
+
 }

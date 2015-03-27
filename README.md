@@ -15,7 +15,9 @@ A UNIX system. Grub2 and xorriso. [And the compiler.](http://wiki.osdev.org/GCC_
 
 ## TO-DO
 - [X] Interrupts
-- [ ] Exception handling
+- [X] Exception handling
+- [ ] PIT
+- [ ] PMM
 - [ ] Keyboard driver
 - [ ] File system (VFS too)
 - [ ] Commands

@@ -3,7 +3,8 @@
 #include "OSZin/modules/Elf.hpp"
 #include "OSZin/modules/IDT.hpp"
 #include "OSZin/modules/PIC.hpp"
-
+#include "OSZin/modules/PIT.hpp"
+#include "libc/IOAccess.hpp"
 //Initialize Kernel Globals
 TextMode tm;
 uint32_t totalMem;
@@ -15,7 +16,6 @@ void kernelMain(multiboot_info* mbt ,unsigned int magic) {
 	elfInit(&mbt -> u.elf_sec);
 
 	tm.init();
-
 	tm.kputs("Booting OSZin version 0.0.1\n");
 	tm.kputs("Copyright (C) Makerimages 2014-2015. Licenced under the MIT licence.\n");
 	tm.kputs("Visit www.oszin.cf for more information. Sources available on GitHub.\n");
@@ -56,6 +56,11 @@ void kernelMain(multiboot_info* mbt ,unsigned int magic) {
 	tm.kputs("Enabling interrupts.\n");
 	idt_initialize();
 	pic_initialize();
-	__asm__("sti");
+	tm.setColor(tm.green,tm.black);
 	tm.kputs("Enabled.\n");
+	tm.resetColor();
+	Pit pp;
+	pp.init(1000);
+		__asm__("sti");
+
 }

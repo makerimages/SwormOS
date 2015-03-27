@@ -50,6 +50,8 @@ _start:
 	movw %cx, %gs
 	
 	movw %cx, %ss
+
+	
 	call kernelMain
 
 	jmp .Lhang

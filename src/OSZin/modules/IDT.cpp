@@ -2,6 +2,8 @@
 #include "libc/String.hpp"
 #include "OSZin/kernel/KernelGlobals.hpp"
 #include "OSZin/modules/IDT.hpp"
+#include "OSZin/modules/PIC.hpp"
+
 
 #define IDT_TYPE_INTERRUPT 0xE /* Interrupts disabled in eflags. */
 #define IDT_TYPE_TRAP 0xF      /* Interrupts unaffected in eflags. */
@@ -167,7 +169,15 @@ void isr28() {};
 void isr29() {};
 void isr30() {};
 void isr31() {};
-void irq0() {};
+	int timer_ticks = 0;
+
+void irq0() {
+
+        tm.kputs("PIT tick\n");
+    
+    pic_eoi_master();
+    pic_eoi_slave();
+};
 void irq1() {};
 void irq2() {};
 void irq3() {};

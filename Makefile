@@ -16,7 +16,7 @@ LDFLAGS = -ffreestanding -rdynamic -O2 -nostdlib -lgcc
 
 .PHONY: clean all Boot TextMode  Main Libgcc
 
-all: IEntry Boot Main Elf Interrupt GDT PIC IDT TextMode  Libc executable 
+all: IEntry Boot Main Elf Interrupt GDT PIC IDT PIT TextMode  Libc executable 
 
 clean:
 	@rm -rf obj
@@ -47,6 +47,10 @@ GDT: src/OSZin/modules/GDT.cpp
 
 PIC: src/OSZin/modules/PIC.cpp
 	@$(GCC) ${CFLAGS} $< -o obj/$@.o
+
+PIT: src/OSZin/modules/PIT.cpp
+	@$(GCC) ${CFLAGS} $< -o obj/$@.o
+
 
 TextMode: src/OSZin/modules/TextMode.cpp
 	@$(GCC) ${CFLAGS} $< -o obj/$@.o
