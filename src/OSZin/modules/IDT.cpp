@@ -169,14 +169,11 @@ void isr28() {};
 void isr29() {};
 void isr30() {};
 void isr31() {};
-	int timer_ticks = 0;
 
 void irq0() {
 
-        tm.kputs("PIT tick\n");
+    tm.kputs("PIT tick\n");
     
-    pic_eoi_master();
-    pic_eoi_slave();
 };
 void irq1() {};
 void irq2() {};

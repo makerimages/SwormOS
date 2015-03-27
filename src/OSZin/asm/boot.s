@@ -53,9 +53,9 @@ _start:
 
 	
 	call kernelMain
-
 	jmp .Lhang
 .Lhang:
+
 	jmp .Lhang
 
 

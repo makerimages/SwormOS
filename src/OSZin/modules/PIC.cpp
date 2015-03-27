@@ -2,6 +2,8 @@
 
 #include "libc/IOAccess.hpp"
 #include "OSZin/modules/PIC.hpp"
+#include "OSZin/kernel/KernelGlobals.hpp"
+
 
 
 const uint16_t PIC_MASTER = 0x20;
@@ -41,6 +43,8 @@ uint16_t pic_read_isr()
 void pic_eoi_master()
 {
     outb(PIC_MASTER, PIC_CMD_ENDINTR);
+ 
+
 }
 
 void pic_eoi_slave()
@@ -63,4 +67,5 @@ void pic_initialize()
     outb(PIC_SLAVE + PIC_DATA, PIC_MODE_8086);
     outb(PIC_MASTER + PIC_DATA, master_mask);
     outb(PIC_SLAVE + PIC_DATA, slave_mask);
+    
 }

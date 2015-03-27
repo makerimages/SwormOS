@@ -60,7 +60,6 @@ void kernelMain(multiboot_info* mbt ,unsigned int magic) {
 	tm.kputs("Enabled.\n");
 	tm.resetColor();
 	Pit pp;
-	pp.init(1000);
+	pp.init(100);
 		__asm__("sti");
-
 }

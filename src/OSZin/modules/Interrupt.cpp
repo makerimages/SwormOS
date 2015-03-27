@@ -1,7 +1,8 @@
 #include <stdint.h>
 #include "libc/IOAccess.hpp"
 #include "OSZin/modules/PIC.hpp"
-
+#include "OSZin/modules/IDT.hpp"
+#include "OSZin/kernel/KernelGlobals.hpp"
 struct interrupt_context
 {
 	uint32_t cr2;
@@ -31,7 +32,16 @@ void isr_handler(struct interrupt_context* int_ctx)
 
 void irq_handler(struct interrupt_context* int_ctx)
 {
-	(void) int_ctx;
+	tm.kputs("Seeing which irq handler to use\n");
+	switch(int_ctx->int_no) {
+		case 33:
+			irq0();
+		default:
+			isr6();
+
+	}
+	    pic_eoi_master();
+	
 }
 extern "C" //C extern
 void interrupt_handler(struct interrupt_context* int_ctx)
