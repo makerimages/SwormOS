@@ -174,7 +174,7 @@ void irq0() {
 
     tm.kputs("PIT tick\n");
     
-};
+}
 void irq1() {};
 void irq2() {};
 void irq3() {};

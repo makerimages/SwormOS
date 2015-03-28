@@ -34,21 +34,31 @@ void irq_handler(struct interrupt_context* int_ctx)
 {
 	tm.kputs("Seeing which irq handler to use\n");
 	switch(int_ctx->int_no) {
-		case 33:
+		case 32:
 			irq0();
+			break;
 		default:
 			isr6();
+			break;
 
 	}
-	    pic_eoi_master();
 	
 }
 extern "C" //C extern
 void interrupt_handler(struct interrupt_context* int_ctx)
 {
-	if ( int_ctx->int_no < 32 )
+	tm.kputs("HANDLER\n");
+	if ( int_ctx->int_no < 32 ) {
+		tm.kputs("heh\n");
 		isr_handler(int_ctx);
-	else if ( 32 <= int_ctx->int_no && int_ctx->int_no < 32 + 16 )
+	}
+		
+	else if ( 32 <= int_ctx->int_no && int_ctx->int_no <= 32 + 16 ) {
+		tm.kputs("heh\n");
 		irq_handler(int_ctx);
+		pic_eoi_master();
+	}
+		
+
 
 }

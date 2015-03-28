@@ -53,6 +53,7 @@ _start:
 
 	
 	call kernelMain
+	lock incl (0xB8000)
 	jmp .Lhang
 .Lhang:
 
