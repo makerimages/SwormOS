@@ -67,5 +67,6 @@ void pic_initialize()
     outb(PIC_SLAVE + PIC_DATA, PIC_MODE_8086);
     outb(PIC_MASTER + PIC_DATA, master_mask);
     outb(PIC_SLAVE + PIC_DATA, slave_mask);
-    
+    pic_eoi_master();
+    pic_eoi_slave();
 }

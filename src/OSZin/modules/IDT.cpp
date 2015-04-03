@@ -21,7 +21,7 @@ struct idt_entry
 	uint8_t ist;
 	uint8_t flags;
 	uint16_t handler_high;
-};
+} __attribute__((packed));
 
 struct idt_entry idt[256];
 
@@ -181,7 +181,17 @@ void irq3() {};
 void irq4() {};
 void irq5() {};
 void irq6() {};
-void irq7() {};
+void irq7() {
+	 outb(0x20, 0x0B);
+	 unsigned char irr = inb(0x20);
+	 if(irr & 0x80) {
+	 	return;
+	 }
+	 else {
+	 	pic_eoi_master();
+	 	pic_eoi_slave();
+	 }
+};
 void irq8() {};
 void irq9() {};
 void irq10() {};

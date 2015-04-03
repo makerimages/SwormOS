@@ -14,7 +14,7 @@ struct gdt_entry
 	uint8_t access;
 	uint8_t granularity;
 	uint8_t base_high;
-};
+}  __attribute__((packed));
 
 #define GDT_ENTRY(base, limit, access, granularity) \
 	{ (limit) & 0xFFFF,                                /* limit_low */ \
