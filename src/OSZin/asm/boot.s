@@ -51,7 +51,6 @@ _start:
 	
 	movw %cx, %ss
 
-	
 	call kernelMain
 	lock incl (0xB8000)
 	jmp .Lhang

@@ -56,10 +56,11 @@ void kernelMain(multiboot_info* mbt ,unsigned int magic) {
 	tm.kputs("Enabling interrupts.\n");
 	idt_initialize();
 	pic_initialize();
+	Pit pp;
+	pp.init(1000);
+		__asm__("sti");
 	tm.setColor(tm.green,tm.black);
 	tm.kputs("Enabled.\n");
 	tm.resetColor();
-	Pit pp;
-	pp.init(100);
-		__asm__("sti");
+	
 }
