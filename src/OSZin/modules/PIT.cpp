@@ -10,3 +10,4 @@ void Pit::init(int freq) {
     outb(PIT_COUNTER0, divisor & 0xFF);
     outb(PIT_COUNTER0, divisor >> 8);
 }
+

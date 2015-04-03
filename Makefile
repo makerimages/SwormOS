@@ -1,90 +1,56 @@
-H_FILES := $(wildcard include/**/**/*.hpp)
-CPP_FILES := $(wildcard src/**/*.cpp)
+# Note, that this Makefile may have some stupid mistakes, but I don't see them. Anyway, it works as
+# expected. Difference from the original Makefile:
+#  1. puts objects near their source files instead of obj/ directory
+#  2. creates a bin/ directory and puts there OSZin.bin and OSZin.iso
+#  3. recompiles files if necessary (note that if you change header files, source files that #include
+#     them won't be recompiled)
+#  4. uses -Wl,-Bdynamic instead of -rdynamic ('cause the last one doesn't work with my cross-compiler)
+#  5. uses -Werror which makes compiler to fail if any warning/error was produced
 
-# C Compiler
-GCC = i686-elf-g++
-CFLAGS = -ffreestanding -g  -O2 -Wall -Wextra -fno-omit-frame-pointer -fno-exceptions -fno-rtti -c -I include -T src/linker.ld
+# OSZin.bin and .iso are there.
+BINDIR := bin
 
-# Assembler
-AA = i686-elf-as
-AFLAGS =
+# GRUB .iso image.
+CDIMG := $(BINDIR)/OSZin.iso
 
-# Linker
-LD = i686-elf-gcc
-LDFLAGS = -ffreestanding -rdynamic -O2 -nostdlib -lgcc
+# Cross-Compiler Toolchain Prefix.
+CROSS_PREFIX := i686-elf-
 
+# C++ Compiler.
+CC := $(CROSS_PREFIX)g++
+CFLAGS := -c -ffreestanding -g -O2 -Wall -Wextra -Werror -fno-omit-frame-pointer -fno-exceptions -fno-rtti -Iinclude/
 
-.PHONY: clean all Boot TextMode  Main Libgcc
+# Assembler.
+AS := $(CROSS_PREFIX)gcc
+ASFLAGS := -c -ffreestanding -O0 -Wall -Wextra -Werror
 
-all: IEntry Boot Main Elf Interrupt GDT PIC IDT PIT TextMode  Libc executable 
+# Linker.
+LD := $(CROSS_PREFIX)g++
+LDFLAGS := -T src/linker.ld -Wl,-Bdynamic -nostdlib -lgcc
+
+SRC := $(wildcard src/*/*/*.cpp)
+SRC := $(SRC) $(wildcard src/*/*/*.s)
+OBJ := $(SRC:.s=.o)
+OBJ := $(OBJ:.cpp=.o)
+
+all: $(OBJ) | $(BINDIR)
+	$(LD) $(LDFLAGS) $(OBJ) -o $(BINDIR)/OSZin.bin
+	mkdir -p isodir/boot/grub
+	cp $(BINDIR)/OSZin.bin isodir/boot/
+	cp src/grub.cfg isodir/boot/grub/
+	grub-mkrescue -o $(CDIMG) isodir/
+
+$(BINDIR):
+	mkdir $(BINDIR)
+
+%.o: %.s
+	$(AS) $(ASFLAGS) $< -o $@
+
+%.o: %.cpp
+	$(CC) $(CFLAGS) $< -o $@
+
+run:
+	@qemu-system-i386 -cdrom $(CDIMG) -boot d -m 64
 
 clean:
-	@rm -rf obj
-	@mkdir obj
-	@rm -rf isodir
-	@rm -f OSZin.iso
-
-Boot: src/OSZin/asm/boot.s
-	@$(AA) $< -o obj/$@.o
-
-IEntry: src/OSZin/asm/interrupt-entry.s
-	@$(AA) $< -o obj/$@.o
-
-Main: src/OSZin/kernel/Main.cpp
-	@$(GCC) ${CFLAGS} $< -o obj/$@.o
-
-Elf: src/OSZin/modules/Elf.cpp
-	@$(GCC) ${CFLAGS} $< -o obj/$@.o
-
-Interrupt: src/OSZin/modules/Interrupt.cpp
-	@$(GCC) ${CFLAGS} $< -o obj/$@.o
-
-IDT: src/OSZin/modules/IDT.cpp
-	@$(GCC) ${CFLAGS} $< -o obj/$@.o
-
-GDT: src/OSZin/modules/GDT.cpp
-	@$(GCC) ${CFLAGS} $< -o obj/$@.o
-
-PIC: src/OSZin/modules/PIC.cpp
-	@$(GCC) ${CFLAGS} $< -o obj/$@.o
-
-PIT: src/OSZin/modules/PIT.cpp
-	@$(GCC) ${CFLAGS} $< -o obj/$@.o
-
-
-TextMode: src/OSZin/modules/TextMode.cpp
-	@$(GCC) ${CFLAGS} $< -o obj/$@.o
-
-Libc: uitoa itoa memmove memset strlen strcmp
-
-strlen: src/libc/string/strlen.cpp
-	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
-
-itoa: src/libc/string/itoa.cpp
-	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
-
-uitoa: src/libc/string/uitoa.cpp
-	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
-
-memmove: src/libc/string/memmove.cpp
-	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
-
-memset: src/libc/string/memset.cpp
-	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
-
-
-strcmp: src/libc/string/strcmp.cpp
-	@$(GCC) -T src/linker.ld ${CFLAGS} $< -o obj/$@.o
-
-
-OBJ_FILES := $(wildcard obj/*.o)
-
-executable:
-	@$(GCC) -T src/linker.ld -o obj/OSZin.bin -ffreestanding -O2 -nostdlib ${OBJ_FILES} -lgcc
-	@mkdir -p isodir
-	@mkdir -p isodir/boot
-	@cp obj/OSZin.bin isodir/boot/OSZin.bin
-	@mkdir -p isodir/boot/grub
-	@cp src/grub.cfg isodir/boot/grub/grub.cfg
-	@grub-mkrescue -o OSZin.iso isodir
-
+	rm -rf $(OBJ) $(BINDIR)/OSZin.bin OSZin.iso
