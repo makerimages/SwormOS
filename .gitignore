@@ -1,4 +1,4 @@
-obj/*
+*.o
 out/*
 *.iso
 *.log
