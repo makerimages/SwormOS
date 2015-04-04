@@ -49,7 +49,6 @@ _start:
 
     .extern kernelMain
 	call kernelMain
-	lock incl (0xB8000)
 
 .Lhang:
 	jmp .Lhang

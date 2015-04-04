@@ -42,7 +42,7 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 	if (mbt->flags & (1 << 6))
     {
 		tm.setColor (tm.green, tm.black);
-		tm.kputs ("\tUsing passed memory map.\n");
+		tm.kputs ("\tUsing passed memory map, which follows.\n");
 		tm.resetColor ();
 
 		multiboot_memory_map_t *mmap =
@@ -53,8 +53,14 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
             mmap = (multiboot_memory_map_t *) ((uintptr_t) (mmap) + mmap->size
                     + sizeof (unsigned int));
 			totalMem += mmap->len;
-			if (mmap->type == MULTIBOOT_MEMORY_AVAILABLE)
+			if (mmap->type == MULTIBOOT_MEMORY_AVAILABLE) {
 				usableMem += mmap->len;
+				tm.kputsf("Region, address %x size %d KB, type FREE.\n",mmap->addr,mmap->len/1024);
+			} else {
+				tm.kputsf("Region, address %x size %d KB type NOT FREE\n",mmap->addr,mmap->len/1024);
+
+			}
+				
 		}
 
         /* Print the total memory. */
@@ -63,6 +69,7 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
    		tm.kputsf ("\tTotal memory: %d KB.\n", totalMem);
    		tm.kputsf ("\tOf which %d KB is usable.\n", usableMem);
 	}
+	
     else if (mbt->flags & (1 << 0))
     {
         /* No memory map provided. */
@@ -84,10 +91,11 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 
     /* Initialize the PIT timer. */
 	Pit pp;
-	pp.init (1000);
+	pp.init (100);
+
+	asm volatile ("sti");
+
 	tm.setColor (tm.green, tm.black);
 	tm.kputs ("Enabled.\n");
 	tm.resetColor ();
-
-	asm volatile ("sti");
 }

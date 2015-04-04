@@ -106,7 +106,7 @@ void TextMode::kputsfImpl(const char* str, va_list va) {
 					kputs(itoa(va_arg(va,int),buf,2));
 					break;
 				case 'd':
-					kputs(uitoa(va_arg(va,uint32_t),buf,10));
+					kputs(itoa(va_arg(va,uint32_t),buf,10));
 					break;
 				case 'u':
 					kputs(uitoa(va_arg(va,uint32_t),buf,10));
