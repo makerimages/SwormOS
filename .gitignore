@@ -3,3 +3,4 @@ out/*
 *.iso
 *.log
 isodir/*
+sysroot/
