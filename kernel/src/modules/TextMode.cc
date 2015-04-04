@@ -88,13 +88,12 @@ void TextMode::kputsf(const char* str, ...) {
 }
 
 void TextMode::kputsfImpl(const char* str, va_list va) {
-	char buf[33];
+			char buf[33];
+
 	while(*str)  {
+
 		if(*str == '%') {
 			str++;
-			if(!str) {
-				break;
-			}
 			switch(*str) {
 				case 'c':
 					putChar(va_arg(va,int));
@@ -103,10 +102,11 @@ void TextMode::kputsfImpl(const char* str, va_list va) {
 					kputs(va_arg(va,const char*));
 					break;
 				case 'b':
-					kputs(itoa(va_arg(va,int),buf,2));
+
+					kputs(uitoa(va_arg(va,uint32_t),buf,2));
 					break;
 				case 'd':
-					kputs(itoa(va_arg(va,uint32_t),buf,10));
+					kputs(itoa(va_arg(va,int),buf,10));
 					break;
 				case 'u':
 					kputs(uitoa(va_arg(va,uint32_t),buf,10));
@@ -150,6 +150,7 @@ void TextMode::panic(const char* msg) {
 	this -> kputs("System halted to protect your PC");
 	this -> setCursorPos((width/2)-strlen("Please reboot and fix the above error")/2,height-2);
 	this -> kputs("Please reboot and fix the above error");
+	__asm__ volatile("cli");
 	while(true) {
 		__asm__ volatile ("hlt");
 	}	

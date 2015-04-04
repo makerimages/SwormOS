@@ -18,7 +18,7 @@ kernel:
 	@$(MAKE) -C $@ all install
 
 run:
-	@qemu-system-i386 -cdrom $(ISOFILE) -boot d -m 64 -vga std -serial stdio
+	@qemu-system-i386 -cdrom $(ISOFILE) -boot d -m 1024 -vga std -serial stdio
 
 bochs:
 	@bochs -q
