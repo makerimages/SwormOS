@@ -55,9 +55,9 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 			totalMem += mmap->len;
 			if (mmap->type == MULTIBOOT_MEMORY_AVAILABLE) {
 				usableMem += mmap->len;
-				tm.kputsf("Region, address 0x%x size %u KB, type FREE.\n",mmap->addr,mmap->len/1024);
+				tm.kputsf("\tRegion, address 0x%x size %u KB, type FREE.\n",mmap->addr,mmap->len/1024);
 			} else {
-				tm.kputsf("Region, address 0x%x size %u KB type NOT FREE\n",mmap->addr,mmap->len/1024);
+				tm.kputsf("\tRegion, address 0x%x size %u KB type NOT FREE\n",mmap->addr,mmap->len/1024);
 
 			}
 				
