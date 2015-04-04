@@ -1,56 +1,35 @@
-# Note, that this Makefile may have some stupid mistakes, but I don't see them. Anyway, it works as
-# expected. Difference from the original Makefile:
-#  1. puts objects near their source files instead of obj/ directory
-#  2. creates a bin/ directory and puts there OSZin.bin and OSZin.iso
-#  3. recompiles files if necessary (note that if you change header files, source files that #include
-#     them won't be recompiled)
-#  4. uses -Wl,-Bdynamic instead of -rdynamic ('cause the last one doesn't work with my cross-compiler)
-#  5. uses -Werror which makes compiler to fail if any warning/error was produced
+# Makefile to make compiling and running the jk1 kernel easier.
 
-# OSZin.bin and .iso are there.
-BINDIR := bin
+.PHONY: all libc kernel run bochs clean clean-kernel clean-libc clean-sysroot
 
-# GRUB .iso image.
-CDIMG := $(BINDIR)/OSZin.iso
+# What to build and install.
+BUILD := libc kernel
 
-# Cross-Compiler Toolchain Prefix.
-CROSS_PREFIX := i686-elf-
+# Path to the CD image.
+ISOFILE := OSZin.iso
 
-# C++ Compiler.
-CC := $(CROSS_PREFIX)g++
-CFLAGS := -c -ffreestanding -g -O2 -Wall -Wextra -Werror -fno-omit-frame-pointer -fno-exceptions -fno-rtti -Iinclude/
+all: $(BUILD)
 
-# Assembler.
-AS := $(CROSS_PREFIX)gcc
-ASFLAGS := -c -ffreestanding -O0 -Wall -Wextra -Werror
+libc:
+	@$(MAKE) -C $@ all
+	@$(MAKE) -C $@ install
 
-# Linker.
-LD := $(CROSS_PREFIX)g++
-LDFLAGS := -T src/linker.ld -Wl,-Bdynamic -nostdlib -lgcc
-
-SRC := $(wildcard src/*/*/*.cpp)
-SRC := $(SRC) $(wildcard src/*/*/*.s)
-OBJ := $(SRC:.s=.o)
-OBJ := $(OBJ:.cpp=.o)
-
-all: $(OBJ) | $(BINDIR)
-	$(LD) $(LDFLAGS) $(OBJ) -o $(BINDIR)/OSZin.bin
-	mkdir -p isodir/boot/grub
-	cp $(BINDIR)/OSZin.bin isodir/boot/
-	cp src/grub.cfg isodir/boot/grub/
-	grub-mkrescue -o $(CDIMG) isodir/
-
-$(BINDIR):
-	mkdir $(BINDIR)
-
-%.o: %.s
-	$(AS) $(ASFLAGS) $< -o $@
-
-%.o: %.cpp
-	$(CC) $(CFLAGS) $< -o $@
+kernel:
+	@$(MAKE) -C $@ all install
 
 run:
-	@qemu-system-i386 -cdrom $(CDIMG) -boot d -m 64
+	@qemu-system-i386 -cdrom $(ISOFILE) -boot d -m 64 -vga std -serial stdio
 
-clean:
-	rm -rf $(OBJ) $(BINDIR)/OSZin.bin OSZin.iso
+bochs:
+	@bochs -q
+
+clean: clean-kernel clean-libc clean-sysroot
+
+clean-kernel:
+	@$(MAKE) -C $(subst clean-,,$@) clean
+
+clean-libc:
+	@$(MAKE) -C $(subst clean-,,$@) clean
+
+clean-sysroot:
+	rm -rf $(subst clean-,,$@)
