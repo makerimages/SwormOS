@@ -1,4 +1,3 @@
-[![Stories in Ready](https://badge.waffle.io/makerimages/oszin.png?label=ready&title=Ready)](https://waffle.io/makerimages/oszin)
 # OS Zin
 OS Zin is a hobbyist OS, built mostly from scratch and in development since 30.12.2014. Restarted 20.th February 2015.
 
@@ -17,7 +16,7 @@ A UNIX system. Grub2 and xorriso. [And the compiler.](http://wiki.osdev.org/GCC_
 ## TO-DO
 - [X] Interrupts
 - [X] Exception handling
-- [ ] PIT
+- [X] PIT
 - [ ] PMM
 - [ ] Keyboard driver
 - [ ] File system (VFS too)
@@ -28,3 +27,4 @@ A UNIX system. Grub2 and xorriso. [And the compiler.](http://wiki.osdev.org/GCC_
 ## Thank you:
 * The wiki, forums and IRC of osdev.org for being there. If it weren't for them, I'd still be stuck at writing a bootloader.
 * Jonas 'Sortie' Termansen - GDT and IDT implementation sources.
+* @exetwezz - All the things related to PR #13

@@ -7,6 +7,6 @@ ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
 ata1: enabled=1, ioaddr1=0x170, ioaddr2=0x370, irq=15
 
 # CD-ROM image
-ata0-slave:  type=cdrom, path="bin/OSZin.iso", status=inserted
+ata0-slave:  type=cdrom, path="OSZin.iso", status=inserted
 boot: cdrom
 i440fxsupport: enabled=1
