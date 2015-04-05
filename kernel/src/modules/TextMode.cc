@@ -115,7 +115,7 @@ void TextMode::kputsfImpl(const char* str, va_list va) {
 					kputs(itoa(va_arg(va,unsigned int),buf,16));
 					break;
 				default:
-					break;
+					putChar('?');
 			} 
 		} else {
 			putChar(*str);
