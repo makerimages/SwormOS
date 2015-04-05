@@ -103,16 +103,16 @@ void TextMode::kputsfImpl(const char* str, va_list va) {
 					break;
 				case 'b':
 
-					kputs(uitoa(va_arg(va,uint32_t),buf,2));
+					kputs(itoa(va_arg(va,unsigned int),buf,2));
 					break;
 				case 'd':
-					kputs(itoa(va_arg(va,int),buf,10));
+					kputs(itoa(va_arg(va,unsigned int),buf,10));
 					break;
 				case 'u':
-					kputs(uitoa(va_arg(va,uint32_t),buf,10));
+					kputs(itoa(va_arg(va,unsigned int),buf,10));
 					break;
 				case 'x':
-					kputs(uitoa(va_arg(va,uint32_t),buf,16));
+					kputs(itoa(va_arg(va,unsigned int),buf,16));
 					break;
 				default:
 					break;
