@@ -3,14 +3,13 @@
 #include <modules/Elf.hpp>
 #include <arch/ia32/modules/IDT.hpp>
 #include <arch/ia32/modules/PIC.hpp>
-#include <arch/ia32/modules/PIT.hpp>
 #include <ioports.hpp>
 
 /* Initialize the kernel globals. */
 TextMode tm;
 uint32_t totalMem;
 uint32_t usableMem;
-uintptr_t initial_esp;
+Pit pTimer;
 
 extern "C"
 void kernelMain(multiboot_info *mbt, unsigned int magic) {
@@ -89,8 +88,8 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 	pic_initialize ();
 
     /* Initialize the PIT timer. */
-	Pit pp;
-	pp.init (100);
+	
+	pTimer.init (100);
 
 	asm volatile ("sti");
 
