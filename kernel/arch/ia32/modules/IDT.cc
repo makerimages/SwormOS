@@ -17,6 +17,10 @@
 #define IDT_FLAG_TYPE_SHIFT 0
 #define IDT_FLAG_TYPE_BITS 4
 
+
+idt_interruptHandler_t isrHandlers[32];
+idt_interruptHandler_t irqHandlers[16];
+
 struct idt_entry
 {
 	uint16_t handler_low;

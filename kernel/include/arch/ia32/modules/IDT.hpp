@@ -52,19 +52,27 @@ extern void irq14 (void);
 extern void irq15 (void);
 }
 
-struct interrupt_context {
+typedef struct {
+	uint32_t ds;
+	uint32_t edi, esi, ebp, useless_value, ebx, edx, ecx, eax;
+	uint32_t int_no, err_code;
+	uint32_t eip, cs, eflags, esp, ss;
+} registers_t;
+
+
+typedef struct {
     uint32_t gs, fs, es, ds;
     uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
     uint32_t int_no, err_code;
     uint32_t eip, cs, eflags, useresp, userss;
-};
+}  interrupt_context;
 
 typedef void (*idt_interruptHandler_t)(interrupt_context *);
 
-idt_interruptHandler_t isrHandlers[32];
-idt_interruptHandler_t irqHandlers[16];
+extern idt_interruptHandler_t isrHandlers[32];
+extern idt_interruptHandler_t irqHandlers[16];
 
 void idt_initialize();
-void setHandler(int type, int index, idt_interruptHandler_t* handler)
+void setHandler(int type, int index, idt_interruptHandler_t handler);
 
 #endif

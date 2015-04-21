@@ -7,24 +7,20 @@
 
 
 
-
-
-
-
-void isr_handler(struct interrupt_context* int_ctx) {
+void isr_handler(interrupt_context* int_ctx) {
 	uint8_t irq = int_ctx->int_no - 32;
   if(isrHandlers[irq]) {
     isrHandlers[irq](int_ctx);
   }
   else {
-    tm.panic("Unhandled ISR!");
+  //  tm.panic("Unhandled ISR!");
   }
 
   	pic_eoi_master();
   	pic_eoi_slave();
 }
 
-void irq_handler(struct interrupt_context* int_ctx) {
+void irq_handler(interrupt_context* int_ctx) {
  	uint8_t irq = int_ctx->int_no - 32;
 	if ( irq == 7 && !(pic_read_isr() & (1 << 7)) ) {
 		return;
@@ -47,7 +43,7 @@ void irq_handler(struct interrupt_context* int_ctx) {
 }
 int pitTicks = 0;
 extern "C" //C extern
-void interrupt_handler(struct interrupt_context* int_ctx) {
+void interrupt_handler(interrupt_context* int_ctx) {
 
 	if ( int_ctx->int_no < 32 ) {
 		isr_handler(int_ctx);
