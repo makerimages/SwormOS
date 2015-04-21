@@ -1,7 +1,6 @@
 #include <arch/ia32/modules/PIC.hpp>
 #include <KernelGlobals.hpp>
 #include <ioports.hpp>
-#include <stdint.h>
 
 uint16_t pic_read_irr()
 {

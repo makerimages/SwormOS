@@ -28,7 +28,7 @@ CROSS_PREFIX ?= i686-elf-
 
 # C compiler.
 CC = @echo " [ CC  ] " $@ ; $(CROSS_PREFIX)gcc
-CFLAGS := -std=c99 -c -Wall -Wextra -Werror
+CFLAGS := -std=c99 -c -Wall -Wextra -Werror -E
 CPPFLAGS := -Iinclude/ -D__is_libc
 KCFLAGS := -std=c99 -c -ffreestanding -Wall -Wextra -Werror
 KCPPFLAGS := -Iinclude/ -D__is_kernel

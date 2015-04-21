@@ -114,8 +114,8 @@ void setHandler(int type,int index, idt_interruptHandler_t handler) {
 			isrHandlers[index]= handler;
 			break;
 		case 1:
-			break;
 			irqHandlers[index]= handler;
+			break;
 
 		default:
 			isrHandlers[index]= handler;
