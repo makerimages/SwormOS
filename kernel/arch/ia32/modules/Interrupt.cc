@@ -5,16 +5,23 @@
 
 #include <stdint.h>
 
-struct interrupt_context {
-    uint32_t gs, fs, es, ds;
-    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
-    uint32_t int_no, err_code;
-    uint32_t eip, cs, eflags, useresp, userss;
-};
+
+
+
+
+
 
 void isr_handler(struct interrupt_context* int_ctx) {
-	(void) int_ctx;
 	uint8_t irq = int_ctx->int_no - 32;
+  if(isrHandlers[irq]) {
+    isrHandlers[irq](int_ctx);
+  }
+  else {
+    tm.panic("Unhandled ISR!");
+  }
+
+  	pic_eoi_master();
+  	pic_eoi_slave();
 }
 
 void irq_handler(struct interrupt_context* int_ctx) {
@@ -27,9 +34,14 @@ void irq_handler(struct interrupt_context* int_ctx) {
 		return;
 		pic_eoi_master();
 	}
-	(void) int_ctx;
-	/* TODO: PARSE IRQ's*/
-		
+
+  if(irqHandlers[irq]) {
+    irqHandlers[irq](int_ctx);
+  }
+  else {
+    tm.panic("Unhandled IRQ!");
+  }
+
 	pic_eoi_master();
 	pic_eoi_slave();
 }

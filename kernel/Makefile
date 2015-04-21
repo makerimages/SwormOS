@@ -73,7 +73,7 @@ $(OUTPUT): $(ARCH_OBJ) $(OBJ)
 $(ISOFILE): $(OUTPUT) $(ISODIR)/boot/grub | install
 	@echo " [GRUB ] " $@
 	@cp grub.cfg $(ISODIR)/boot/grub/
-	@grub2-mkrescue -o $@ $(ISODIR) 1>grub-mkrescue.log 2>&1 \
+	@grub-mkrescue -o $@ $(ISODIR) 1>grub-mkrescue.log 2>&1 \
 		&& rm grub-mkrescue.log
 
 $(ISODIR)/boot/grub:

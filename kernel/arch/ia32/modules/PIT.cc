@@ -14,8 +14,13 @@ void Pit::init(int freq) {
     outb (PIT_COUNTER0, divisor );
     outb (PIT_COUNTER0, divisor >> 8);
 
+
+
+
+
     /* Unmask the IRQ0. */
     outb (PIC_MASTER + PIC_DATA, 0xFE);
 
     tm.kputs ("Initialization routine ran. \n");
+
 }

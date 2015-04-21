@@ -5,6 +5,8 @@
 
 #include <string.h>
 #include <stdint.h>
+#include <KernelGlobals.hpp>
+
 
 #define IDT_TYPE_INTERRUPT 0xE /* Interrupts disabled in eflags. */
 #define IDT_TYPE_TRAP 0xF      /* Interrupts unaffected in eflags. */
@@ -48,6 +50,7 @@ void idt_format_normal_entry(struct idt_entry* entry,
 	               type << IDT_FLAG_TYPE_SHIFT;
 	entry->handler_high = (uintptr_t) handler >> 16 & 0xFFFF;
 }
+
 
 void idt_initialize()
 {
@@ -102,5 +105,21 @@ void idt_initialize()
 	idt_format_normal_entry(&idt[46], irq14, IDT_TYPE_INTERRUPT, 0x0);
 	idt_format_normal_entry(&idt[47], irq15, IDT_TYPE_INTERRUPT, 0x0);
 	lidt((uintptr_t) idt, sizeof(idt) - 1);
+
 }
 
+void setHandler(int type,int index, idt_interruptHandler_t handler) {
+	switch(type) {
+		case 0:
+			isrHandlers[index]= handler;
+			break;
+		case 1:
+			break;
+			irqHandlers[index]= handler;
+
+		default:
+			isrHandlers[index]= handler;
+
+			break;
+	}
+}
