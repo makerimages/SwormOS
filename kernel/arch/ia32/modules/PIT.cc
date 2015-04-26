@@ -9,7 +9,7 @@ Pit::Pit() {
 
 }
 
-static void pitCallBack(registers_t * regs) {
+static void pitCallBack(interrupt_context * regs) {
 	tm.kputsf("THE PIT");
 }
 
