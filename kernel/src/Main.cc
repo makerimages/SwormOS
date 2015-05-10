@@ -10,6 +10,7 @@ TextMode tm;
 uint32_t totalMem;
 uint32_t usableMem;
 Pit pTimer;
+PMM pmm;
 
 extern "C"
 void kernelMain(multiboot_info *mbt, unsigned int magic) {
@@ -56,18 +57,19 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 
 			if (mmap->type == MULTIBOOT_MEMORY_AVAILABLE) {
 				usableMem += mmap->len;
-			} 
+			}
 
-				
+
 		}
 
         /* Print the total memory. */
    		totalMem = totalMem / 1024;
    		usableMem = usableMem / 1024;
+			pmm.init(usableMem/1024,0x100000);
    		tm.kputsf ("\tTotal memory: %d KB.\n", totalMem);
    		tm.kputsf ("\tOf which %d KB is usable.\n", usableMem);
 	}
-	
+
     else if (mbt->flags & (1 << 0))
     {
         /* No memory map provided. */
@@ -88,7 +90,7 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 	pic_initialize ();
 
     /* Initialize the PIT timer. */
-	
+
 	pTimer.init (100);
 
 	asm volatile ("sti");
@@ -96,4 +98,6 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 	tm.setColor (tm.green, tm.black);
 	tm.kputs ("Enabled.\n");
 	tm.resetColor ();
+
+
 }

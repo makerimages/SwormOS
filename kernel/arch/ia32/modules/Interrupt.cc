@@ -41,7 +41,6 @@ void irq_handler(interrupt_context* int_ctx) {
 	pic_eoi_master();
 	pic_eoi_slave();
 }
-int pitTicks = 0;
 extern "C" //C extern
 void interrupt_handler(interrupt_context* int_ctx) {
 
@@ -49,11 +48,7 @@ void interrupt_handler(interrupt_context* int_ctx) {
 		isr_handler(int_ctx);
 	}
 	else if ( 32 <= int_ctx->int_no && int_ctx->int_no <= 32 + 16 ) {
-		pitTicks++;
-		if(pitTicks == 100) {
-			tm.kputs("h");
-			pitTicks = 0;
-		}
+
 		irq_handler(int_ctx);
 		pic_eoi_master();
 	}

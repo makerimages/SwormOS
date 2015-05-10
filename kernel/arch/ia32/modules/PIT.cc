@@ -4,13 +4,15 @@
 
 #include <KernelGlobals.hpp>
 #include <ioports.hpp>
+int pitTicks = 0;
+
 
 Pit::Pit() {
 
 }
 
 static void pitCallBack(interrupt_context * regs) {
-	tm.kputsf("THE PIT");
+	pitTicks++;
 }
 
 
@@ -26,5 +28,6 @@ void Pit::init(int freq) {
     outb (PIC_MASTER + PIC_DATA, 0xFE);
 
     tm.kputs ("Initialization routine ran. \n");
+
 
 }
