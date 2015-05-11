@@ -9,6 +9,7 @@
 //! block alignment
 #define BALIGN	BSZ
 
+#define physical_addr uintptr_t
 
 #include <stdint.h>
 #include <stddef.h>
@@ -30,7 +31,7 @@ class PMM {
     uint32_t blocks();
     void	initRegion (uint32_t base, size_t size);
     void	deinitRegion (uint32_t base, size_t size);
-
+    void map();
 
 };
 

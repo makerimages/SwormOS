@@ -66,6 +66,7 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
    		totalMem = totalMem / 1024;
    		usableMem = usableMem / 1024;
 			pmm.init(usableMem/1024,0x100000);
+			pmm.map();
    		tm.kputsf ("\tTotal memory: %d KB.\n", totalMem);
    		tm.kputsf ("\tOf which %d KB is usable.\n", usableMem);
 	}
@@ -91,7 +92,7 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 
     /* Initialize the PIT timer. */
 
-	pTimer.init (100);
+	pTimer.init (1000);
 
 	asm volatile ("sti");
 

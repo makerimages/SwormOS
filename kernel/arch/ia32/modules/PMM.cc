@@ -90,9 +90,8 @@ void* PMM::allocate() {
 
   setBit(frame);
 
-	uint32_t addr = frame * BSZ;
+  physical_addr addr = frame * BSZ;
 	used++;
-  tm.kputsf("\tPMM initialized with %d blocks of memory. %d currently in use\n",max,used);
 
 	return (void*)addr;
 }
@@ -105,4 +104,12 @@ void PMM::deallocate(void* p) {
 	unsetBit(frame);
 
 	used--;
+
+}
+
+void PMM::map() {
+  tm.setColor (tm.lightBlue, tm.black);
+
+  tm.kputsf("\tPMM status: First free: %d, used: %d, max: %d.\n",firstFree(),used,max);
+  tm.resetColor();
 }
