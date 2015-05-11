@@ -17,8 +17,8 @@ class PMM {
   public:
     PMM();
     void init(size_t memSize, uint32_t bitmap);
-    void allocate();
-    void free();
+    void* allocate();
+    void deallocate(void* p);
     bool test (int bit);
     uint32_t memorySize;
     uint32_t used;
@@ -28,7 +28,9 @@ class PMM {
     void unsetBit(int bit);
     int firstFree ();
     uint32_t blocks();
-    void	initRegion (physical_addr base, size_t size);
+    void	initRegion (uint32_t base, size_t size);
+    void	deinitRegion (uint32_t base, size_t size);
+
 
 };
 
