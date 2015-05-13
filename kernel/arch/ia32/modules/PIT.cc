@@ -8,7 +8,7 @@ int pitTicks = 0;
 
 
 Pit::Pit() {
-
+	int i = 0;
 }
 
 static void pitCallBack(interrupt_context * regs) {
