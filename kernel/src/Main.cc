@@ -89,7 +89,7 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 	tm.resetColor ();
 
     /* Enable interrupts. */
-	tm.kputs ("Enabling interrupts.\n");
+	tm.kputs ("Enabling interrupts. ");
 	idt_initialize ();
 	pic_initialize ();
 
@@ -100,7 +100,7 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 	asm volatile ("sti");
 
 	tm.setColor (tm.green, tm.black);
-	tm.kputs ("Enabled.\n");
+	tm.kputs ("OK.\n");
 	tm.resetColor ();
 	acpi.init();
 

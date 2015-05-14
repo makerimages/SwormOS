@@ -1,6 +1,14 @@
 #include <modules/ACPI.hpp>
 #include <KernelGlobals.hpp>
 
+uint8_t DoChecksum(struct RSDPDescriptor*  t)
+{
+   uint8_t count = 0;
+   const unsigned char * p = reinterpret_cast<const unsigned char *>(t);
+   for (int i=0; i<sizeof(*t); i++) count += p[i];
+   return count;
+}
+
 ACPI::ACPI() {
 
 }
@@ -28,9 +36,18 @@ ACPI::init() {
         if(temp -> Revision == 0) { // We can continue with the temp table :P
             tm.kputs("Using RSDP Table pre-2.0.\n");
             use = 1;
-            RSDPtable = temp;
-            tm.kputsf("ACPI signature: %sOEMID: %s\n",RSDPtable->Signature, RSDPtable->OEMID);
-            tm.kputs("Verifiying checksum: ");
+            tm.kputsf("ACPI signature: %sOEMID: %s\n",temp->Signature, temp->OEMID);
+            tm.kputs("Verifying checksum: ");
+            if(DoChecksum(temp) == 0) {
+                tm.setColor(tm.green,tm.black);
+                tm.kputs("OK");
+                tm.resetColor();
+            } else {
+                tm.setColor(tm.red,tm.black);
+                tm.kputs("NOT VERIFIED");
+                tm.resetColor();
+            }
+
         }
     }
 }

@@ -27,7 +27,7 @@ SYSROOT := ../sysroot
 CC = @echo " [ CC  ] " $@ ; $(CROSS_PREFIX)gcc
 CXX = @echo " [ CC  ] " $@ ; $(CROSS_PREFIX)g++
 CFLAGS := -c -ffreestanding -Wall -Wextra -Werror
-CPPFLAGS := -Iinclude/ --sysroot=$(SYSROOT) -isystem=/usr/include -D__is_kernel
+CPPFLAGS := -Iinclude/ --sysroot=$(SYSROOT) -isystem=/usr/include -D__is_kernel -fpermissive
 
 # Assembler
 AS = @echo " [ AS  ] " $@ ; $(CROSS_PREFIX)gcc
