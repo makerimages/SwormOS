@@ -40,14 +40,20 @@ ACPI::init() {
             tm.kputs("Verifying checksum: ");
             if(DoChecksum(temp) == 0) {
                 tm.setColor(tm.green,tm.black);
-                tm.kputs("OK");
+                tm.kputs("OK\n");
                 tm.resetColor();
+                RSDPtable = temp;
+                tm.kputsf("RSDT table location: 0x%x",RSDPtable->RsdtAddress);
             } else {
                 tm.setColor(tm.red,tm.black);
-                tm.kputs("NOT VERIFIED");
+                tm.kputs("NOT VERIFIED\n");
                 tm.resetColor();
             }
 
         }
     }
+}
+
+void ACPI::loadRSDT() {
+    
 }
