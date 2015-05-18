@@ -30,12 +30,12 @@ struct ACPISDTHeader {
   uint32_t OEMRevision;
   uint32_t CreatorID;
   uint32_t CreatorRevision;
-}
+};
 
 struct RSDT {
   struct ACPISDTHeader h;
-  uint32_t PointerToOtherSDT[(h.Length - sizeof(h)) / 4];
-}
+  uint32_t PointerToOtherSDT;
+};
 
 class ACPI {
     public:
@@ -46,6 +46,7 @@ class ACPI {
         RSDT *RSDtable;
         RSDPDescriptor *RSDPtable;
         RSDPDescriptor20 *RSDP20table;
+        RSDT *rsdt;
         void loadRSDT();
 
 };

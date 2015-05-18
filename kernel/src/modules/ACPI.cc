@@ -15,7 +15,7 @@ ACPI::ACPI() {
 
 ACPI::init() {
     int found = 0;
-    tm.kputs("Started sequence for initializing ACPI.\n");
+    tm.kputs("Initializing ACPI services...\n");
     char *loc;
     for(loc=0x000E0000; loc<= 0x0010000000; loc+=0x10) {
     	if(!memcmp(loc,"RSD PTR ", 8)) {
@@ -43,7 +43,9 @@ ACPI::init() {
                 tm.kputs("OK\n");
                 tm.resetColor();
                 RSDPtable = temp;
-                tm.kputsf("RSDT table location: 0x%x",RSDPtable->RsdtAddress);
+                tm.kputsf("RSDT table location: 0x%x\n",RSDPtable->RsdtAddress);
+                rsdt = (RSDT *) RSDPtable->RsdtAddress;
+                tm.kputsf("RSDT ACPISDTHeader Signature: %s\n",rsdt->h.Signature);
             } else {
                 tm.setColor(tm.red,tm.black);
                 tm.kputs("NOT VERIFIED\n");
@@ -55,5 +57,5 @@ ACPI::init() {
 }
 
 void ACPI::loadRSDT() {
-    
+
 }
