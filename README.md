@@ -11,7 +11,7 @@ Pull request.
 
 ### Requierments for dev env.
 
-A UNIX system. Grub2 and xorriso. [And the compiler.](http://wiki.osdev.org/GCC_Cross-Compiler).
+Please refer to [the wiki](https://github.com/makerimages/OSZin/wiki/Building-and-Testing) for refrence.
 
 ## TO-DO
 - [X] Interrupts
