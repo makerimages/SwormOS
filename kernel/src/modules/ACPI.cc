@@ -1,7 +1,7 @@
 #include <modules/ACPI.hpp>
 #include <KernelGlobals.hpp>
 
-uint8_t DoChecksum(struct RSDPDescriptor*  t)
+uint8_t ACPI::RSDPChecksum(struct RSDPDescriptor*  t)
 {
    uint8_t count = 0;
    const unsigned char * p = reinterpret_cast<const unsigned char *>(t);
@@ -13,6 +13,33 @@ ACPI::ACPI() {
 
 }
 
+bool ACPI::STDHeaderChecksum(ACPISDTHeader *tableHeader)
+{
+    unsigned char sum = 0;
+
+    for (int i = 0; i < tableHeader->Length; i++)
+    {
+        sum += ((char *) tableHeader)[i];
+    }
+
+    return sum == 0;
+}
+
+void *findFACP(void *RootSDT)
+{
+    RSDT *rsdt = (RSDT *) RootSDT;
+    int entries = (rsdt->h.Length - sizeof(rsdt->h)) / 4;
+
+    for (int i = 0; i < entries; i++)
+    {
+        ACPISDTHeader *h = (ACPISDTHeader *) rsdt->PointerToOtherSDT[i];
+        if (!strncmp(h->Signature, "FACP", 4))
+            return (void *) h;
+    }
+
+    // No FACP found
+    return NULL;
+}
 ACPI::init() {
     int found = 0;
     tm.kputs("Initializing ACPI services...\n");
@@ -38,7 +65,7 @@ ACPI::init() {
             use = 1;
             tm.kputsf("ACPI signature: %sOEMID: %s\n",temp->Signature, temp->OEMID);
             tm.kputs("Verifying checksum: ");
-            if(DoChecksum(temp) == 0) {
+            if(RSDPChecksum(temp) == 0) {
                 tm.setColor(tm.green,tm.black);
                 tm.kputs("OK\n");
                 tm.resetColor();
@@ -46,9 +73,20 @@ ACPI::init() {
                 tm.kputsf("RSDT table location: 0x%x\n",RSDPtable->RsdtAddress);
                 rsdt = (RSDT *) RSDPtable->RsdtAddress;
                 tm.kputsf("RSDT ACPISDTHeader Signature: %s\n",rsdt->h.Signature);
+                tm.kputsf("Verifying yet another checksum. ");
+                if(STDHeaderChecksum(&rsdt->h)) {
+                  tm.setColor(tm.green,tm.black);
+                  tm.kputs("OK\n");
+                  tm.resetColor();
+                } else {
+                  tm.setColor(tm.red,tm.black);
+                  tm.kputs("NOT VERIFIED, CAN'T CONTINUE!\n");
+                  tm.resetColor();
+                  tm.kputsf("0x%x",findFACP(rsdt));
+                }
             } else {
                 tm.setColor(tm.red,tm.black);
-                tm.kputs("NOT VERIFIED\n");
+                tm.kputs("NOT VERIFIED, CAN'T CONTINUE!\n");
                 tm.resetColor();
             }
 
