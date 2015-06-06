@@ -43,6 +43,9 @@ class ACPI {
         void init();
     private:
         int use;
+        int found = 0;
+        char *loc;
+
         RSDT *RSDtable;
         RSDPDescriptor *RSDPtable;
         RSDPDescriptor20 *RSDP20table;
@@ -51,6 +54,8 @@ class ACPI {
         bool ACPI::STDHeaderChecksum(ACPISDTHeader *tableHeader);
         uint8_t RSDPChecksum(struct RSDPDescriptor*  t);
         void* findTable(char * signature,void *RootSDT);
+        void EBDARange();
+        void RSDMemRange();
 
 };
 

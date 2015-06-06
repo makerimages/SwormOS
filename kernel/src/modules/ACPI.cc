@@ -38,20 +38,45 @@ void* ACPI::findTable(char* signature, void* RootSDT) {
   }
   return NULL;
 }
+void ACPI::loadRSDT() {
+  EBDARange();
+  RSDMemRange();
+}
+
+void ACPI::EBDARange() {
+  tm.kputs("EBDA...\n");
+  for(loc=0x9FC000; loc<= 0xA0000; loc+=0x10) {
+    if(!memcmp(loc,"RSD PTR ", 8)) {
+        tm.setColor (tm.green, tm.black);
+        tm.kputsf("'RSD PTR ' located at: 0x%x\n",loc);
+        tm.resetColor();
+        found = 1;
+        break;
+    }
+  }
+}
+
+void ACPI::RSDMemRange() {
+  tm.kputs("Memory...\n");
+  if(!found) {
+    for(loc=0x000E0000; loc<= 0x0010000000; loc+=0x10) {
+      if(!memcmp(loc,"RSD PTR ", 8)) {
+          tm.setColor (tm.green, tm.black);
+          tm.kputsf("'RSD PTR ' located at: 0x%x\n",loc);
+          tm.resetColor();
+          RSDPDescriptor *temp = (RSDPDescriptor *)loc;
+          if(RSDPChecksum(temp) == 0) {
+            found = 1;
+            break;
+          }
+      }
+    }
+  }
+}
 
 void ACPI::init() {
-    int found = 0;
     tm.kputs("Initializing ACPI services...\n");
-    char *loc;
-    for(loc=0x000E0000; loc<= 0x0010000000; loc+=0x10) {
-    	if(!memcmp(loc,"RSD PTR ", 8)) {
-            tm.setColor (tm.green, tm.black);
-    	      tm.kputsf("'RSD PTR ' located at: 0x%x\n",loc);
-            tm.resetColor();
-            found = 1;
-    		break;
-    	}
-    }
+    loadRSDT();
     if(!found) {
         tm.setColor (tm.red, tm.black);
         tm.kputs("'RSD PTR ' not found in the memory range.\n");
@@ -92,8 +117,4 @@ void ACPI::init() {
 
         }
     }
-}
-
-void ACPI::loadRSDT() {
-
 }
