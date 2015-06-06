@@ -5,7 +5,7 @@ uint8_t ACPI::RSDPChecksum(struct RSDPDescriptor*  t)
 {
    uint8_t count = 0;
    const unsigned char * p = reinterpret_cast<const unsigned char *>(t);
-   for (int i=0; i<sizeof(*t); i++) count += p[i];
+   for (int i=0; i<20; i++) count += p[i];
    return count;
 }
 
@@ -25,29 +25,28 @@ bool ACPI::STDHeaderChecksum(ACPISDTHeader *tableHeader)
     return sum == 0;
 }
 
-void *findFACP(void *RootSDT)
-{
-    RSDT *rsdt = (RSDT *) RootSDT;
-    int entries = (rsdt->h.Length - sizeof(rsdt->h)) / 4;
+void* ACPI::findTable(char* signature, void* RootSDT) {
+  RSDT *rsdt = (RSDT *) RootSDT;
+  int entries = (rsdt->h.Length - sizeof(rsdt->h)) / 4;
+  for (int i = 0; i < entries; i++)
+  {
 
-    for (int i = 0; i < entries; i++)
-    {
-        ACPISDTHeader *h = (ACPISDTHeader *) rsdt->PointerToOtherSDT[i];
-        if (!strncmp(h->Signature, "FACP", 4))
-            return (void *) h;
-    }
-
-    // No FACP found
-    return NULL;
+    ACPISDTHeader *h = (ACPISDTHeader *) rsdt->PointerToOtherSDT[i];
+    tm.kputsf("%s\n",h->Signature);
+    if (!strncmp(h->Signature, signature, 4))
+          return (void *) h;
+  }
+  return NULL;
 }
-ACPI::init() {
+
+void ACPI::init() {
     int found = 0;
     tm.kputs("Initializing ACPI services...\n");
     char *loc;
     for(loc=0x000E0000; loc<= 0x0010000000; loc+=0x10) {
     	if(!memcmp(loc,"RSD PTR ", 8)) {
             tm.setColor (tm.green, tm.black);
-    	    tm.kputsf("'RSD PTR ' located at: 0x%x\n",loc);
+    	      tm.kputsf("'RSD PTR ' located at: 0x%x\n",loc);
             tm.resetColor();
             found = 1;
     		break;
@@ -74,15 +73,16 @@ ACPI::init() {
                 rsdt = (RSDT *) RSDPtable->RsdtAddress;
                 tm.kputsf("RSDT ACPISDTHeader Signature: %s\n",rsdt->h.Signature);
                 tm.kputsf("Verifying yet another checksum. ");
-                if(STDHeaderChecksum(&rsdt->h)) {
+                if(STDHeaderChecksum(reinterpret_cast<ACPISDTHeader*> (rsdt))) {
                   tm.setColor(tm.green,tm.black);
                   tm.kputs("OK\n");
                   tm.resetColor();
+                  tm.kputsf("FACP: 0x%x\n",findTable("FACP",rsdt));
                 } else {
                   tm.setColor(tm.red,tm.black);
                   tm.kputs("NOT VERIFIED, CAN'T CONTINUE!\n");
                   tm.resetColor();
-                  tm.kputsf("0x%x",findFACP(rsdt));
+
                 }
             } else {
                 tm.setColor(tm.red,tm.black);

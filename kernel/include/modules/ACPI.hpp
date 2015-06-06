@@ -34,13 +34,13 @@ struct ACPISDTHeader {
 
 struct RSDT {
   struct ACPISDTHeader h;
-  uint32_t PointerToOtherSDT[(h.Length - sizeof(h)) / 4];
+  uint32_t * PointerToOtherSDT;
 };
 
 class ACPI {
     public:
         ACPI();
-        int init();
+        void init();
     private:
         int use;
         RSDT *RSDtable;
@@ -50,6 +50,7 @@ class ACPI {
         void loadRSDT();
         bool ACPI::STDHeaderChecksum(ACPISDTHeader *tableHeader);
         uint8_t RSDPChecksum(struct RSDPDescriptor*  t);
+        void* findTable(char * signature,void *RootSDT);
 
 };
 
