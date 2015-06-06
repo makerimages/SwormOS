@@ -34,7 +34,7 @@ struct ACPISDTHeader {
 
 struct RSDT {
   struct ACPISDTHeader h;
-  uint32_t * PointerToOtherSDT;
+  uint32_t PointerToOtherSDT[];
 };
 
 class ACPI {

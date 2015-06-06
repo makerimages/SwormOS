@@ -32,7 +32,6 @@ void* ACPI::findTable(char* signature, void* RootSDT) {
   {
 
     ACPISDTHeader *h = (ACPISDTHeader *) rsdt->PointerToOtherSDT[i];
-    tm.kputsf("%s\n",h->Signature);
     if (!strncmp(h->Signature, signature, 4))
           return (void *) h;
   }
@@ -102,7 +101,7 @@ void ACPI::init() {
                   tm.setColor(tm.green,tm.black);
                   tm.kputs("OK\n");
                   tm.resetColor();
-                  tm.kputsf("FACP: 0x%x\n",findTable("FACP",rsdt));
+                  tm.kputsf("FACP: 0x%x\n",findTable("APIC",rsdt));
                 } else {
                   tm.setColor(tm.red,tm.black);
                   tm.kputs("NOT VERIFIED, CAN'T CONTINUE!\n");

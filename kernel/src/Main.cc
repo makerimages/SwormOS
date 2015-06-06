@@ -68,8 +68,8 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
         /* Print the total memory. */
    		totalMem = totalMem / 1024;
    		usableMem = usableMem / 1024;
-			//pmm.init(usableMem/1024,0x100000);
-		//	pmm.map();
+			pmm.init(usableMem/1024,0x100000);
+			pmm.map();
    		tm.kputsf ("\tTotal memory: %d KB.\n", totalMem);
    		tm.kputsf ("\tOf which %d KB is usable.\n", usableMem);
 	}
