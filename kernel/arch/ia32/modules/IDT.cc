@@ -55,6 +55,60 @@ void idt_format_normal_entry(struct idt_entry* entry,
 	entry->handler_high = (uintptr_t) handler >> 16 & 0xFFFF;
 }
 
+static void isr0CallBack(interrupt_context * regs) {
+	tm.panic("Divide error");
+}
+static void isr1CallBack(interrupt_context * regs) {
+	tm.panic("Debug");
+}
+static void isr3CallBack(interrupt_context * regs) {
+	tm.panic("Breakpoint");
+}
+static void isr4CallBack(interrupt_context * regs) {
+	tm.panic("Overflow");
+}
+static void isr5CallBack(interrupt_context * regs) {
+	tm.panic("Bound range exeeded");
+}
+static void isr6CallBack(interrupt_context * regs) {
+	tm.panic("Invalid opcode");
+}
+static void isr7CallBack(interrupt_context * regs) {
+	tm.panic("No math coprocessor");
+}
+static void isr8CallBack(interrupt_context * regs) {
+	tm.panic("Double fault");
+}
+static void isr9CallBack(interrupt_context * regs) {
+	tm.panic("Coprocessor segment overrun");
+}
+static void isr10CallBack(interrupt_context * regs) {
+	tm.panic("Invalid TSS");
+}
+static void isr11CallBack(interrupt_context * regs) {
+	tm.panic("Segment not present");
+}
+static void isr12CallBack(interrupt_context * regs) {
+	tm.panic("Stack-segment fault");
+}
+static void isr13CallBack(interrupt_context * regs) {
+	tm.panic("GP");
+}
+static void isr14CallBack(interrupt_context * regs) {
+	tm.panic("Page fault");
+}
+static void isr16CallBack(interrupt_context * regs) {
+	tm.panic("Floating point error");
+}
+static void isr17CallBack(interrupt_context * regs) {
+	tm.panic("Alignment check");
+}
+static void isr18CallBack(interrupt_context * regs) {
+	tm.panic("Machine check");
+}
+static void isr19CallBack(interrupt_context * regs) {
+	tm.panic("Streaming SIMD Extensions");
+}
 
 void idt_initialize()
 {
@@ -109,7 +163,24 @@ void idt_initialize()
 	idt_format_normal_entry(&idt[46], irq14, IDT_TYPE_INTERRUPT, 0x0);
 	idt_format_normal_entry(&idt[47], irq15, IDT_TYPE_INTERRUPT, 0x0);
 	lidt((uintptr_t) idt, sizeof(idt) - 1);
-
+	setHandler(0,0,&isr0CallBack);
+	setHandler(0,1,&isr1CallBack);
+	setHandler(0,3,&isr3CallBack);
+	setHandler(0,4,&isr4CallBack);
+	setHandler(0,5,&isr5CallBack);
+	setHandler(0,6,&isr6CallBack);
+	setHandler(0,7,&isr7CallBack);
+	setHandler(0,8,&isr8CallBack);
+	setHandler(0,9,&isr9CallBack);
+	setHandler(0,10,&isr10CallBack);
+	setHandler(0,11,&isr11CallBack);
+	setHandler(0,12,&isr12CallBack);
+	setHandler(0,13,&isr13CallBack);
+	setHandler(0,14,&isr14CallBack);
+	setHandler(0,16,&isr16CallBack);
+	setHandler(0,17,&isr17CallBack);
+	setHandler(0,18,&isr18CallBack);
+	setHandler(0,19,&isr19CallBack);
 }
 
 void setHandler(int type,int index, idt_interruptHandler_t handler) {

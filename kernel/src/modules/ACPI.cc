@@ -43,7 +43,6 @@ void ACPI::loadRSDT() {
 }
 
 void ACPI::EBDARange() {
-  tm.kputs("EBDA...\n");
   for(loc=0x9FC000; loc<= 0xA0000; loc+=0x10) {
     if(!memcmp(loc,"RSD PTR ", 8)) {
         tm.setColor (tm.green, tm.black);
@@ -56,7 +55,6 @@ void ACPI::EBDARange() {
 }
 
 void ACPI::RSDMemRange() {
-  tm.kputs("Memory...\n");
   if(!found) {
     for(loc=0x000E0000; loc<= 0x0010000000; loc+=0x10) {
       if(!memcmp(loc,"RSD PTR ", 8)) {
@@ -101,7 +99,7 @@ void ACPI::init() {
                   tm.setColor(tm.green,tm.black);
                   tm.kputs("OK\n");
                   tm.resetColor();
-                  tm.kputsf("FACP: 0x%x\n",findTable("APIC",rsdt));
+                  tm.kputsf("APIC: 0x%x\n",findTable("APIC",rsdt));
                 } else {
                   tm.setColor(tm.red,tm.black);
                   tm.kputs("NOT VERIFIED, CAN'T CONTINUE!\n");

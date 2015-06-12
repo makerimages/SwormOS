@@ -15,6 +15,7 @@ PMM pmm;
 Keyboard kbrd;
 ACPI acpi;
 
+
 extern "C"
 void kernelMain(multiboot_info *mbt, unsigned int magic) {
 	elfInit (&(mbt->u.elf_sec));
@@ -103,5 +104,4 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 	tm.kputs ("OK.\n");
 	tm.resetColor ();
 	acpi.init();
-
 }

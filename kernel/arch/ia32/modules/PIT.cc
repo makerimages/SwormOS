@@ -16,6 +16,7 @@ static void pitCallBack(interrupt_context * regs) {
 }
 
 
+
 void Pit::init(int freq) {
 	int divisor = PIT_FREQUENCY / freq;
    	outb (PIT_CMD, CMD_BINARY | CMD_MODE3 | CMD_RW_BOTH | CMD_COUNTER0);
