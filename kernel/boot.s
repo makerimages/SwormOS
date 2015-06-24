@@ -28,10 +28,8 @@ _start:
 	pushl %ebx
 
 	subl $6, %esp
-    .extern gdt_size_minus_one
-	movw gdt_size_minus_one, %cx
+
 	movw %cx, 0(%esp)
-	movl $gdt, %ecx
 	movl %ecx, 2(%esp)
 	lgdt 0(%esp)
 	addl $6, %esp
@@ -49,7 +47,7 @@ _start:
 
     .extern kernel_main
 	call kernel_main
-
+	jmp .Lhang
 .Lhang:
 	jmp .Lhang
 

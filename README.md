@@ -17,8 +17,9 @@ Please refer to [the wiki](https://github.com/makerimages/OSZin/wiki/Building-an
 - [X] Interrupts
 - [X] Exception handling
 - [X] PIT
-- [x] PMM
-- [ ] ACPI
+- [X] PMM
+- [X] ACPI
+- [ ] Convert to C
 - [ ] Keyboard driver
 - [ ] File system (VFS too)
 - [ ] Commands
