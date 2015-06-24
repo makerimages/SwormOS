@@ -36,7 +36,14 @@ struct RSDT {
   struct ACPISDTHeader h;
   uint32_t PointerToOtherSDT[];
 };
-
+struct GenericAddressStructure
+{
+  uint8_t AddressSpace;
+  uint8_t BitWidth;
+  uint8_t BitOffset;
+  uint8_t AccessSize;
+  uint64_t Address;
+};
 struct FADT
 {
     struct   ACPISDTHeader h;
@@ -105,21 +112,14 @@ struct FADT
     GenericAddressStructure X_GPE1Block;
 };
 
-struct GenericAddressStructure
-{
-  uint8_t AddressSpace;
-  uint8_t BitWidth;
-  uint8_t BitOffset;
-  uint8_t AccessSize;
-  uint64_t Address;
-};
+
 
 typedef struct AcpiMadt
 {
-    AcpiHeader header;
-    u32 localApicAddr;
-    u32 flags;
-}__packed__ AcpiMadt;
+    ACPISDTHeader header;
+    uint32_t localApicAddr;
+    uint32_t flags;
+}__attribute__ ((packed)) AcpiMadt;
 
 
 class ACPI {
