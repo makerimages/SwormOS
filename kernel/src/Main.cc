@@ -1,6 +1,7 @@
 #include <Multiboot.h>
 #include <KernelGlobals.hpp>
 #include <modules/Elf.hpp>
+#include <modules/ACPI.hpp>
 #include <arch/ia32/modules/IDT.hpp>
 #include <arch/ia32/modules/PIC.hpp>
 #include <ioports.hpp>
@@ -11,6 +12,9 @@ uint32_t totalMem;
 uint32_t usableMem;
 Pit pTimer;
 PMM pmm;
+Keyboard kbrd;
+ACPI acpi;
+
 
 extern "C"
 void kernelMain(multiboot_info *mbt, unsigned int magic) {
@@ -86,7 +90,7 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 	tm.resetColor ();
 
     /* Enable interrupts. */
-	tm.kputs ("Enabling interrupts.\n");
+	tm.kputs ("Enabling interrupts. ");
 	idt_initialize ();
 	pic_initialize ();
 
@@ -97,8 +101,7 @@ void kernelMain(multiboot_info *mbt, unsigned int magic) {
 	asm volatile ("sti");
 
 	tm.setColor (tm.green, tm.black);
-	tm.kputs ("Enabled.\n");
+	tm.kputs ("OK.\n");
 	tm.resetColor ();
-
-
+	acpi.init();
 }

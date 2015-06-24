@@ -1,7 +1,7 @@
 # OS Zin
-OS Zin is a hobbyist OS, built mostly from scratch and in development since 30.12.2014. Restarted 20.th February 2015.
+OS Zin is a hobbyist OS, built mostly from scratch and in development since 30.12.2014. Restarted 20th February 2015.
 
-This repository contains the source code and a Makefile for a ```i686-elf``` targeting assembler and cross-compiler. Find instructions on how to make yours [here](http://wiki.osdev.org/GCC_Cross-Compiler). It also contains a ```.bocshrc``` file to run bochs with.
+This repository contains the source code and a Makefile for a ```i686-elf``` targeting assembler and cross-compiler.
 
 ## Contributing
 
@@ -11,13 +11,14 @@ Pull request.
 
 ### Requierments for dev env.
 
-A UNIX system. Grub2 and xorriso. [And the compiler.](http://wiki.osdev.org/GCC_Cross-Compiler).
+Please refer to [the wiki](https://github.com/makerimages/OSZin/wiki/Building-and-Testing) for refrence.
 
 ## TO-DO
 - [X] Interrupts
 - [X] Exception handling
 - [X] PIT
-- [ ] PMM
+- [x] PMM
+- [ ] ACPI
 - [ ] Keyboard driver
 - [ ] File system (VFS too)
 - [ ] Commands

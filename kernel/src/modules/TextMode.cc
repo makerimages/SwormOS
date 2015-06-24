@@ -109,14 +109,14 @@ void TextMode::kputsfImpl(const char* str, va_list va) {
 					kputs(itoa(va_arg(va,unsigned int),buf,10));
 					break;
 				case 'u':
-					kputs(itoa(va_arg(va,unsigned int),buf,10));
+					kputs(uitoa(va_arg(va,unsigned int),buf,10));
 					break;
 				case 'x':
 					kputs(itoa(va_arg(va,unsigned int),buf,16));
 					break;
 				default:
 					putChar('?');
-			} 
+			}
 		} else {
 			putChar(*str);
 		}
@@ -153,7 +153,7 @@ void TextMode::panic(const char* msg) {
 	__asm__ volatile("cli");
 	while(true) {
 		__asm__ volatile ("hlt");
-	}	
+	}
 
 }
 
