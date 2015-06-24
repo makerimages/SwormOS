@@ -1,5 +1,5 @@
 !<arch>
-isalnum.o/      1435171520  1000  1000  100664  985       `
+isalnum.o/      1435177413  1000  1000  100664  985       `
 # 1 "src/ctype/isalnum.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -49,7 +49,7 @@ int isalnum(int c)
  return ((((unsigned)(c)|32)-'a') < 26) || (((unsigned)(c)-'0') < 10);
 }
 
-isalpha.o/      1435171520  1000  1000  100664  950       `
+isalpha.o/      1435177413  1000  1000  100664  950       `
 # 1 "src/ctype/isalpha.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -99,7 +99,7 @@ int isalpha(int c)
 {
  return ((unsigned)c|32)-'a' < 26;
 }
-isascii.o/      1435171520  1000  1000  100664  688       `
+isascii.o/      1435177413  1000  1000  100664  688       `
 # 1 "src/ctype/isascii.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -139,7 +139,7 @@ int isascii(int c)
 {
  return !(c&~0x7f);
 }
-isblank.o/      1435171520  1000  1000  100664  947       `
+isblank.o/      1435177413  1000  1000  100664  947       `
 # 1 "src/ctype/isblank.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -189,7 +189,7 @@ int isblank(int c)
  return (c == ' ' || c == '\t');
 }
 
-iscntrl.o/      1435171520  1000  1000  100664  955       `
+iscntrl.o/      1435177413  1000  1000  100664  955       `
 # 1 "src/ctype/iscntrl.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -239,7 +239,7 @@ int iscntrl(int c)
  return (unsigned)c < 0x20 || c == 0x7f;
 }
 
-isdigit.o/      1435171520  1000  1000  100664  945       `
+isdigit.o/      1435177413  1000  1000  100664  945       `
 # 1 "src/ctype/isdigit.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -290,7 +290,7 @@ int isdigit(int c)
  return (unsigned)c-'0' < 10;
 }
 
-isgraph.o/      1435171520  1000  1000  100664  948       `
+isgraph.o/      1435177413  1000  1000  100664  948       `
 # 1 "src/ctype/isgraph.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -340,7 +340,7 @@ int isgraph(int c)
 {
  return (unsigned)c-0x21 < 0x5e;
 }
-islower.o/      1435171520  1000  1000  100664  945       `
+islower.o/      1435177413  1000  1000  100664  945       `
 # 1 "src/ctype/islower.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -391,7 +391,7 @@ int islower(int c)
  return (unsigned)c-'a' < 26;
 }
 
-isprint.o/      1435171520  1000  1000  100664  948       `
+isprint.o/      1435177413  1000  1000  100664  948       `
 # 1 "src/ctype/isprint.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -441,7 +441,7 @@ int isprint(int c)
 {
  return (unsigned)c-0x20 < 0x5f;
 }
-ispunct.o/      1435171520  1000  1000  100664  968       `
+ispunct.o/      1435177413  1000  1000  100664  968       `
 # 1 "src/ctype/ispunct.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -490,7 +490,7 @@ int ispunct(int c)
 {
  return (((unsigned)(c)-0x21) < 0x5e) && !isalnum(c);
 }
-isspace.o/      1435171520  1000  1000  100664  957       `
+isspace.o/      1435177413  1000  1000  100664  957       `
 # 1 "src/ctype/isspace.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -541,7 +541,7 @@ int isspace(int c)
  return c == ' ' || (unsigned)c-'\t' < 5;
 }
 
-isupper.o/      1435171520  1000  1000  100664  945       `
+isupper.o/      1435177413  1000  1000  100664  945       `
 # 1 "src/ctype/isupper.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -592,7 +592,7 @@ int isupper(int c)
  return (unsigned)c-'A' < 26;
 }
 
-isxdigit.o/     1435171520  1000  1000  100664  984       `
+isxdigit.o/     1435177413  1000  1000  100664  984       `
 # 1 "src/ctype/isxdigit.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -641,7 +641,7 @@ int isxdigit(int c)
 {
  return (((unsigned)(c)-'0') < 10) || ((unsigned)c|32)-'a' < 6;
 }
-toascii.o/      1435171520  1000  1000  100664  687       `
+toascii.o/      1435177413  1000  1000  100664  687       `
 # 1 "src/ctype/toascii.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -683,7 +683,7 @@ int toascii(int c)
  return c & 0x7f;
 }
 
-tolower.o/      1435171520  1000  1000  100664  973       `
+tolower.o/      1435177413  1000  1000  100664  973       `
 # 1 "src/ctype/tolower.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -734,7 +734,7 @@ int tolower(int c)
  return c;
 }
 
-toupper.o/      1435171520  1000  1000  100664  975       `
+toupper.o/      1435177413  1000  1000  100664  975       `
 # 1 "src/ctype/toupper.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -785,7 +785,7 @@ int toupper(int c)
  return c;
 }
 
-libc.o/         1435171520  1000  1000  100664  954       `
+libc.o/         1435177413  1000  1000  100664  954       `
 # 1 "src/internal/libc.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -821,7 +821,7 @@ char *__progname=0, *__progname_full=0;
 
 extern __typeof(__progname) program_invocation_short_name __attribute__((weak, alias("__progname")));
 extern __typeof(__progname_full) program_invocation_name __attribute__((weak, alias("__progname_full")));
-bcmp.o/         1435171520  1000  1000  100664  1783      `
+bcmp.o/         1435177413  1000  1000  100664  1783      `
 # 1 "src/string/bcmp.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -902,7 +902,7 @@ int bcmp(const void *s1, const void *s2, size_t n)
  return memcmp(s1, s2, n);
 }
 
-bcopy.o/        1435171520  1000  1000  100664  1777      `
+bcopy.o/        1435177413  1000  1000  100664  1777      `
 # 1 "src/string/bcopy.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -983,7 +983,7 @@ void bcopy(const void *s1, void *s2, size_t n)
  memmove(s2, s1, n);
 }
 
-bzero.o/        1435171520  1000  1000  100664  1757      `
+bzero.o/        1435177413  1000  1000  100664  1757      `
 # 1 "src/string/bzero.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -1064,7 +1064,7 @@ void bzero(void *s, size_t n)
  memset(s, 0, n);
 }
 
-index.o/        1435171520  1000  1000  100664  1765      `
+index.o/        1435177413  1000  1000  100664  1765      `
 # 1 "src/string/index.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -1145,12 +1145,12 @@ char *index(const char *s, int c)
  return strchr(s, c);
 }
 
-itoa.o/         1435171520  1000  1000  100664  86        `
+itoa.o/         1435177413  1000  1000  100664  86        `
 # 1 "src/string/itoa.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "src/string/itoa.c"
-memchr.o/       1435171520  1000  1000  100664  3101      `
+memchr.o/       1435177413  1000  1000  100664  3101      `
 # 1 "src/string/memchr.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -1297,7 +1297,7 @@ void *memchr(const void *src, int c, size_t n)
  return n ? (void *)s : 0;
 }
 
-memcmp.o/       1435171520  1000  1000  100664  1371      `
+memcmp.o/       1435177413  1000  1000  100664  1371      `
 # 1 "src/string/memcmp.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -1349,7 +1349,7 @@ int memcmp(const void *vl, const void *vr, size_t n)
  return n ? *l-*r : 0;
 }
 
-memcpy.o/       1435171520  1000  1000  100664  5007      `
+memcpy.o/       1435177413  1000  1000  100664  5007      `
 # 1 "src/string/memcpy.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -1584,7 +1584,7 @@ void *memcpy(void *restrict dest, const void *restrict src, size_t n)
  return dest;
 }
 
-memmove.o/      1435171520  1000  1000  100664  3317      `
+memmove.o/      1435177413  1000  1000  100664  3317      `
 # 1 "src/string/memmove.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -1740,7 +1740,7 @@ void *memmove(void *dest, const void *src, size_t n)
  return dest;
 }
 
-memset.o/       1435171520  1000  1000  100664  3590      `
+memset.o/       1435177413  1000  1000  100664  3590      `
 # 1 "src/string/memset.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -1945,7 +1945,7 @@ void *memset(void *dest, int c, size_t n)
 
  return dest;
 }
-rindex.o/       1435171520  1000  1000  100664  1771      `
+rindex.o/       1435177413  1000  1000  100664  1771      `
 # 1 "src/string/rindex.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2026,7 +2026,7 @@ char *rindex(const char *s, int c)
  return strrchr(s, c);
 }
 
-stpcpy.o/       1435171520  1000  1000  100664  3217      `
+stpcpy.o/       1435177413  1000  1000  100664  3217      `
 # 1 "src/string/stpcpy.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2180,7 +2180,7 @@ char *__stpcpy(char *restrict d, const char *restrict s)
 
 extern __typeof(__stpcpy) stpcpy __attribute__((weak, alias("__stpcpy")));
 
-stpncpy.o/      1435171520  1000  1000  100664  3362      `
+stpncpy.o/      1435177413  1000  1000  100664  3362      `
 # 1 "src/string/stpncpy.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2335,7 +2335,7 @@ tail:
 }
 
 extern __typeof(__stpncpy) stpncpy __attribute__((weak, alias("__stpncpy")));
-strcasecmp.o/   1435171520  1000  1000  100664  1452      `
+strcasecmp.o/   1435177413  1000  1000  100664  1452      `
 # 1 "src/string/strcasecmp.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2396,7 +2396,7 @@ int strcasecmp(const char *_l, const char *_r)
  for (; *l && *r && (*l == *r || tolower(*l) == tolower(*r)); l++, r++);
  return tolower(*l) - tolower(*r);
 }
-strcat.o/       1435171520  1000  1000  100664  1330      `
+strcat.o/       1435177413  1000  1000  100664  1330      `
 # 1 "src/string/strcat.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2446,7 +2446,7 @@ char *strcat(char *restrict dest, const char *restrict src)
  strcpy(dest + strlen(dest), src);
  return dest;
 }
-strchr.o/       1435171520  1000  1000  100664  1382      `
+strchr.o/       1435177413  1000  1000  100664  1382      `
 # 1 "src/string/strchr.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2498,7 +2498,7 @@ char *strchr(const char *s, int c)
  char *r = __strchrnul(s, c);
  return *(unsigned char *)r == (unsigned char)c ? r : 0;
 }
-strcmp.o/       1435171520  1000  1000  100664  1346      `
+strcmp.o/       1435177413  1000  1000  100664  1346      `
 # 1 "src/string/strcmp.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2548,7 +2548,7 @@ int strcmp(const char *l, const char *r)
  for (; *l==*r && *l; l++, r++);
  return *(unsigned char *)l - *(unsigned char *)r;
 }
-strcpy.o/       1435171520  1000  1000  100664  1363      `
+strcpy.o/       1435177413  1000  1000  100664  1363      `
 # 1 "src/string/strcpy.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2608,7 +2608,7 @@ char *strcpy(char *restrict dest, const char *restrict src)
 
 }
 
-strlen.o/       1435171520  1000  1000  100664  2904      `
+strlen.o/       1435177413  1000  1000  100664  2904      `
 # 1 "src/string/strlen.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2749,7 +2749,7 @@ size_t strlen(const char *s)
  for (s = (const void *)w; *s; s++);
  return s-a;
 }
-strncasecmp.o/  1435171520  1000  1000  100664  1500      `
+strncasecmp.o/  1435177413  1000  1000  100664  1500      `
 # 1 "src/string/strncasecmp.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2811,7 +2811,7 @@ int strncasecmp(const char *_l, const char *_r, size_t n)
  for (; *l && *r && n && (*l == *r || tolower(*l) == tolower(*r)); l++, r++, n--);
  return tolower(*l) - tolower(*r);
 }
-strncat.o/      1435171520  1000  1000  100664  1379      `
+strncat.o/      1435177413  1000  1000  100664  1379      `
 # 1 "src/string/strncat.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2865,7 +2865,7 @@ char *strncat(char *restrict d, const char *restrict s, size_t n)
  return a;
 }
 
-strncmp.o/      1435171520  1000  1000  100664  1420      `
+strncmp.o/      1435177413  1000  1000  100664  1420      `
 # 1 "src/string/strncmp.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2917,7 +2917,7 @@ int strncmp(const char *_l, const char *_r, size_t n)
  for (; *l && *r && n && *l == *r ; l++, r++, n--);
  return *l - *r;
 }
-strncpy.o/      1435171520  1000  1000  100664  1371      `
+strncpy.o/      1435177413  1000  1000  100664  1371      `
 # 1 "src/string/strncpy.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -2970,7 +2970,7 @@ char *strncpy(char *restrict d, const char *restrict s, size_t n)
  return d;
 }
 
-strrchr.o/      1435171520  1000  1000  100664  1346      `
+strrchr.o/      1435177413  1000  1000  100664  1346      `
 # 1 "src/string/strrchr.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
@@ -3021,12 +3021,12 @@ char *strrchr(const char *s, int c)
 {
  return __memrchr(s, c, strlen(s) + 1);
 }
-strtolower.o/   1435171520  1000  1000  100664  98        `
+strtolower.o/   1435177413  1000  1000  100664  98        `
 # 1 "src/string/strtolower.c"
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "src/string/strtolower.c"
-strtoupper.o/   1435171520  1000  1000  100664  98        `
+strtoupper.o/   1435177413  1000  1000  100664  98        `
 # 1 "src/string/strtoupper.c"
 # 1 "<built-in>"
 # 1 "<command-line>"

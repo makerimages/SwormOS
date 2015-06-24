@@ -1,9 +1,9 @@
 # MB HEADER.
-.set ALIGN,    1<<0             
-.set MEMINFO,  1<<1             
-.set FLAGS,    ALIGN | MEMINFO 
-.set MAGIC,    0x1BADB002      
-.set CHECKSUM, -(MAGIC + FLAGS) 
+.set ALIGN,    1<<0
+.set MEMINFO,  1<<1
+.set FLAGS,    ALIGN | MEMINFO
+.set MAGIC,    0x1BADB002
+.set CHECKSUM, -(MAGIC + FLAGS)
 
 .section .multiboot
 .align 4
@@ -20,7 +20,7 @@ stack_top:
 .global _start
 .type _start, @function
 _start:
-	
+
 	movl $stack_top, %esp
     xorl %ebp, %ebp
 
@@ -39,7 +39,7 @@ _start:
 	push $0x08
 	push $1f
 	retf
-1:	
+1:
 	movw $0x10, %cx
 	movw %cx, %ds
 	movw %cx, %es
@@ -47,8 +47,8 @@ _start:
 	movw %cx, %gs
 	movw %cx, %ss
 
-    .extern kernelMain
-	call kernelMain
+    .extern kernel_main
+	call kernel_main
 
 .Lhang:
 	jmp .Lhang
