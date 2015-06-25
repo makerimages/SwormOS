@@ -24,7 +24,7 @@
 			white = 15
 	};
 
-    void textmode_init (size_t width, size_t height);
+    void textmode_init (size_t w, size_t h);
     void textmode_clear ();
     void kprintf (const char* str, ...);
     void kprintf_va (const char* str, va_list va);

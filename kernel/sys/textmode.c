@@ -1,14 +1,19 @@
 #include <textmode.h>
 #include <string.h>
+#include <io.h>
 
-void textmode_init(size_t width, size_t height) {
+void textmode_init(size_t w, size_t h) {
     tab_size = 2;
     buffer = (uint16_t *) 0xB8000;
     kputcolor(lightGrey,black);
-    width = width;
-    height = height;
+    width = w;
+    height = h;
     set_pos(0,0);
     textmode_clear();
+
+    /** Hide cursor **/
+    outw(0x3D4,0x200A);
+	outw(0x3D4,0xB);
 };
 
 void textmode_clear() {
@@ -65,6 +70,7 @@ void kprintf_va(const char* str, va_list va) {
 };
 
 void kputc(char c) {
+    size_t index;
     switch(c) {  //Handle special cases.
 		case '\n':
 			set_pos(0,row+1);
@@ -79,7 +85,8 @@ void kputc(char c) {
 			set_pos(column+tab_size,row);
 			break;
 		default:
-			vga_entry(c,color);
+            index = row * width + column;
+            buffer[index] = vga_entry(c,color);
 			set_pos(column+1,row);
 			break;
 	}
