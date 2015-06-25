@@ -5,11 +5,14 @@
 #include <idt.h>
 #include <pic.h>
 #include <timer.h>
+#include <elf.h>
+#include <acpi.h>
 
 uint32_t totalMem;
 uint32_t usableMem;
 
 void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
+    elf_init (&(mbt->u.elf_sec));
     textmode_init(80,25);
 
     /** Welcome Message **/
@@ -87,5 +90,5 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 	kputcolor(green, black);
 	kputs("OK.\n");
 	kputcolor(lightGrey,black);
-
+    acpi_init();
 }
