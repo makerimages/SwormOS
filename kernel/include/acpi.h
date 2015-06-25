@@ -131,6 +131,8 @@ struct RSDT *RSDtable;
 struct RSDPDescriptor *RSDPtable;
 struct RSDPDescriptor20 *RSDP20table;
 struct RSDT *rsdt;
+
+void* get_rsdt();
 void load_RSDT();
 uint8_t check_rsdp(struct RSDPDescriptor* t);
 bool check_std(struct ACPISDTHeader* tableHeader);

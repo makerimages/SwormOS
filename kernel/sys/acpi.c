@@ -112,3 +112,7 @@ void* find_table(char * signature, void *RootSDT) {
   }
   return NULL;
 };
+
+void* get_rsdt() {
+    return rsdt;
+};
