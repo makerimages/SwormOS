@@ -5,6 +5,9 @@ void textmode_init(size_t width, size_t height) {
     tab_size = 2;
     buffer = (uint16_t *) 0xB8000;
     kputcolor(lightGrey,black);
+    width = width;
+    height = height;
+    set_pos(0,0);
     textmode_clear();
 };
 
