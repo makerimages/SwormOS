@@ -2,6 +2,9 @@
 #include <textmode.h>
 #include <pmm.h>
 #include <stdint.h>
+#include <idt.h>
+#include <pic.h>
+#include <timer.h>
 
 uint32_t totalMem;
 uint32_t usableMem;
@@ -54,7 +57,7 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
    		kprintf("\tOf which %d KB is usable.\n", usableMem);
         pmm_init(usableMem/1024,0x100000);
 		pmm_map();
-        
+
 	}
 
     else if (mbt->flags & (1 << 0))
@@ -70,5 +73,19 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     kputcolor(lightBlue,black);
     kputs("System info END\n");
     kputcolor(lightGrey, black);
+
+    kputs("Enabling interrupts ");
+	idt_initialize ();
+	pic_initialize ();
+
+    /* Initialize the PIT timer. */
+
+	init_timer(1000);
+
+	__asm__ __volatile__ ("sti");
+
+	kputcolor(green, black);
+	kputs("OK.\n");
+	kputcolor(lightGrey,black);
 
 }

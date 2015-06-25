@@ -1,6 +1,7 @@
 #include <textmode.h>
 #include <string.h>
 #include <io.h>
+#include <stdbool.h>
 
 void textmode_init(size_t w, size_t h) {
     tab_size = 2;
@@ -123,3 +124,25 @@ void set_pos(size_t c, size_t r) {
     column = c;
     row = r;
 };
+
+void kpanic(const char* msg) {
+    kputcolor(darkGrey,lightGrey);
+	textmode_clear();
+	set_pos((width/2)-strlen("OS Zin has crashed to unrecoverable grounds")/2,(height/2)-6);
+	kputs("OS Zin has crashed to unrecoverable grounds");
+	kputcolor(red, lightGrey);
+	set_pos((width/2)-strlen(msg)/2-3,(height/2)-5);
+	kputs("Error: ");
+	set_pos((width/2)-strlen(msg)/2+4,(height/2)-5);
+	kputs(msg);
+	set_pos((width/2)-strlen("Stacktrace follows:")/2,row+2);
+//	elfPrintStackTrace();
+	set_pos(width/2-strlen("System halted to protect your PC")/2,height-3);
+	kputs("System halted to protect your PC");
+	set_pos((width/2)-strlen("Please reboot and fix the above error")/2,height-2);
+	kputs("Please reboot and fix the above error");
+	__asm__ __volatile__("cli");
+	while(true) {
+		__asm__ __volatile__ ("hlt");
+	}
+}

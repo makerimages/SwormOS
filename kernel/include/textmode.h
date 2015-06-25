@@ -31,6 +31,7 @@
     void kputc (char c);
     void kputs (const char* str);
     void kputcolor (enum colors fg, enum colors bg);
+    void kpanic(const char* msg);
     uint16_t vga_entry (char c, uint8_t color);
     void set_pos(size_t c, size_t r);
 
