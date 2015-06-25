@@ -1,7 +1,7 @@
 #ifndef ELF_H
 #define ELF_H
 
-#include <Multiboot.h>
+#include <multiboot.h>
 #include <stdint.h>
 
 #define ELF32_ST_TYPE(i) ((i) & 0xF)
@@ -35,9 +35,9 @@ typedef struct {
 	uint32_t strtabsz;
 } elf_t;
 
-void elfInit(multiboot_elf_section_header_table_t* header);
-const char* elfLookupSymbol(uint32_t addr);
+void elf_init(multiboot_elf_section_header_table_t* header);
+const char* elf_lookup_symbol(uint32_t addr);
 
-void elfPrintStackTrace();
+void elf_trace();
 
 #endif

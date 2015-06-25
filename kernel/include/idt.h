@@ -1,7 +1,8 @@
-#ifndef IDT_HPP
-#define IDT_HPP
+#ifndef IDT_H_
+#define IDT_H_
+
 #include <stdint.h>
-extern "C" {
+
 extern void isr0 (void);
 extern void isr1 (void);
 extern void isr2 (void);
@@ -50,7 +51,7 @@ extern void irq12 (void);
 extern void irq13 (void);
 extern void irq14 (void);
 extern void irq15 (void);
-}
+
 
 typedef struct {
 	uint32_t ds;

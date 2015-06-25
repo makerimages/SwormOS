@@ -1,11 +1,9 @@
-#include <arch/ia32/modules/IDT.hpp>
-#include <arch/ia32/modules/PIC.hpp>
-#include <KernelGlobals.hpp>
-#include <ioports.hpp>
-
+#include <idt.h>
+#include <io.h>
+#include <pic.h>
 #include <string.h>
 #include <stdint.h>
-#include <KernelGlobals.hpp>
+
 
 
 #define IDT_TYPE_INTERRUPT 0xE /* Interrupts disabled in eflags. */
@@ -34,7 +32,7 @@ struct idt_entry idt[256];
 
 void lidt(uintptr_t base, size_t limit)
 {
-	asm volatile ("subl $6, %%esp\n\t"
+	__asm__ __volatile__ ("subl $6, %%esp\n\t"
 	              "movw %w0, 0(%%esp)\n\t"
 	              "movl %1, 2(%%esp)\n\t"
 	              "lidt (%%esp)\n\t"
@@ -56,58 +54,58 @@ void idt_format_normal_entry(struct idt_entry* entry,
 }
 
 static void isr0CallBack(interrupt_context * regs) {
-	tm.panic("Divide error");
+	kpanic("Divide error");
 }
 static void isr1CallBack(interrupt_context * regs) {
-	tm.panic("Debug");
+	kpanic("Debug");
 }
 static void isr3CallBack(interrupt_context * regs) {
-	tm.panic("Breakpoint");
+	kpanic("Breakpoint");
 }
 static void isr4CallBack(interrupt_context * regs) {
-	tm.panic("Overflow");
+	kpanic("Overflow");
 }
 static void isr5CallBack(interrupt_context * regs) {
-	tm.panic("Bound range exeeded");
+	kpanic("Bound range exeeded");
 }
 static void isr6CallBack(interrupt_context * regs) {
-	tm.panic("Invalid opcode");
+	kpanic("Invalid opcode");
 }
 static void isr7CallBack(interrupt_context * regs) {
-	tm.panic("No math coprocessor");
+	kpanic("No math coprocessor");
 }
 static void isr8CallBack(interrupt_context * regs) {
-	tm.panic("Double fault");
+	kpanic("Double fault");
 }
 static void isr9CallBack(interrupt_context * regs) {
-	tm.panic("Coprocessor segment overrun");
+	kpanic("Coprocessor segment overrun");
 }
 static void isr10CallBack(interrupt_context * regs) {
-	tm.panic("Invalid TSS");
+	kpanic("Invalid TSS");
 }
 static void isr11CallBack(interrupt_context * regs) {
-	tm.panic("Segment not present");
+	kpanic("Segment not present");
 }
 static void isr12CallBack(interrupt_context * regs) {
-	tm.panic("Stack-segment fault");
+	kpanic("Stack-segment fault");
 }
 static void isr13CallBack(interrupt_context * regs) {
-	tm.panic("GP");
+	kpanic("GP");
 }
 static void isr14CallBack(interrupt_context * regs) {
-	tm.panic("Page fault");
+	kpanic("Page fault");
 }
 static void isr16CallBack(interrupt_context * regs) {
-	tm.panic("Floating point error");
+	kpanic("Floating point error");
 }
 static void isr17CallBack(interrupt_context * regs) {
-	tm.panic("Alignment check");
+	kpanic("Alignment check");
 }
 static void isr18CallBack(interrupt_context * regs) {
-	tm.panic("Machine check");
+	kpanic("Machine check");
 }
 static void isr19CallBack(interrupt_context * regs) {
-	tm.panic("Streaming SIMD Extensions");
+	kpanic("Streaming SIMD Extensions");
 }
 
 void idt_initialize()
@@ -163,27 +161,27 @@ void idt_initialize()
 	idt_format_normal_entry(&idt[46], irq14, IDT_TYPE_INTERRUPT, 0x0);
 	idt_format_normal_entry(&idt[47], irq15, IDT_TYPE_INTERRUPT, 0x0);
 	lidt((uintptr_t) idt, sizeof(idt) - 1);
-	setHandler(0,0,&isr0CallBack);
-	setHandler(0,1,&isr1CallBack);
-	setHandler(0,3,&isr3CallBack);
-	setHandler(0,4,&isr4CallBack);
-	setHandler(0,5,&isr5CallBack);
-	setHandler(0,6,&isr6CallBack);
-	setHandler(0,7,&isr7CallBack);
-	setHandler(0,8,&isr8CallBack);
-	setHandler(0,9,&isr9CallBack);
-	setHandler(0,10,&isr10CallBack);
-	setHandler(0,11,&isr11CallBack);
-	setHandler(0,12,&isr12CallBack);
-	setHandler(0,13,&isr13CallBack);
-	setHandler(0,14,&isr14CallBack);
-	setHandler(0,16,&isr16CallBack);
-	setHandler(0,17,&isr17CallBack);
-	setHandler(0,18,&isr18CallBack);
-	setHandler(0,19,&isr19CallBack);
+	set_handler(0,0,&isr0CallBack);
+	set_handler(0,1,&isr1CallBack);
+	set_handler(0,3,&isr3CallBack);
+	set_handler(0,4,&isr4CallBack);
+	set_handler(0,5,&isr5CallBack);
+	set_handler(0,6,&isr6CallBack);
+	set_handler(0,7,&isr7CallBack);
+	set_handler(0,8,&isr8CallBack);
+	set_handler(0,9,&isr9CallBack);
+	set_handler(0,10,&isr10CallBack);
+	set_handler(0,11,&isr11CallBack);
+	set_handler(0,12,&isr12CallBack);
+	set_handler(0,13,&isr13CallBack);
+	set_handler(0,14,&isr14CallBack);
+	set_handler(0,16,&isr16CallBack);
+	set_handler(0,17,&isr17CallBack);
+	set_handler(0,18,&isr18CallBack);
+	set_handler(0,19,&isr19CallBack);
 }
 
-void setHandler(int type,int index, idt_interruptHandler_t handler) {
+void set_handler(int type,int index, idt_interruptHandler_t handler) {
 	switch(type) {
 		case 0:
 			isrHandlers[index]= handler;

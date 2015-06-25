@@ -1,7 +1,7 @@
-#include <arch/ia32/modules/PIC.hpp>
-#include <arch/ia32/modules/IDT.hpp>
-#include <KernelGlobals.hpp>
-#include <ioports.hpp>
+#include <pic.h>
+#include <idt.h>
+#include <textmode.h>
+#include <io.h>
 
 #include <stdint.h>
 
@@ -35,13 +35,12 @@ void irq_handler(interrupt_context* int_ctx) {
     irqHandlers[irq](int_ctx);
   }
   else {
-    tm.panic("Unhandled IRQ!");
+    kpanic("Unhandled IRQ!");
   }
 
 	pic_eoi_master();
 	pic_eoi_slave();
 }
-extern "C" //C extern
 void interrupt_handler(interrupt_context* int_ctx) {
 
 	if ( int_ctx->int_no < 32 ) {

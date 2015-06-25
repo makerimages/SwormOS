@@ -1,7 +1,7 @@
-#ifndef PIT_HPP
-#define PIT_HPP
+#ifndef TIMER_H_
+#define  TIMER_H_
 
-class Pit {
+#include <idt.h>
 
 
 #define PIT_COUNTER0                    0x40
@@ -37,10 +37,9 @@ class Pit {
 // ------------------------------------------------------------------------------------------------
 
 #define PIT_FREQUENCY                   1193182
-	
-	public:
-		Pit();
-		void init(int freq);
-};
+
+    void init_timer(uint32_t freq);
+    static void timer_callback(interrupt_context * regs);
+    int ticks;
 
 #endif

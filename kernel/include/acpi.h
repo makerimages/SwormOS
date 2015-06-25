@@ -1,8 +1,8 @@
-#ifndef ACPIK_H
-#define ACPIK_H
+#ifndef ACPI_H_
+#define ACPI_H_
 
 #include <stdint.h>
-
+#include <stdbool.h>
 struct RSDPDescriptor {
     char Signature[8];
     uint8_t Checksum;
@@ -12,7 +12,7 @@ struct RSDPDescriptor {
 } __attribute__ ((packed));
 
 struct RSDPDescriptor20 {
- RSDPDescriptor preDates;
+struct  RSDPDescriptor preDates;
 
  uint32_t Length;
  uint64_t XsdtAddress;
@@ -36,6 +36,7 @@ struct RSDT {
   struct ACPISDTHeader h;
   uint32_t PointerToOtherSDT[];
 };
+
 struct GenericAddressStructure
 {
   uint8_t AddressSpace;
@@ -93,7 +94,7 @@ struct FADT
     uint32_t Flags;
 
     // 12 byte structure; see below for details
-    GenericAddressStructure ResetReg;
+    struct GenericAddressStructure ResetReg;
 
     uint8_t  ResetValue;
     uint8_t  Reserved3[3];
@@ -102,46 +103,41 @@ struct FADT
     uint64_t                X_FirmwareControl;
     uint64_t                X_Dsdt;
 
-    GenericAddressStructure X_PM1aEventBlock;
-    GenericAddressStructure X_PM1bEventBlock;
-    GenericAddressStructure X_PM1aControlBlock;
-    GenericAddressStructure X_PM1bControlBlock;
-    GenericAddressStructure X_PM2ControlBlock;
-    GenericAddressStructure X_PMTimerBlock;
-    GenericAddressStructure X_GPE0Block;
-    GenericAddressStructure X_GPE1Block;
+    struct GenericAddressStructure X_PM1aEventBlock;
+    struct GenericAddressStructure X_PM1bEventBlock;
+    struct GenericAddressStructure X_PM1aControlBlock;
+    struct GenericAddressStructure X_PM1bControlBlock;
+    struct GenericAddressStructure X_PM2ControlBlock;
+    struct GenericAddressStructure X_PMTimerBlock;
+    struct GenericAddressStructure X_GPE0Block;
+    struct GenericAddressStructure X_GPE1Block;
 };
 
 
 
 typedef struct AcpiMadt
 {
-    ACPISDTHeader header;
+    struct ACPISDTHeader header;
     uint32_t localApicAddr;
     uint32_t flags;
 }__attribute__ ((packed)) AcpiMadt;
 
 
-class ACPI {
-    public:
-        ACPI();
-        void init();
-    private:
-        int use;
-        int found = 0;
-        char *loc;
+void acpi_init();
+int use;
+int found;
+char *loc;
+struct RSDT *RSDtable;
+struct RSDPDescriptor *RSDPtable;
+struct RSDPDescriptor20 *RSDP20table;
+struct RSDT *rsdt;
+void load_RSDT();
+uint8_t check_rsdp(struct RSDPDescriptor* t);
+bool check_std(struct ACPISDTHeader* tableHeader);
+void* find_table(char * signature, void *RootSDT);
+void EBDA_range();
+void RSD_mem_range();
 
-        RSDT *RSDtable;
-        RSDPDescriptor *RSDPtable;
-        RSDPDescriptor20 *RSDP20table;
-        RSDT *rsdt;
-        void loadRSDT();
-        bool ACPI::STDHeaderChecksum(ACPISDTHeader *tableHeader);
-        uint8_t RSDPChecksum(struct RSDPDescriptor*  t);
-        void* findTable(char * signature,void *RootSDT);
-        void EBDARange();
-        void RSDMemRange();
 
-};
 
 #endif

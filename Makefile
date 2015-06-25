@@ -1,4 +1,4 @@
-# Makefile to make compiling and running the jk1 kernel easier.
+# Makefile to make compiling and running the OS Zin kernel easier.
 
 .PHONY: all libc kernel run bochs clean clean-kernel clean-libc clean-sysroot
 
