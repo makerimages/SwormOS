@@ -38,7 +38,7 @@
 
 #define PIT_FREQUENCY                   1193182
 
-    void init_timer(int freq);
+    void init_timer(uint32_t freq);
     static void timer_callback(interrupt_context * regs);
     int ticks;
 
