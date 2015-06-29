@@ -82,7 +82,9 @@ void acpi_init() {
                   kputcolor(green,black);
                   kputs("OK\n");
                   kputcolor(lightGrey,black);
+                  kprintf("ACPI Revision: %d.\n",rsdt->h.Revision);
                   kprintf("APIC: 0x%x\n",find_table("APIC"));
+
                 } else {
                   kputcolor(red,black);
                   kputs("NOT VERIFIED, CAN'T CONTINUE!\n");
