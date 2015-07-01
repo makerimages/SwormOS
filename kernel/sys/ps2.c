@@ -4,6 +4,7 @@
 #include <io.h>
 
 void ps2_init() {
+    failedOnce = false;
     struct FADT* fadt = (struct FADT*) find_table("FACP");
     if(fadt->h.Revision > 1) {
         if(fadt->BootArchitectureFlags & (1 << 1)) {
@@ -34,13 +35,11 @@ void ps2_setup() {
     outb(0x64,0xA7);
     // Flush buffer
     uint8_t crap = inb(0x60);
-    kprintf("0x%x\n",crap);
 
     //Get confbyte
     outb(0x64,0x20);
     ps2_wait();
     uint8_t confbyte = inb(0x60);
-    kprintf("0x%x\n",confbyte);
 
     //Edit confbyte
     confbyte &= ~(1<<0);
@@ -51,15 +50,27 @@ void ps2_setup() {
     } else {
         isDual = false;
     }
-    outb(0x64,0x20);
+    outb(0x64,0x60);
     outb(0x60,confbyte);
-    kprintf("0x%x\n",confbyte);
 
     //Self-test
     outb(0x64,0xAA);
     ps2_wait();
     uint8_t result = inb(0x60);
-    kprintf("0x%x\n",result);
+    if(result == 0x55) {
+        kputcolor(green,black);
+        kputs("PS/2 passed self-test.");
+        kputcolor(lightGrey,black);
+    } else {
+        kputcolor(green,black);
+        kputs("PS/2 failed self-test! Trying setup once more...");
+        kputcolor(lightGrey,black);
+        if(!failedOnce) {
+            ps2_setup();
+        } else {
+            kpanic("Failed to set up PS/2 for the second time.");
+        }
+    }
 }
 
 void ps2_wait() {
