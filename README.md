@@ -19,8 +19,8 @@ Please refer to [the wiki](https://github.com/makerimages/OSZin/wiki/Building-an
 - [X] PIT
 - [X] PMM
 - [X] ACPI
-- [ ] Convert to C
-- [ ] Keyboard driver
+- [X] Convert to C
+- [X] Keyboard driver
 - [ ] File system (VFS too)
 - [ ] Commands
 

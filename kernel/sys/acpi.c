@@ -82,7 +82,9 @@ void acpi_init() {
                   kputcolor(green,black);
                   kputs("OK\n");
                   kputcolor(lightGrey,black);
-                  kprintf("APIC: 0x%x\n",find_table("APIC",rsdt));
+                  kprintf("ACPI Revision: %d.\n",rsdt->h.Revision);
+                  kprintf("APIC: 0x%x\n",find_table("APIC"));
+
                 } else {
                   kputcolor(red,black);
                   kputs("NOT VERIFIED, CAN'T CONTINUE!\n");
@@ -100,8 +102,7 @@ void acpi_init() {
     kputs("ACPI initialized.\n");
     kputcolor(lightGrey,black);
 }
-void* find_table(char * signature, void *RootSDT) {
-    struct RSDT *rsdt = (struct RSDT *) RootSDT;
+void* find_table(char * signature) {
   int entries = (rsdt->h.Length - sizeof(rsdt->h)) / 4;
   for (int i = 0; i < entries; i++)
   {
@@ -111,4 +112,8 @@ void* find_table(char * signature, void *RootSDT) {
           return (void *) h;
   }
   return NULL;
+};
+
+void* get_rsdt() {
+    return rsdt;
 };

@@ -82,6 +82,9 @@ void kputc(char c) {
 			break;
 		case '\b':
 			set_pos(column-1,row);
+            kputc(' ');
+            set_pos(column-1,row);
+
 			break;
 		case '\t':
 			set_pos(column+tab_size,row);
