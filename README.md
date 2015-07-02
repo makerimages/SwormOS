@@ -20,7 +20,7 @@ Please refer to [the wiki](https://github.com/makerimages/OSZin/wiki/Building-an
 - [X] PMM
 - [X] ACPI
 - [X] Convert to C
-- [ ] Keyboard driver
+- [X] Keyboard driver
 - [ ] File system (VFS too)
 - [ ] Commands
 
