@@ -64,7 +64,7 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
    		usableMem = usableMem / 1024;
    		kprintf("\tTotal memory: %d KB.\n", totalMem);
    		kprintf("\tOf which %d KB is usable.\n", usableMem);
-        pmm_new_init(free_at,usableMem*1024);
+       pmm_new_init(free_at,usableMem*1024);
     //   pmm_init(usableMem/1024,0x100000);
 	//	pmm_map();
 

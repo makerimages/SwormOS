@@ -1,6 +1,7 @@
 #include <pmm_new.h>
 #include <textmode.h>
 #include <stdint.h>
+
 void pmm_new_init(uintptr_t start_addr,uint32_t length_bytes) {
 
     uintptr_t start = ROUND_TO_PAGES(start_addr);
@@ -10,9 +11,12 @@ void pmm_new_init(uintptr_t start_addr,uint32_t length_bytes) {
         addr = (struct frame*) addr;
         struct frame* frame = addr;
         if(addr< (start+mem_length_bytes)) {
-            frame->next = (struct frame*)addr+PAGE_SIZE;
+            frame->next = addr+PAGE_SIZE;
         }
-        kprintf("PMM Page at 0x%x, next: 0x%x\n",frame,frame->next);
+        if(addr == start) {
+            first_free_addr = addr;
+        }
     }
+
 
 };
