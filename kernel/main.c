@@ -96,4 +96,6 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 
     ps2_init();
     init_keyboard();
+
+
 }
