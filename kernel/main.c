@@ -2,6 +2,7 @@
 #include <textmode.h>
 #include <pmm.h>
 #include <stdint.h>
+#include <stddef.h>
 #include <idt.h>
 #include <pic.h>
 #include <timer.h>
@@ -9,10 +10,11 @@
 #include <acpi.h>
 #include <ps2.h>
 #include <keyboard.h>
+#include <pmm_new.h>
 
 uint32_t totalMem;
 uint32_t usableMem;
-
+uintptr_t free_at;
 void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     elf_init (&(mbt->u.elf_sec));
     textmode_init(80,25);
@@ -50,6 +52,8 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 
 			if (mmap->type == MULTIBOOT_MEMORY_AVAILABLE) {
 				usableMem += mmap->len;
+                free_at = (uintptr_t) mmap->addr;
+
 			}
 
 
@@ -60,8 +64,9 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
    		usableMem = usableMem / 1024;
    		kprintf("\tTotal memory: %d KB.\n", totalMem);
    		kprintf("\tOf which %d KB is usable.\n", usableMem);
-        pmm_init(usableMem/1024,0x100000);
-		pmm_map();
+        pmm_new_init(free_at,usableMem*1024);
+    //   pmm_init(usableMem/1024,0x100000);
+	//	pmm_map();
 
 	}
 
@@ -78,12 +83,12 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     kputcolor(lightBlue,black);
     kputs("System info END\n");
     kputcolor(lightGrey, black);
-
+/*
     kputs("Enabling interrupts ");
 	idt_initialize ();
 	pic_initialize ();
 
-    /* Initialize the PIT timer. */
+    /* Initialize the PIT timer. /
 
 	init_timer(1000);
 
@@ -96,6 +101,6 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 
     ps2_init();
     init_keyboard();
-
+*/
 
 }
