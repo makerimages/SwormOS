@@ -31,9 +31,16 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 
     /** MAGIC **/
     kprintf("\tMagic number is: 0x%x.", magic);
-	kputcolor(lightBlue, black);
-	kputs(" Not 0x2badb002 ? Things might go bad.\n");
-    kputcolor(lightGrey, black);
+    if(magic == 0x2badb002) {
+        kputcolor(green, black);
+    	kputs(" OK\n");
+        kputcolor(lightGrey, black);
+    } else {
+        kputcolor(green, black);
+    	kputs(" FAIL\n");
+        kputcolor(lightGrey, black);
+    }
+
 
     /* Print the amount of memory. */
 	kprintf("\tMultiboot info points to: 0x%x\n", &mbt);
@@ -64,7 +71,9 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
    		usableMem = usableMem / 1024;
    		kprintf("\tTotal memory: %d KB.\n", totalMem);
    		kprintf("\tOf which %d KB is usable.\n", usableMem);
-       pmm_new_init(free_at,usableMem*1024);
+        pmm_new_init(free_at,usableMem*1024);
+        pmm_new_map();
+        
     //   pmm_init(usableMem/1024,0x100000);
 	//	pmm_map();
 
