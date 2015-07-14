@@ -48,7 +48,7 @@ _start:
 	movw %cx, %ss
 
 	call kernel_main
-
+	jmp .Lhang
 .Lhang:
 	jmp .Lhang
 

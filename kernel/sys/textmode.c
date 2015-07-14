@@ -130,11 +130,11 @@ void set_pos(size_t c, size_t r) {
 };
 
 void kpanic(const char* msg) {
-    kputcolor(darkGrey,lightGrey);
 	textmode_clear();
+    kputcolor(darkGrey,black);
+
 	set_pos((width/2)-strlen("OS Zin has crashed to unrecoverable grounds")/2,(height/2)-6);
 	kputs("OS Zin has crashed to unrecoverable grounds");
-	kputcolor(red, lightGrey);
 	set_pos((width/2)-strlen(msg)/2-3,(height/2)-5);
 	kputs("Error: ");
 	set_pos((width/2)-strlen(msg)/2+4,(height/2)-5);
