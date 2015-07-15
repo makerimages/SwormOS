@@ -25,6 +25,16 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     kputs("Copyright (c) Makerimages 2014-2015. MIT \n");
     kputs("Visit www.oszin.cf for more information. Sources available on GitHub.\n");
 
+    kputs("Enabling interrupts ");
+
+    idt_initialize ();
+    pic_initialize ();
+    __asm__ __volatile__ ("sti");
+
+    kputcolor(green, black);
+    kputs("OK.\n");
+    kputcolor(lightGrey,black);
+
     /** Print system details **/
     kputcolor(lightBlue,black);
     kputs("System info START\n");
@@ -96,18 +106,15 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     kputcolor(lightGrey, black);
 
 
-    kputs("Enabling interrupts ");
-    idt_initialize ();
-    pic_initialize ();
-    init_timer(1000);
 
-    __asm__ __volatile__ ("sti");
-
-    kputcolor(green, black);
-    kputs("OK.\n");
-    kputcolor(lightGrey,black);
 
     // Initialize the PIT timer.
+
+    init_timer(1000);
+
+
+
+
 
 
     acpi_init();
