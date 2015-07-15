@@ -11,6 +11,7 @@
 #include <ps2.h>
 #include <keyboard.h>
 #include <pmm_new.h>
+#include <paging.h>
 
 uint32_t totalMem;
 uint32_t usableMem;
@@ -73,6 +74,7 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
    		kprintf("\tOf which %d KB is usable.\n", usableMem);
         pmm_new_init(free_at,usableMem*1024);
         pmm_new_map();
+        init_paging();
 
     //   pmm_init(usableMem/1024,0x100000);
 	//	pmm_map();
@@ -92,24 +94,26 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     kputcolor(lightBlue,black);
     kputs("System info END\n");
     kputcolor(lightGrey, black);
-/*
+
+
     kputs("Enabling interrupts ");
-	idt_initialize ();
-	pic_initialize ();
+    idt_initialize ();
+    pic_initialize ();
+    init_timer(1000);
 
-    /* Initialize the PIT timer. /
+    __asm__ __volatile__ ("sti");
 
-	init_timer(1000);
+    kputcolor(green, black);
+    kputs("OK.\n");
+    kputcolor(lightGrey,black);
 
-	__asm__ __volatile__ ("sti");
+    // Initialize the PIT timer.
 
-	kputcolor(green, black);
-	kputs("OK.\n");
-	kputcolor(lightGrey,black);
+
     acpi_init();
 
     ps2_init();
     init_keyboard();
-*/
+
 
 }

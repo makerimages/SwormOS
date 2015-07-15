@@ -22,7 +22,7 @@ void pmm_new_init(uintptr_t start_addr,uint32_t length_bytes) {
     kputcolor(lightGrey,black);
 };
 
-void * kmalloc(uint32_t size) {
+void * kmalloc() {
     void* loc = first_free_addr;
     first_free_addr = first_free_addr->next;
     return loc;
