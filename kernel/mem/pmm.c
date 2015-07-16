@@ -11,7 +11,6 @@ void pmm_init(size_t memSize, uint32_t bitmap) {
 	used = max;
 	memset (manager_map, 0xf, max / BPB );
     manager_map = (uint32_t*) bitmap;
-    init_region (0x100000, memSize*512);
     kputcolor(green, black);
     kprintf("\tPMM initialized with %d blocks of memory. %d currently in use\n",max,used);
     kputcolor(lightGrey,black);
@@ -69,12 +68,12 @@ void deinit_region(uint32_t base, size_t size) {
 
 void* pmm_allocate() {
     if (max-used <= 0)
-        return 0;	//out of memory
+        kpanic("Out of memory.");
 
     int frame = first_free();
 
     if (frame == -1)
-        return 0;	//out of memory
+        kpanic("Out of memory.");
 
     set_bit(frame);
 

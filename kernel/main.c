@@ -10,8 +10,12 @@
 #include <acpi.h>
 #include <ps2.h>
 #include <keyboard.h>
-#include <pmm_new.h>
+#include <pmm.h>
 #include <paging.h>
+extern char Kstart;
+
+extern char end;
+
 
 uint32_t totalMem;
 uint32_t usableMem;
@@ -19,6 +23,7 @@ uintptr_t free_at;
 void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     elf_init (&(mbt->u.elf_sec));
     textmode_init(80,25);
+
 
     /** Welcome Message **/
     kputs("OS Zin version 0.0.1 booting... \n");
@@ -82,12 +87,12 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
    		usableMem = usableMem / 1024;
    		kprintf("\tTotal memory: %d KB.\n", totalMem);
    		kprintf("\tOf which %d KB is usable.\n", usableMem);
-        pmm_new_init(free_at,usableMem*1024);
-        pmm_new_map();
-        init_paging();
+    //    pmm_new_init(free_at,usableMem*1024);
+    //    pmm_new_map();
+    //    init_paging();
 
-    //   pmm_init(usableMem/1024,0x100000);
-	//	pmm_map();
+      pmm_init(totalMem,&end);
+      pmm_map();
 
 	}
 
@@ -107,11 +112,9 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 
 
 
-
     // Initialize the PIT timer.
 
     init_timer(1000);
-
 
 
 
@@ -122,5 +125,12 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     ps2_init();
     init_keyboard();
 
+    pmm_map();
+//    kprintf("Allocating: 0x%x\n",pmm_allocate());
+//    kprintf("Allocating: 0x%x\n",pmm_allocate());
+    uint32_t size = end-Kstart;
+    size = size/1024;
+    size = size/1024;
+    kprintf("Start: 0x%x, End: 0x%x, Size: %d",&Kstart,&end, size);
 
 }
