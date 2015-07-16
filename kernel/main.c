@@ -12,9 +12,9 @@
 #include <keyboard.h>
 #include <pmm.h>
 #include <paging.h>
-extern char Kstart;
+extern char Kstart[];
 
-extern char end;
+extern char end[];
 
 
 uint32_t totalMem;
@@ -24,11 +24,13 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     elf_init (&(mbt->u.elf_sec));
     textmode_init(80,25);
 
+    uint32_t size = end-Kstart;
 
     /** Welcome Message **/
     kputs("OS Zin version 0.0.1 booting... \n");
     kputs("Copyright (c) Makerimages 2014-2015. MIT \n");
     kputs("Visit www.oszin.cf for more information. Sources available on GitHub.\n");
+    kprintf("Kernel: Start: 0x%x, End: 0x%x, Size: %d KB.\n",Kstart,end, size/1024);
 
     kputs("Enabling interrupts ");
 
@@ -91,7 +93,9 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     //    pmm_new_map();
     //    init_paging();
 
-      pmm_init(totalMem,&end);
+      pmm_init(totalMem,end);
+      init_region(Kstart,usableMem*1024);
+      deinit_region(Kstart, size);
       pmm_map();
 
 	}
@@ -126,11 +130,11 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     init_keyboard();
 
     pmm_map();
-//    kprintf("Allocating: 0x%x\n",pmm_allocate());
-//    kprintf("Allocating: 0x%x\n",pmm_allocate());
-    uint32_t size = end-Kstart;
-    size = size/1024;
-    size = size/1024;
-    kprintf("Start: 0x%x, End: 0x%x, Size: %d",&Kstart,&end, size);
+    void* loc = pmm_allocate();
+    kprintf("Allocating: 0x%x\n",loc);
+    kprintf("Allocating: 0x%x\n",pmm_allocate());
+    kprintf("Allocating: 0x%x\n",pmm_allocate());
+    pmm_deallocate(loc);
+    kprintf("Allocating: 0x%x\n",pmm_allocate());
 
 }

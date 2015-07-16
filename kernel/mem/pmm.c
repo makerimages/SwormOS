@@ -71,7 +71,7 @@ void* pmm_allocate() {
         kpanic("Out of memory.");
 
     int frame = first_free();
-
+    kprintf("Frame: %d\n",frame);
     if (frame == -1)
         kpanic("Out of memory.");
 
