@@ -89,14 +89,9 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
    		usableMem = usableMem / 1024;
    		kprintf("\tTotal memory: %d KB.\n", totalMem);
    		kprintf("\tOf which %d KB is usable.\n", usableMem);
-    //    pmm_new_init(free_at,usableMem*1024);
-    //    pmm_new_map();
-    //    init_paging();
-
-      pmm_init(totalMem,end);
-      init_region(Kstart,usableMem*1024);
-      deinit_region(Kstart, size);
-      pmm_map();
+        pmm_init(end,(usableMem*1024)-size);
+        pmm_map();
+      //init_paging();
 
 	}
 
@@ -129,12 +124,7 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     ps2_init();
     init_keyboard();
 
-    pmm_map();
-    void* loc = pmm_allocate();
-    kprintf("Allocating: 0x%x\n",loc);
-    kprintf("Allocating: 0x%x\n",pmm_allocate());
-    kprintf("Allocating: 0x%x\n",pmm_allocate());
-    pmm_deallocate(loc);
-    kprintf("Allocating: 0x%x\n",pmm_allocate());
 
+    kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
+    pmm_map();
 }
