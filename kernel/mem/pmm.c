@@ -2,7 +2,7 @@
 #include <textmode.h>
 #include <stdint.h>
 
-void pmm_init(u& intptr_t start_addr,uint32_t length_bytes) {
+void pmm_init(uintptr_t start_addr,uint32_t length_bytes) {
     kputs("\tInitializing PMM ");
     uintptr_t start = ROUND_TO_PAGES(start_addr);
     uint32_t mem_length_bytes = length_bytes & ~PAGE_SIZE;
@@ -22,7 +22,7 @@ void pmm_init(u& intptr_t start_addr,uint32_t length_bytes) {
     kputcolor(lightGrey,black);
 };
 
-void * kmalloc() {
+uintptr_t alloc_phys() {
     void* loc = first_free_addr;
     first_free_addr = first_free_addr->next;
     return loc;
@@ -36,6 +36,6 @@ void kfree(void* address) {
 
 void pmm_map() {
     kputcolor(lightBrown,black);
-    kprintf("First free page is at: 0x%x. Next: 0x%x.\n",first_free_addr,first_free_addr->next);
+    kprintf("\tFirst free page is at: 0x%x. Next: 0x%x.\n",first_free_addr,first_free_addr->next);
     kputcolor(lightGrey,black);
 }

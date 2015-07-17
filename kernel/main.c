@@ -91,7 +91,6 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
    		kprintf("\tOf which %d KB is usable.\n", usableMem);
         pmm_init(end,(usableMem*1024)-size);
         pmm_map();
-      //init_paging();
 
 	}
 
@@ -102,13 +101,14 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 		kputs("\tNo memory map passed, using mem_upper & mem_lower.\n");
 		kprintf("\tTotal memory: %d KB.\n", mbt->mem_upper + mbt->mem_lower);
 		kputcolor(lightGrey,black);
+
 	}
 
     /** Print system details end message**/
     kputcolor(lightBlue,black);
     kputs("System info END\n");
     kputcolor(lightGrey, black);
-
+    init_paging();
 
 
     // Initialize the PIT timer.
@@ -127,4 +127,5 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 
     kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
     pmm_map();
+
 }

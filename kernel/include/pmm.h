@@ -15,7 +15,7 @@
     struct frame* first_free_addr;
 
     void pmm_init(uintptr_t start_addr,uint32_t length_bytes);
-    void* kmalloc();
+    uintptr_t alloc_phys();
     void kfree(void* address);
     void pmm_map();
 #endif

@@ -15,10 +15,10 @@ loadPageDirectory:
 .type enablePaging, @function
 enablePaging:
     push %ebp
-    movl %esp, %ebp
-    movl %cr0, %eax
+    mov %esp, %ebp
+    mov %cr0, %eax
     or $0x80000000, %eax
-    movl %eax, %cr0
-    movl %ebp, %esp
+    mov %eax, %cr0
+    mov %ebp, %esp
     pop %ebp
     ret
