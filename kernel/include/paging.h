@@ -3,9 +3,11 @@
 
 #include <pmm.h>
 
+
+
     uint32_t* page_directory;
     uint32_t* first_page_table;
 
     void init_paging();
-
+    uintptr_t get_physaddr(uintptr_t virtualaddr);
 #endif
