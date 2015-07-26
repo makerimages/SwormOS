@@ -91,6 +91,7 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
    		kprintf("\tOf which %d KB is usable.\n", usableMem);
         pmm_init(end,(usableMem*1024)-size);
         pmm_map();
+        
 
 	}
 
