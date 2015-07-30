@@ -9,31 +9,35 @@ static void pagefault_callback(interrupt_context * regs) {
 
 void init_paging() {
     kputs("Initializing paging... ");
-    page_directory = alloc_phys();
-    for(int i = 0; i < 1024; i++) {
-        page_directory[i]=0x00000002;
-    }
-    first_page_table = alloc_phys();
-    for(unsigned int j = 0; j<1024; j++) {
-        first_page_table[j] = (j*0x1000) | 3;
-    }
-    page_directory[0] = ((unsigned int) first_page_table) | 3;
-    __asm__("mov %0, %%cr3":: "r"(page_directory):"memory");
+	uint32_t* address = alloc_phys();
+	uint32_t junk = alloc_phys(); //Junk allocate, so the memset doesn't mess up our PMM
+	junk = alloc_phys(); //Junk allocate again , so the memset doesn't mess up our PMM
 
-    uint32_t cr0;
-    __asm__("mov %%cr0,%0": "=r"(cr0));
-    cr0 |= 0x80000000;
-    __asm__("mov %0, %%cr0"::"r"(cr0):"memory");
-
-    set_handler(0,14,&pagefault_callback);
-    kputcolor(green,black);
-    kputs("OK\n");
-    kputcolor(lightGrey,black);
+	page_directory_t* kernel_directory = (page_directory_t *) address;
+	memset(kernel_directory, 0, sizeof(page_directory_t));
+	current_directory = *kernel_directory;
 }
-/*
-uintptr_t get_physaddr(uintptr_t virtualaddr) {
-    unsigned long pdindex = (unsigned long) virtualaddr >> 22;
-    unsigned long ptindex = (unsigned long) virtualaddr >>  12 & 0x03FF;
-    unsigned long pd = (unsigned long *) 0xFFFFF000;
-};
-*/
+
+
+void map_to_phys(page_t *page, int is_kernel, int is_writeable) {
+	if(page->frame != 0) {
+		return; // Aready mapped
+	} else {
+		uint32_t* at = alloc_phys();
+		page -> present = 1;
+		page -> rw = (is_writeable)?1:0;
+		page -> user = (is_kernel)?0:1;
+		page -> frame = at;
+	}
+}
+
+
+void unmap_from_phys(page_t *page) {
+	uint32_t frame;
+	if(!(frame= page-> frame)) {
+		return;
+	} else {
+		kfree(&frame);
+		page -> frame = 0x0;
+	}
+}

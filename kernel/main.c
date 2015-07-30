@@ -91,7 +91,7 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
    		kprintf("\tOf which %d KB is usable.\n", usableMem);
         pmm_init(end,(usableMem*1024)-size);
         pmm_map();
-        
+
 
 	}
 
@@ -117,10 +117,10 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     init_timer(1000);
 
 
-    acpi_init();
+    //acpi_init();
 
-    ps2_init();
-    init_keyboard();
+    //ps2_init();
+    //init_keyboard();
 
 
     kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
