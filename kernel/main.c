@@ -120,4 +120,19 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     ps2_init();
     init_keyboard();
 
+    void* test = kmalloc(64);
+    kprintf("64 Alloc at 0x%x\n",test);
+    void* test2 = kmalloc(64);
+    kprintf("64 Alloc 2 at 0x%x\n",test2);
+    kfree(test);
+      void* test6 = kmalloc(64);
+        kprintf("64 Alloc 6 at 0x%x\n",test6);
+
+      kfree(test2);
+        void* test7 = kmalloc(64);
+          kprintf("64 Alloc 6 at 0x%x\n",test7);
+
+
+    kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
+
 }
