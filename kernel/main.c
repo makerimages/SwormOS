@@ -1,6 +1,5 @@
 #include <multiboot.h>
 #include <textmode.h>
-#include <pmm.h>
 #include <stdint.h>
 #include <stddef.h>
 #include <idt.h>
@@ -10,7 +9,7 @@
 #include <acpi.h>
 #include <ps2.h>
 #include <keyboard.h>
-#include <pmm.h>
+#include <heap.h>
 #include <paging.h>
 extern char Kstart[];
 
@@ -89,8 +88,7 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
    		usableMem = usableMem / 1024;
    		kprintf("\tTotal memory: %d KB.\n", totalMem);
    		kprintf("\tOf which %d KB is usable.\n", usableMem);
-        pmm_init(end,(usableMem*1024)-size);
-        pmm_map();
+
 
 
 	}
@@ -109,21 +107,17 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     kputcolor(lightBlue,black);
     kputs("System info END\n");
     kputcolor(lightGrey, black);
-    init_paging();
 
 
+    paging_init(mbt);
     // Initialize the PIT timer.
 
     init_timer(1000);
 
 
-    //acpi_init();
+    acpi_init();
 
-    //ps2_init();
-    //init_keyboard();
-
-
-    kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
-    pmm_map();
+    ps2_init();
+    init_keyboard();
 
 }

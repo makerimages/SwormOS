@@ -1,34 +1,38 @@
 #ifndef PAGING_H_
 #define PAGING_H_
+#define BITS(s, name) unsigned int name : s
+#include <stdbool.h>
+#include <stdint.h>
 
-#include <pmm.h>
 
-    typedef struct page {
-        uint32_t present  :1; // Present in memory
-        uint32_t rw       :1; // Read-only if clear
-        uint32_t user     :1; // Supervisor level if clear
-        uint32_t accessed :1; // Accessed since last refresh?
-        uint32_t dirty    :1; // Been written since last refresh?
-        uint32_t unused   :7; // Unused and reserved bits
-        uint32_t frame    :20; // Phys Frame address shifted right 12 bits ?
+typedef struct paging_page {
+	BITS( 1, present);
+	BITS( 1, rw);
+	BITS( 1, user);
+	BITS( 1, accessed);
+	BITS( 1, dirty);
+	BITS( 7, unused);
+	BITS(20, frame);
+} paging_page_t;
 
-    } page_t;
+typedef struct paging_table {
+	paging_page_t pages[1024];
+} paging_table_t;
 
-    typedef struct page_table {
-        page_t pages[1024];
-    } page_table_t;
+typedef struct paging_directory {
+	paging_table_t * tables[1024];
 
-    typedef struct page_directory {
-        page_table_t *tables[1024];
-        uint32_t tablesPhysical[1024];
-        uint32_t physicalAddr;
-    } page_directory_t;
+	void * tablesPhysical[1024];
 
-    page_directory_t current_directory ;
+	void * physicalAddress;
+} paging_directory_t;
 
-    void init_paging();
-    void switch_pagedir(page_directory_t* new);
-    page_t * get_page(uint32_t address, int make, page_directory_t dir);
-    void map_to_phys(page_t *page, int is_kernel, int is_writeable);
-    void unmap_from_phys(page_t *page);
+void paging_init();
+void paging_switchDirectory(paging_directory_t * directory);
+paging_page_t * paging_getPage(uint32_t address, bool make, paging_directory_t * directory);
+
+void frameAlloc(paging_page_t * page, bool rw, bool user);
+
+paging_directory_t * paging_cloneDirectory(paging_directory_t * directory);
+
 #endif
