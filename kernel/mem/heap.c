@@ -161,8 +161,17 @@ static void chunk_glue(heap_header_t * chunk) {
 			kputs("if in while\n");
 			chunk->next->next->prev = chunk;
 		}
-		chunk->next = 0xDEADBEAF;
+		chunk_invalidate(chunk->next);
 		chunk->next = chunk->next->next;
 	}
+
+}
+
+static void chunk_invalidate(heap_header_t* chunk) {
+	chunk->prev=0xDEADBEAF;
+
+	chunk->next=0xDEADBEAF;
+	chunk->allocated=0xDEADBEAF;
+	chunk->length=0xDEADBEAF;
 
 }

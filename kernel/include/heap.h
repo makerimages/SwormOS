@@ -41,5 +41,6 @@ void * kmalloc_p(uint32_t size, uint32_t * phys);
 void * kmalloc_ap(uint32_t size, uint32_t * phys);
 
 void kfree(void * p);
+static void chunk_invalidate(heap_header_t* chunk) ;
 
 #endif
