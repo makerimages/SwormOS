@@ -128,7 +128,7 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
       void* test6 = kmalloc(64);
         kprintf("64 Alloc 6 at 0x%x\n",test6);
 
-      kfree(test2);
+      //kfree(test2);
         void* test7 = kmalloc(64);
           kprintf("64 Alloc 6 at 0x%x\n",test7);
 

@@ -91,10 +91,12 @@ void * alloc(uint32_t size, bool pageAlign, heap_t * heap) {
 }
 
 void free(void *p, heap_t * heap) {
-	if (!p)
+	if (!p) {
 		return;
-	if ((uint32_t)p < heap->startAddress || heap->endAddress < (uint32_t)p)
+	}
+	if ((uint32_t)p < heap->startAddress || heap->endAddress < (uint32_t)p) {
 		kpanic("Trying to free from the wrong heap");
+	}
 	heap_header_t * header = (heap_header_t *)((uint32_t)p - sizeof(heap_header_t));
 	header->allocated = false;
 	chunk_glue(header);
@@ -151,22 +153,16 @@ static void chunk_split(heap_header_t * chunk, uint32_t len) {
 
 //Chunk is not valid after you call this!
 static void chunk_glue(heap_header_t * chunk) {
-	bool again = false;
-	if (chunk->next && !chunk->next->allocated) {
+	while(chunk -> prev && !chunk->prev->allocated) {kputs("while 1\n");chunk = chunk->prev;}
+	while (chunk->next && !chunk->next->allocated) {
+		kputs("while2\n");
 		chunk->length = chunk->length + chunk->next->length + sizeof(heap_header_t);
-		if (chunk->next->next)
+		if (chunk->next->next) {
+			kputs("if in while\n");
 			chunk->next->next->prev = chunk;
+		}
+		chunk->next = 0xDEADBEAF;
 		chunk->next = chunk->next->next;
-		again = true;
 	}
-	if (chunk->prev && !chunk->prev->allocated) {
-		chunk->prev->length = chunk->prev->length + chunk->length + sizeof(heap_header_t);
-		if (chunk->prev->prev)
-			chunk->prev->prev = chunk->next;
-		chunk->next->prev = chunk->prev;
-		chunk = chunk->prev;
-		again = true;
-	}
-	if (again)
-		chunk_glue(chunk);
+
 }

@@ -43,7 +43,7 @@ void paging_init(multiboot_info_t * multiboot) {
 	kernelDirectory = currentDirectory = (paging_directory_t *)kmalloc_a(sizeof(paging_directory_t));
 
 	uint32_t i = 0;
-	while (i < (uint32_t)placementAddress) {
+	while (i < (uint32_t)placementAddress + 0x1000) {
 		frameAlloc(paging_getPage(i, 1, kernelDirectory), false, true);
 		i += 0x1000;
 	}
@@ -53,17 +53,17 @@ void paging_init(multiboot_info_t * multiboot) {
 
 
 	paging_switchDirectory(kernelDirectory);
-
+	uint32_t cr0;
+	__asm__ volatile("mov %%cr0, %0" : "=r"(cr0));
+	cr0 |= 0x80000000;
+	__asm__ volatile("mov %0, %%cr3" :: "r"(cr0));
 	kernelHeap = heap_create(KHEAP_START, KHEAP_START+KHEAP_INITIAL_SIZE, 0xCFFFF000, false, false);
 }
 
 void paging_switchDirectory(paging_directory_t * directory) {
 	currentDirectory = directory;
-	__asm__ volatile("mov %0, %%cr3" :: "r"(&directory->tablesPhysical));
-	uint32_t cr0;
-	__asm__ volatile("mov %%cr0, %0" : "=r"(cr0));
-	cr0 |= 0x80000000;
-	__asm__ volatile("mov %0, %%cr3" :: "r"(cr0));
+	__asm__ volatile("mov %0, %%cr3" :: "r"(directory->tablesPhysical));
+
 }
 
 
