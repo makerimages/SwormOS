@@ -9,7 +9,7 @@
 #include <acpi.h>
 #include <ps2.h>
 #include <keyboard.h>
-#include <pmm.h>
+#include <memory.h>
 
 
 extern char Kstart[];
@@ -123,12 +123,15 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 
     kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
 
-    pmm_init(end,(usableMem*1024)-size);
-    pmm_map();
-    void* loc = pmm_alloc();
-    kprintf("Allocating: 0x%x\n",loc);
-    kprintf("Allocating: 0x%x\n",pmm_alloc());
-    kprintf("Allocating: 0x%x\n",pmm_alloc());
-    pmm_free(loc);
-    kprintf("Allocating: 0x%x\n",pmm_alloc());
+    mm_init(end);
+    paging_init();
+    char* loc = malloc(64);
+    kprintf("0x%x\n",loc);
+    kprintf("0x%x\n",pmalloc(64));
+    kprintf("0x%x\n",malloc(64));
+    kprintf("0x%x\n",malloc(64));
+    free(loc);
+    kprintf("0x%x\n",malloc(64));
+    mm_print_out();
+
 }
