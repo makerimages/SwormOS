@@ -108,10 +108,10 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     kputcolor(lightBlue,black);
     kputs("System info END\n");
     kputcolor(lightGrey, black);
+    mm_init(end);
+    paging_init();
 
 
-//    paging_init(mbt);
-    // Initialize the PIT timer.
 
     init_timer(1000);
 
@@ -119,12 +119,10 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 //    acpi_init();
 
 //    ps2_init();
-    //init_keyboard();
+//    init_keyboard();
 
     kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
 
-    mm_init(end);
-    paging_init();
 
 
 }

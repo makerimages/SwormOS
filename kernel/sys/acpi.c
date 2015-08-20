@@ -1,7 +1,7 @@
 #include <acpi.h>
 #include <stdint.h>
 #include <textmode.h>
-
+#include <memory.h>
 uint8_t check_rsdp(struct RSDPDescriptor* t) {
     uint8_t count = 0;
     const unsigned char * p = (const unsigned char*) t;

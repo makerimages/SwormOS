@@ -48,10 +48,11 @@ void paging_init()
 	memset(page_directory,0,4096);
 	for(int i = 0; i < 1024; i++)
 	{
-		first_page_table[i] = i | 3;
+		first_page_table[i] = (i << 12) | 3;
 	}
 	page_directory[0] = (uint32_t)first_page_table | 3;
 	page_directory[1023] = (uint32_t)page_directory | 3;
+	page_directory[768] = (uint32_t)first_page_table | 3 ;
 	paging_enable();
 	kprintf("Paging was successfully enabled!\n");
 }
