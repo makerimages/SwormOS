@@ -61,7 +61,7 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 
 
     /* Print the amount of memory. */
-	kprintf("\tMultiboot info points to: 0x%x\n", &mbt);
+	kprintf("\tMultiboot info points to: 0x%x\n", mbt);
 	if (mbt->flags & (1 << 6))
     {
 		kputcolor(green, black);
@@ -120,31 +120,15 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 
 //    ps2_init();
     //init_keyboard();
-/**
-    void* test = kmalloc(64);
-    kprintf("64 Alloc at 0x%x\n",test);
-    void* test2 = kmalloc(64);
-    kprintf("64 Alloc 2 at 0x%x\n",test2);
-    kfree(test);
-      void* test6 = kmalloc(64);
-        kprintf("64 Alloc 6 at 0x%x\n",test6);
-
-      kfree(test2);
-        void* test7 = kmalloc(64);
-          kprintf("64 Alloc 6 at 0x%x\n",test7);
-*/
 
     kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
 
-    pmm_init(usableMem*1024,end);
-    init_region(Kstart,usableMem*1024);
-    deinit_region(Kstart, size);
-    deinit_bitmap();
+    pmm_init(end,(usableMem*1024)-size);
     pmm_map();
-    void* loc = pmm_allocate();
+    void* loc = pmm_alloc();
     kprintf("Allocating: 0x%x\n",loc);
-    kprintf("Allocating: 0x%x\n",pmm_allocate());
-    kprintf("Allocating: 0x%x\n",pmm_allocate());
-    pmm_deallocate(loc);
-    kprintf("Allocating: 0x%x\n",pmm_allocate());
+    kprintf("Allocating: 0x%x\n",pmm_alloc());
+    kprintf("Allocating: 0x%x\n",pmm_alloc());
+    pmm_free(loc);
+    kprintf("Allocating: 0x%x\n",pmm_alloc());
 }
