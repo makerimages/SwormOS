@@ -9,8 +9,9 @@
 #include <acpi.h>
 #include <ps2.h>
 #include <keyboard.h>
-#include <heap.h>
-#include <paging.h>
+#include <pmm.h>
+
+
 extern char Kstart[];
 
 extern char end[];
@@ -109,17 +110,17 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     kputcolor(lightGrey, black);
 
 
-    paging_init(mbt);
+//    paging_init(mbt);
     // Initialize the PIT timer.
 
     init_timer(1000);
 
 
-    acpi_init();
+//    acpi_init();
 
-    ps2_init();
-    init_keyboard();
-
+//    ps2_init();
+    //init_keyboard();
+/**
     void* test = kmalloc(64);
     kprintf("64 Alloc at 0x%x\n",test);
     void* test2 = kmalloc(64);
@@ -131,8 +132,19 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
       kfree(test2);
         void* test7 = kmalloc(64);
           kprintf("64 Alloc 6 at 0x%x\n",test7);
-
+*/
 
     kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
 
+    pmm_init(usableMem*1024,end);
+    init_region(Kstart,usableMem*1024);
+    deinit_region(Kstart, size);
+    deinit_bitmap();
+    pmm_map();
+    void* loc = pmm_allocate();
+    kprintf("Allocating: 0x%x\n",loc);
+    kprintf("Allocating: 0x%x\n",pmm_allocate());
+    kprintf("Allocating: 0x%x\n",pmm_allocate());
+    pmm_deallocate(loc);
+    kprintf("Allocating: 0x%x\n",pmm_allocate());
 }
