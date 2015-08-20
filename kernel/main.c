@@ -125,13 +125,6 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 
     mm_init(end);
     paging_init();
-    char* loc = malloc(64);
-    kprintf("0x%x\n",loc);
-    kprintf("0x%x\n",pmalloc(64));
-    kprintf("0x%x\n",malloc(64));
-    kprintf("0x%x\n",malloc(64));
-    free(loc);
-    kprintf("0x%x\n",malloc(64));
-    mm_print_out();
+
 
 }
