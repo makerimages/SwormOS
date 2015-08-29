@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include "textmode.h"
 #include "memory.h"
-
+#include "pmm.h"
 extern char Kstart[];
 
 extern char end[];
@@ -42,9 +42,9 @@ void paging_enable()
 void paging_init()
 {
 	kprintf("Setting up paging\n");
-	page_directory = (uint32_t*)0x400000;
+	page_directory = (uint32_t*)alloc_phys();
 	page_dir_loc = (uint32_t)page_directory;
-	first_page_table = (uint32_t *)0x404000;
+	first_page_table = (uint32_t *)alloc_phys();
 	memset(page_directory,0,4096);
 	for(int i = 0; i < 1024; i++)
 	{
