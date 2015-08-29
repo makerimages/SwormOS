@@ -20,8 +20,9 @@ Please refer to [the wiki](https://github.com/makerimages/OSZin/wiki/Building-an
 - [X] PMM
 - [X] ACPI
 - [X] Convert to C
-- [X] Keyboard driver
-- [ ] File system (VFS too)
+- [X] Keyboard driver - Issue #31
+- [ ] Virtual Memory Management - Issue #36
+- [ ] File system (VFS too) - Issue #32
 - [ ] Commands
 
 
@@ -29,4 +30,5 @@ Please refer to [the wiki](https://github.com/makerimages/OSZin/wiki/Building-an
 ## Thank you:
 * The wiki, forums and IRC of osdev.org for being there. If it weren't for them, I'd still be stuck at writing a bootloader.
 * Jonas 'Sortie' Termansen - GDT and IDT implementation sources.
-* @exetwezz - All the things related to PR #13
+* @exetwezz - All the things related to PR #13.
+* @levex - His4th(?) rewrite of levos, is where the base paging code is derived from.

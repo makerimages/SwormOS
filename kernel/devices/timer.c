@@ -9,7 +9,6 @@ static void timer_callback(interrupt_context * regs) {
 }
 
 void init_timer(uint32_t freq) {
-	kprintf("Initing timer");
     ticks = 0;
     int divisor = PIT_FREQUENCY / freq;
    	outb (PIT_CMD, CMD_BINARY | CMD_MODE3 | CMD_RW_BOTH | CMD_COUNTER0);

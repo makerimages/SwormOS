@@ -11,12 +11,6 @@ static uint32_t* page_directory = 0;
 static uint32_t page_dir_loc = 0;
 static uint32_t* first_page_table = 0;
 
-/* Paging now will be really simple
- * we reserve 0-8MB for kernel stuff
- * heap will be from approx 1mb to 4mb
- * and paging stuff will be from 4mb
- */
-
 
 void paging_map_virtual_to_phys(uint32_t virt, uint32_t phys)
 {
@@ -46,6 +40,7 @@ void paging_init()
 	page_dir_loc = (uint32_t)page_directory;
 	first_page_table = (uint32_t *)alloc_phys();
 	memset(page_directory,0,4096);
+	memset(first_page_table,0,4096);
 	for(int i = 0; i < 1024; i++)
 	{
 		first_page_table[i] = (i << 12) | 3;
