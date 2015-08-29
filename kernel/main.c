@@ -1,7 +1,7 @@
 #include <multiboot.h>
 #include <textmode.h>
-#include <pmm.h>
 #include <stdint.h>
+#include <stddef.h>
 #include <idt.h>
 #include <pic.h>
 #include <timer.h>
@@ -9,18 +9,38 @@
 #include <acpi.h>
 #include <ps2.h>
 #include <keyboard.h>
+#include <pmm.h>
+
+
+extern char Kstart[];
+
+extern char end[];
+
 
 uint32_t totalMem;
 uint32_t usableMem;
-
+uintptr_t free_at;
 void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     elf_init (&(mbt->u.elf_sec));
     textmode_init(80,25);
+
+    uint32_t size = end-Kstart;
 
     /** Welcome Message **/
     kputs("OS Zin version 0.0.1 booting... \n");
     kputs("Copyright (c) Makerimages 2014-2015. MIT \n");
     kputs("Visit www.oszin.cf for more information. Sources available on GitHub.\n");
+    kprintf("Kernel: Start: 0x%x, End: 0x%x, Size: %d KB.\n",Kstart,end, size/1024);
+
+    kputs("Enabling interrupts ");
+
+    idt_initialize ();
+    pic_initialize ();
+    __asm__ __volatile__ ("sti");
+
+    kputcolor(green, black);
+    kputs("OK.\n");
+    kputcolor(lightGrey,black);
 
     /** Print system details **/
     kputcolor(lightBlue,black);
@@ -29,12 +49,19 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 
     /** MAGIC **/
     kprintf("\tMagic number is: 0x%x.", magic);
-	kputcolor(lightBlue, black);
-	kputs(" Not 0x2badb002 ? Things might go bad.\n");
-    kputcolor(lightGrey, black);
+    if(magic == 0x2badb002) {
+        kputcolor(green, black);
+    	kputs(" OK\n");
+        kputcolor(lightGrey, black);
+    } else {
+        kputcolor(green, black);
+    	kputs(" FAIL\n");
+        kputcolor(lightGrey, black);
+    }
+
 
     /* Print the amount of memory. */
-	kprintf("\tMultiboot info points to: 0x%x\n", &mbt);
+	kprintf("\tMultiboot info points to: 0x%x\n", mbt);
 	if (mbt->flags & (1 << 6))
     {
 		kputcolor(green, black);
@@ -50,6 +77,8 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 
 			if (mmap->type == MULTIBOOT_MEMORY_AVAILABLE) {
 				usableMem += mmap->len;
+                free_at = (uintptr_t) mmap->addr;
+
 			}
 
 
@@ -60,8 +89,8 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
    		usableMem = usableMem / 1024;
    		kprintf("\tTotal memory: %d KB.\n", totalMem);
    		kprintf("\tOf which %d KB is usable.\n", usableMem);
-        pmm_init(usableMem/1024,0x100000);
-		pmm_map();
+
+
 
 	}
 
@@ -72,6 +101,7 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
 		kputs("\tNo memory map passed, using mem_upper & mem_lower.\n");
 		kprintf("\tTotal memory: %d KB.\n", mbt->mem_upper + mbt->mem_lower);
 		kputcolor(lightGrey,black);
+
 	}
 
     /** Print system details end message**/
@@ -79,23 +109,26 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     kputs("System info END\n");
     kputcolor(lightGrey, black);
 
-    kputs("Enabling interrupts ");
-	idt_initialize ();
-	pic_initialize ();
 
-    /* Initialize the PIT timer. */
+//    paging_init(mbt);
+    // Initialize the PIT timer.
 
-	init_timer(1000);
-
-	__asm__ __volatile__ ("sti");
-
-	kputcolor(green, black);
-	kputs("OK.\n");
-	kputcolor(lightGrey,black);
-    acpi_init();
-
-    ps2_init();
-    init_keyboard();
+    init_timer(1000);
 
 
+//    acpi_init();
+
+//    ps2_init();
+    //init_keyboard();
+
+    kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
+
+    pmm_init(end,(usableMem*1024)-size);
+    pmm_map();
+    void* loc = pmm_alloc();
+    kprintf("Allocating: 0x%x\n",loc);
+    kprintf("Allocating: 0x%x\n",pmm_alloc());
+    kprintf("Allocating: 0x%x\n",pmm_alloc());
+    pmm_free(loc);
+    kprintf("Allocating: 0x%x\n",pmm_alloc());
 }

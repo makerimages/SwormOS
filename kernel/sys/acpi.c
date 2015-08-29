@@ -79,17 +79,15 @@ void acpi_init() {
                 kprintf("RSDT ACPISDTHeader Signature: %s\n",rsdt->h.Signature);
                 kprintf("Verifying yet another checksum. ");
                 if(check_std((struct ACPISDTHeader*) rsdt)) {
-                  kputcolor(green,black);
-                  kputs("OK\n");
-                  kputcolor(lightGrey,black);
-                  kprintf("ACPI Revision: %d.\n",rsdt->h.Revision);
-                  kprintf("APIC: 0x%x\n",find_table("APIC"));
-
+                    kputcolor(green,black);
+                    kputs("OK\n");
+                    kputcolor(lightGrey,black);
+                    kprintf("ACPI Revision: %d.\n",rsdt->h.Revision);
+                    kprintf("APIC: 0x%x\n",find_table("APIC"));
                 } else {
-                  kputcolor(red,black);
-                  kputs("NOT VERIFIED, CAN'T CONTINUE!\n");
-                  kputcolor(lightGrey,black);
-
+                    kputcolor(red,black);
+                    kputs("NOT VERIFIED, CAN'T CONTINUE!\n");
+                    kputcolor(lightGrey,black);
                 }
             } else {
                 kputcolor(red, black);

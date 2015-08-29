@@ -17,6 +17,8 @@ SECTIONS
 	   Next we'll put the .text section. */
 	.text BLOCK(4K) : ALIGN(4K)
 	{
+        Kstart = .;
+
 		*(.multiboot)
 		*(.text)
 	}
@@ -44,4 +46,6 @@ SECTIONS
 
 	/* The compiler may produce other sections, by default it will put them in
 	   a segment with the same name. Simply add stuff here as needed. */
+
+       end = .; _end = .; __end = .;
 }

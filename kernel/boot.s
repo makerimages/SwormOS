@@ -10,12 +10,10 @@
 .long MAGIC
 .long FLAGS
 .long CHECKSUM
-
 .section .bootstrap_stack, "aw", @nobits
 stack_bottom:
 .skip 16384 # 16 KiB
 stack_top:
-
 .section .text
 .global _start
 .type _start, @function
@@ -48,7 +46,7 @@ _start:
 	movw %cx, %ss
 
 	call kernel_main
-
+	jmp .Lhang
 .Lhang:
 	jmp .Lhang
 

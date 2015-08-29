@@ -8,12 +8,12 @@
 
 
 void isr_handler(interrupt_context* int_ctx) {
-	uint8_t irq = int_ctx->int_no - 32;
+	uint8_t irq = int_ctx->int_no;
   if(isrHandlers[irq]) {
     isrHandlers[irq](int_ctx);
   }
   else {
-  //  tm.panic("Unhandled ISR!");
+  	kpanic("Unhandled ISR!");
   }
 
   	pic_eoi_master();
