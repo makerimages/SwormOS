@@ -1,7 +1,7 @@
-# Makefile for the OS Zin kernel.
+# Makefile for the Sworm OS kernel.
 
 # Note: if `make' fails with "Error 1" after
-# 	[ GRUB ]  OSZin.iso
+# 	[ GRUB ]  SwormOS.iso
 # Then you can view grub-mkrescue.log which contains the redirected output of
 # `grub-mkrescue'. By default, that file is deleted if `grub-mkrescue' ran
 # without errors.

@@ -1,4 +1,4 @@
-# Makefile to make compiling and running the OS Zin kernel easier.
+# Makefile to make compiling and running the Sworm OS kernel easier.
 
 .PHONY: all libc kernel run bochs clean clean-kernel clean-libc clean-sysroot
 
@@ -6,7 +6,7 @@
 BUILD := libc kernel
 
 # Path to the CD image.
-ISOFILE := OSZin.iso
+ISOFILE := SwormOS.iso
 
 all: $(BUILD)
 
