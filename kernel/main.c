@@ -28,7 +28,7 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     uint32_t size = end-Kstart;
 
     /** Welcome Message **/
-    kputs("OS Zin version 0.0.1 booting... \n");
+    kputs("Sworm OS version 0.0.1 booting... \n");
     kputs("Copyright (c) Makerimages 2014-2015. MIT \n");
     kputs("Visit www.oszin.cf for more information. Sources available on GitHub.\n");
     kprintf("Kernel: Start: 0x%x, End: 0x%x, Size: %d KB.\n",Kstart,end, size/1024);
