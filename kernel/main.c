@@ -9,7 +9,7 @@
 #include <acpi.h>
 #include <ps2.h>
 #include <keyboard.h>
-#include <pmm.h>
+#include <memory.h>
 
 
 extern char Kstart[];
@@ -27,10 +27,9 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     uint32_t size = end-Kstart;
 
     /** Welcome Message **/
-    kputs("OS Zin version 0.0.1 booting... \n");
+    kputs("Sworm OS version 0.0.1 booting... \n");
     kputs("Copyright (c) Makerimages 2014-2015. MIT \n");
-    kputs("Visit www.oszin.cf for more information. Sources available on GitHub.\n");
-    kprintf("Kernel: Start: 0x%x, End: 0x%x, Size: %d KB.\n",Kstart,end, size/1024);
+    kputs("Visit -tbd- for more information. Sources available on GitHub.\n");
 
     kputs("Enabling interrupts ");
 
@@ -108,27 +107,19 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     kputcolor(lightBlue,black);
     kputs("System info END\n");
     kputcolor(lightGrey, black);
-
-
-//    paging_init(mbt);
-    // Initialize the PIT timer.
-
-    init_timer(1000);
-
-
-//    acpi_init();
-
-//    ps2_init();
-    //init_keyboard();
-
     kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
 
-    pmm_init(end,(usableMem*1024)-size);
-    pmm_map();
-    void* loc = pmm_alloc();
-    kprintf("Allocating: 0x%x\n",loc);
-    kprintf("Allocating: 0x%x\n",pmm_alloc());
-    kprintf("Allocating: 0x%x\n",pmm_alloc());
-    pmm_free(loc);
-    kprintf("Allocating: 0x%x\n",pmm_alloc());
+
+    acpi_init();
+
+    ps2_init();
+    init_timer(1000);
+    init_keyboard();
+
+    mm_init(end);
+    mm_print_out();
+    paging_init();
+
+
+
 }
