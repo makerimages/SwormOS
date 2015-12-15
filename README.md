@@ -21,7 +21,7 @@ Please refer to [the wiki](https://github.com/makerimages/SwormOS/wiki/Building-
 - [X] ACPI
 - [X] Convert to C
 - [X] Keyboard driver - Issue #31
-- [ ] Virtual Memory Management - Issue #36
+- [X] Virtual Memory Management - Issue #36
 - [ ] File system (VFS too) - Issue #32
 - [ ] Commands
 
