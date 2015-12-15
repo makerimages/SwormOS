@@ -5,3 +5,4 @@ out/*
 isodir/*
 kernel/kernel
 *.a
+sysroot/*
