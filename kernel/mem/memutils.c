@@ -25,6 +25,7 @@ void* memcpy(const void* dest, const void* src, size_t count )
 	}
 	return (void*)dest;
 }
+
 void* memset16 (void *ptr, uint16_t value, size_t num)
 {
 	uint16_t* p = ptr;
@@ -32,6 +33,7 @@ void* memset16 (void *ptr, uint16_t value, size_t num)
 		*p++ = value;
 	return ptr;
 }
+
 void* memset (void * ptr, int value, size_t num )
 {
 	unsigned char* p=ptr;

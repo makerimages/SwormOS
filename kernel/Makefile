@@ -45,7 +45,7 @@ OBJ := $(subst .c,.o,$(OBJ))
 OBJ := $(subst .s,.o,$(OBJ))
 
 # Compact-disk image.
-ISOFILE := ../OSZin.iso
+ISOFILE := ../SwormOS.iso
 # Directory with files for the CD.
 ISODIR := $(SYSROOT)
 

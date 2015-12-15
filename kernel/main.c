@@ -9,7 +9,6 @@
 #include <acpi.h>
 #include <ps2.h>
 #include <keyboard.h>
-#include <pmm.h>
 #include <memory.h>
 
 
@@ -109,21 +108,20 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     kputcolor(lightBlue,black);
     kputs("System info END\n");
     kputcolor(lightGrey, black);
-    pmm_init(end,(usableMem*1024)-size);
-    pmm_map();
+    kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
+
+    mm_init(end);
+    mm_print_out();
     paging_init();
 
+   init_timer(1000);
 
 
-    init_timer(1000);
-
-
-//    acpi_init();
+    acpi_init();
 
 //    ps2_init();
 //    init_keyboard();
 
-    kprintf("Start 0x%x, end: 0x%x, size %d\n",Kstart, end,size/1024);
 
 
 
