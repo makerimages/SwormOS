@@ -27,7 +27,7 @@
     }
     static inline uint16_t inw(uint16_t port)
     {
-        uint8_t ret;
+        uint16_t ret;
         __asm__ __volatile__ ( "inw %1, %0" : "=a"(ret) : "Nd"(port) );
         /* TODO: Is it wrong to use 'N' for the port? It's not a 8-bit constant. */
         /* TODO: Should %1 be %w1? */
@@ -35,7 +35,7 @@
     }
     static inline uint32_t inl(uint16_t port)
     {
-        uint8_t ret;
+        uint32_t ret;
         __asm__ __volatile__ ( "inl %1, %0" : "=a"(ret) : "Nd"(port) );
         /* TODO: Is it wrong to use 'N' for the port? It's not a 8-bit constant. */
         /* TODO: Should %1 be %w1? */

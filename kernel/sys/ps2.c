@@ -6,6 +6,8 @@
 void ps2_init() {
     failedOnce = false;
     struct FADT* fadt = (struct FADT*) find_table("FACP");
+    kprintf("ACPI Revision: %d.\n",fadt->h.Revision);
+
     if(fadt->h.Revision > 1) {
         if(fadt->BootArchitectureFlags & (1 << 1)) {
            kputs("There is a PS/2 controller");

@@ -20,6 +20,13 @@ struct  RSDPDescriptor preDates;
  uint8_t reserved[3];
 } __attribute__ ((packed));
 
+struct RSDPDescriptor20Added {
+ uint32_t Length;
+ uint64_t XsdtAddress;
+ uint8_t ExtendedChecksum;
+ uint8_t reserved[3];
+} __attribute__ ((packed));
+
 struct ACPISDTHeader {
   char Signature[4];
   uint32_t Length;
@@ -135,6 +142,7 @@ struct RSDT *rsdt;
 void* get_rsdt();
 void load_RSDT();
 uint8_t check_rsdp(struct RSDPDescriptor* t);
+uint8_t check_rsdpadded(struct RSDPDescriptor20Added* t) ;
 bool check_std(struct ACPISDTHeader* tableHeader);
 void* find_table(char * signature);
 void EBDA_range();

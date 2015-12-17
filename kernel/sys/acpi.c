@@ -3,11 +3,27 @@
 #include <textmode.h>
 #include <memory.h>
 
+
 uint8_t check_rsdp(struct RSDPDescriptor* t) {
     uint8_t count = 0;
     const unsigned char * p = (const unsigned char*) t;
     for (int i=0; i<20; i++) count += p[i];
     return count;
+}
+
+uint8_t check_rsdpadded(struct RSDPDescriptor20Added* t) {
+    uint8_t counta = 0;
+    const unsigned char * p = (const unsigned char*) t;
+    for (int i=0; i<20; i++) counta += p[i];
+    return counta;
+}
+
+uint8_t check_rsdp2(struct RSDPDescriptor20* t) {
+    uint8_t checksum = 0;
+    const uint8_t* csptr = (const uint8_t*) &t-> preDates;
+    for (size_t i = 0; i < sizeof(*t); i++) { checksum += csptr[i]; }
+
+    return checksum;
 }
 
 bool check_std(struct ACPISDTHeader* tableHeader) {
@@ -65,7 +81,7 @@ void acpi_init() {
         kputcolor(lightGrey,black);
     } else {
         struct RSDPDescriptor *temp = (struct RSDPDescriptor *)loc;
-        if(temp -> Revision == 0) { // We can continue with the temp table :P
+        if(temp -> Revision == 0) { // Revision 1 ACPI, NO NEED FOR BIGGER STRUCT
             kputs("Using RSDP Table pre-2.0.\n");
             use = 1;
             kprintf("ACPI signature: %sOEMID: %s\n",temp->Signature, temp->OEMID);
@@ -95,10 +111,24 @@ void acpi_init() {
                 kputs("NOT VERIFIED, CAN'T CONTINUE!\n");
                 kputcolor(lightGrey,black);
             }
+        } else { // REV 2 OR BIGGER STRUCT
+            kputs("Using RSDP Table post-2.0.\n");
+            struct RSDPDescriptor20 *temp20 = (struct RSDPDescriptor20*) loc;
+            use = 2;
+            kprintf("TEMP20 0 CHECK %d\n",check_rsdp2(temp20));
+            if(check_rsdp2(temp20) == 0) {
+                kputs("PREDATES IS ZERO\n");
+            } else {
+                kputcolor(red, black);
+                kputs("NOT VERIFIED, CAN'T CONTINUE!\n");
+                kputcolor(lightGrey,black);
+            }
+
         }
     }
     kputcolor(green,black);
     kputs("ACPI initialized.\n");
+
     kputcolor(lightGrey,black);
 }
 void* find_table(char * signature) {

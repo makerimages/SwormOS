@@ -67,7 +67,8 @@ void ata_identify_primary() {
             }
             // ERR clean
             if(!(inb(0x1F7) & 0x01)) {
-                //TODO: Parse device data somehow
+                primary_master_t.flags = inw(0x1F0);
+
             }
 
         }
