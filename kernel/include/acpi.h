@@ -44,6 +44,11 @@ struct RSDT {
   uint32_t PointerToOtherSDT[];
 };
 
+struct XSDT {
+  struct ACPISDTHeader h;
+  uint64_t PointerToOtherSDT[];
+};
+
 struct GenericAddressStructure
 {
   uint8_t AddressSpace;
@@ -142,7 +147,6 @@ struct RSDT *rsdt;
 void* get_rsdt();
 void load_RSDT();
 uint8_t check_rsdp(struct RSDPDescriptor* t);
-uint8_t check_rsdpadded(struct RSDPDescriptor20Added* t) ;
 bool check_std(struct ACPISDTHeader* tableHeader);
 void* find_table(char * signature);
 void EBDA_range();

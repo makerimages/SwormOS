@@ -11,12 +11,6 @@ uint8_t check_rsdp(struct RSDPDescriptor* t) {
     return count;
 }
 
-uint8_t check_rsdpadded(struct RSDPDescriptor20Added* t) {
-    uint8_t counta = 0;
-    const unsigned char * p = (const unsigned char*) t;
-    for (int i=0; i<20; i++) counta += p[i];
-    return counta;
-}
 
 uint8_t check_rsdp2(struct RSDPDescriptor20* t) {
     uint8_t checksum = 0;
@@ -115,9 +109,12 @@ void acpi_init() {
             kputs("Using RSDP Table post-2.0.\n");
             struct RSDPDescriptor20 *temp20 = (struct RSDPDescriptor20*) loc;
             use = 2;
-            kprintf("TEMP20 0 CHECK %d\n",check_rsdp2(temp20));
+            kputs("Verifying checksum: ");
             if(check_rsdp2(temp20) == 0) {
-                kputs("PREDATES IS ZERO\n");
+                kputcolor(green,black);
+                kputs("OK\n");
+                kputcolor(lightGrey,black);
+                RSDP20table = temp20;
             } else {
                 kputcolor(red, black);
                 kputs("NOT VERIFIED, CAN'T CONTINUE!\n");

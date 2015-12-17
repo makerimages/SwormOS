@@ -9,7 +9,7 @@ typedef struct {
 	uint32_t size;
 } alloc_t;
 
-extern void mm_init();
+extern void mm_init(uint32_t kernel_end);
 extern void mm_print_out();
 
 extern void paging_init();
