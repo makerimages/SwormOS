@@ -9,7 +9,6 @@
 #include <acpi.h>
 #include <ps2.h>
 #include <keyboard.h>
-#include <memory.h>
 #include <ata_pio.h>
 
 extern char Kstart[];
@@ -116,10 +115,7 @@ void kernel_main(multiboot_info_t *mbt, unsigned int magic) {
     init_timer(1000);
     init_keyboard();
 
-    mm_init(end);
-    mm_print_out();
-    paging_init();
 
-    ata_identify();
+    //ata_identify();
 
 }
